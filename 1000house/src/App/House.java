@@ -2,8 +2,8 @@ package App;
 import java.util.*;
 
 /**
- * @author Daniel Santo-Tomas 
- * @author Lucia Rivas Molina
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
 public class House {
@@ -24,7 +24,7 @@ public class House {
 	}
 
 	/**
-	 * @return
+	 * @return Location of the house
 	 */
 	public String getLocation() {
 		return Location;
@@ -38,7 +38,7 @@ public class House {
 	}
 
 	/**
-	 * @return
+	 * @return Description odf the house
 	 */
 	public String getDescription() {
 		return Description;
@@ -52,7 +52,7 @@ public class House {
 	}
 
 	/**
-	 * @return
+	 * @return list of the House characteristics
 	 */
 	public List<Characteristics> getCharacteristics() {
 		return Characteristics;
