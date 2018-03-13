@@ -6,5 +6,5 @@ package App;
  *
  */
 public enum UserStates {
-	Connected, Disconnected, Banned;
+	CONECTED, DISCONNECTED, BANNED;
 }

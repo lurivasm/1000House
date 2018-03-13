@@ -6,6 +6,6 @@ package App;
  *
  */
 public enum Characteristics {
-	Pool, Parking, Garden, WiFI, TV, AirConditioner;
+	POOL, PARKING, GARDEN, WIFI, TV, AIRCONDITIONER;
 	
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package App;
 
 /**
@@ -8,6 +5,6 @@ package App;
  *
  */
 public enum OfferType {
-	LIVING, HOLIDAY
+		LIVING,HOLIDAY
 	
 }

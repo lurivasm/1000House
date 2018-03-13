@@ -8,9 +8,9 @@ import java.util.*;
  */
 public class House {
 	
-	private String Location;
-	private String Description;
-	private List<Characteristics> Characteristics = new ArrayList<Characteristics>();
+	private String location;
+	private String description;
+	private List<Characteristics> characteristics = new ArrayList<Characteristics>();
 	
 	/**
 	 * @param location
@@ -18,51 +18,51 @@ public class House {
 	 * @param characteristics
 	 */
 	public House(String location, String description, List<App.Characteristics> characteristics) {
-		Location = location;
-		Description = description;
-		Characteristics = characteristics;
+		this.location = location;
+		this.description = description;
+		this.characteristics = characteristics;
 	}
 
 	/**
 	 * @return Location of the house
 	 */
 	public String getLocation() {
-		return Location;
+		return location;
 	}
 
 	/**
 	 * @param location
 	 */
 	public void setLocation(String location) {
-		Location = location;
+		this.location = location;
 	}
 
 	/**
 	 * @return Description odf the house
 	 */
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	/**
 	 * @param description
 	 */
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 	/**
 	 * @return list of the House characteristics
 	 */
 	public List<Characteristics> getCharacteristics() {
-		return Characteristics;
+		return characteristics;
 	}
 
 	/**
 	 * @param characteristics
 	 */
 	public void setCharacteristics(List<Characteristics> characteristics) {
-		Characteristics = characteristics;
+		this.characteristics = characteristics;
 	}
 	
 	

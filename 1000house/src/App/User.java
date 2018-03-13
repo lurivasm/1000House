@@ -6,11 +6,11 @@ package App;
  *
  */
 public class User {
-	private String Name;
-	private String Surname;
-	private String Username;
-	private String Password;
-	private UserStates State = UserStates.Disconnected;
+	private String name;
+	private String surname;
+	private String username;
+	private String password;
+	private UserStates state = UserStates.DISCONNECTED;
 	
 	/**
 	 * @param name
@@ -20,53 +20,52 @@ public class User {
 	 */
 	
 	public User(String name, String surname, String username, String password) {
-		super();
-		Name = name;
-		Surname = surname;
-		Username = username;
-		Password = password;
+		this.name = name;
+		this.surname = surname;
+		this.username = username;
+		this.password = password;
 	}
 
 	/**
 	 * @return the state
 	 */
 	public UserStates getState() {
-		return State;
+		return state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
 	public void setState(UserStates state) {
-		State = state;
+		this.state = state;
 	}
 
 	/**
 	 * @return the name
 	 */
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	/**
 	 * @return the surname
 	 */
 	public String getSurname() {
-		return Surname;
+		return surname;
 	}
 
 	/**
 	 * @return the username
 	 */
 	public String getUsername() {
-		return Username;
+		return this.username;
 	}
 
 	/**
 	 * @return the password
 	 */
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 	
 	
