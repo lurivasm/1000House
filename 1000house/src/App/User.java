@@ -6,11 +6,14 @@ package App;
  *
  */
 public class User {
+	
+
 	private String name;
 	private String surname;
 	private String username;
 	private String password;
 	private UserStates state = UserStates.DISCONNECTED;
+	private Aplication app;
 	
 	/**
 	 * @param name
@@ -19,11 +22,12 @@ public class User {
 	 * @param password
 	 */
 	
-	public User(String name, String surname, String username, String password) {
+	public User(String name, String surname, String username, String password,Aplication app) {
 		this.name = name;
 		this.surname = surname;
 		this.username = username;
 		this.password = password;
+		this.app = app;
 	}
 
 	/**

@@ -9,7 +9,7 @@ import java.util.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class Offer {
+public abstract class Offer {
 	
 	private String iniDate;
 	private int price;

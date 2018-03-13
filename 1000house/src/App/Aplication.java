@@ -11,17 +11,26 @@ import java.util.*;
 public class Aplication {
 
 	private String name;
-	private Boolean log = true;
+	private String admUsername;
+	private String admPassword;
+	private User log;
 	private List<User> users= new ArrayList<User>();
-	/**private List<Offer> offers = new ArrayList<Offer>();*/
+	private List<Offer> offers = new ArrayList<Offer>();
+	
 	
 	/**
 	 * @param name
+	 * @param admUsername
+	 * @param admPassword
 	 */
-	public Aplication(String name) {
-		this.name = name;		
+	public Aplication(String name, String admUsername, String admPassword) {
+		super();
+		this.name = name;
+		this.admUsername = admUsername;
+		this.admPassword = admPassword;
 	}
-	
+
+
 	/**
 	 * @return the name
 	 */
@@ -29,13 +38,7 @@ public class Aplication {
 		return name;
 	}
 	
-	/**
-	 * @return the log
-	 */
-	public Boolean getLog() {
-		return log;
-	}
-	
+		
 	/**
 	 * @return the users
 	 */
@@ -43,6 +46,16 @@ public class Aplication {
 		return users;
 	}
 	
-	public List<>
+	public List<Offer> searchType(OfferType type){
+		List<Offer> res = new ArrayList<Offer>();
+		for(Offer o : offers) {
+			if (o instanceof HolidaysOffer) {
+				
+			}
+		}
+		
+		
+		return res;
+	}
 	
 }
