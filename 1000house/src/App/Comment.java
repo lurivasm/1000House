@@ -8,17 +8,35 @@ import java.util.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class Comment {
-	private int rate;
-	private String text;
+public abstract class Comment {
 	private User user;
 	private Offer offer;
-	private List<Comment> answers = new ArrayList<Comment>();
+	
 	/**
-	 * 
+	 * @return the user
 	 */
-	public Comment() {
-		// TODO Auto-generated constructor stub
+	public User getUser() {
+		return user;
 	}
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	/**
+	 * @return the offer
+	 */
+	public Offer getOffer() {
+		return offer;
+	}
+	/**
+	 * @param offer the offer to set
+	 */
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+	
 
 }

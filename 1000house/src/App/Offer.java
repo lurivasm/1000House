@@ -30,6 +30,21 @@ public abstract class Offer {
 	}
 	
 	
+	public Boolean isReserved() {
+		if (OfferStates.RESERVED.compareTo(state) == 0) return true;
+		return false;
+	}
+	
+	public Boolean isBought() {
+		if (OfferStates.BOUGHT.compareTo(state) == 0) return true;
+		return false;
+	} 
+	
+	public Boolean bookOffer() {
+		if (this.isReserved() == true || this.isBought() == true) return false;
+		this.setState(OfferStates.RESERVED);
+		return true;
+	}
 	/**
 	 * @return the iniDate
 	 */

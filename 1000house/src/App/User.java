@@ -6,14 +6,11 @@ package App;
  *
  */
 public class User {
-	
-
-	private String name;
-	private String surname;
-	private String username;
-	private String password;
-	private UserStates state = UserStates.DISCONNECTED;
-	private Aplication app;
+	private String Name;
+	private String Surname;
+	private String Username;
+	private String Password;
+	private UserStates State = UserStates.Disconnected;
 	
 	/**
 	 * @param name
@@ -22,54 +19,54 @@ public class User {
 	 * @param password
 	 */
 	
-	public User(String name, String surname, String username, String password,Aplication app) {
-		this.name = name;
-		this.surname = surname;
-		this.username = username;
-		this.password = password;
-		this.app = app;
+	public User(String name, String surname, String username, String password) {
+		super();
+		Name = name;
+		Surname = surname;
+		Username = username;
+		Password = password;
 	}
 
 	/**
 	 * @return the state
 	 */
 	public UserStates getState() {
-		return state;
+		return State;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
 	public void setState(UserStates state) {
-		this.state = state;
+		State = state;
 	}
 
 	/**
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return Name;
 	}
 
 	/**
 	 * @return the surname
 	 */
 	public String getSurname() {
-		return surname;
+		return Surname;
 	}
 
 	/**
 	 * @return the username
 	 */
 	public String getUsername() {
-		return this.username;
+		return Username;
 	}
 
 	/**
 	 * @return the password
 	 */
 	public String getPassword() {
-		return password;
+		return Password;
 	}
 	
 	
