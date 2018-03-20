@@ -2,14 +2,16 @@
  * 
  */
 package App;
+import java.util.*;
 
 /**
- * @author eps
+ * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
+ * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
 public class Text extends Comment{
 	private String text;
-	private List<Comment> answers = ArrayList<Comment>();
+	private List<Comment> answers = new ArrayList<Comment>();
 	/**
 	 * 
 	 */

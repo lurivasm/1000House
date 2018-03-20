@@ -2,7 +2,7 @@
  * 
  */
 package App;
-import java.util.*;
+
 /**
  * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
