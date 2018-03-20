@@ -116,7 +116,7 @@ public abstract class Offer {
 	}
 
 	/**
-	 * @return the house
+	 * @return the house of this offer  
 	 */
 	public House getHouse() {
 		return house;

@@ -24,7 +24,6 @@ public class Aplication {
 	 * @param admPassword
 	 */
 	public Aplication(String name, String admUsername, String admPassword) {
-		super();
 		this.name = name;
 		this.admUsername = admUsername;
 		this.admPassword = admPassword;
@@ -45,8 +44,38 @@ public class Aplication {
 	public List<User> getUsers() {
 		return users;
 	}
+
+
+	/**
+	 * @return
+	 */
+	public String getAdmUsername() {
+		return admUsername;
+	}
+
+
 	
-	public List<Offer> searchType(OfferType type){
+	/**
+	 * @return
+	 */
+	public String getAdmPassword() {
+		return admPassword;
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public User getLog() {
+		return log;
+	}
+
+
+	
+	
+}
+	
+	/*public List<Offer> searchType(OfferType type){
 		List<Offer> res = new ArrayList<Offer>();
 		for(Offer o : offers) {
 			if (o instanceof HolidaysOffer) {
@@ -58,4 +87,4 @@ public class Aplication {
 		return res;
 	}
 	
-}
+}*/
