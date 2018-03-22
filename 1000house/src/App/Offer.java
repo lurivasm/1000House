@@ -128,6 +128,9 @@ public abstract class Offer {
 	public void setHouse(House house) {
 		this.house = house;
 	}
-
+	
+	public Boolean compareOffer(Offer offer) {
+		return true;
+	}
 
 }
