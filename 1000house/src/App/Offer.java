@@ -4,13 +4,15 @@
 package App;
 import java.util.*;
 
+import Exception.*;
+
 /**
  * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
 public abstract class Offer {
-	
+	private Aplication app;
 	private String iniDate;
 	private int price;
 	private OfferStates state;
@@ -21,12 +23,13 @@ public abstract class Offer {
 	/**
 	 * @return New Offer
 	 */
-	public Offer(String iniDate, int price, House house) {
+	public Offer(String iniDate, int price, House house, Aplication app) {
 		this.iniDate = iniDate;
 		this.price = price;
 		this.house = house;
 		this.averageRate = 0;
 		this.state = OfferStates.WAITING;
+		this.app = app;
 	}
 	
 	
@@ -40,11 +43,42 @@ public abstract class Offer {
 		return false;
 	} 
 	
-	public Boolean bookOffer() {
+	public Boolean bookOffer(User guest) throws NotGuest, NotRegisteredUser {
+		/*Case Not Registered User*/
+		if (app.getLog() == null) throw new NotRegisteredUser();
+		/*Case the offer is reserved or bought*/
 		if (this.isReserved() == true || this.isBought() == true) return false;
+		/*Correct case*/
 		this.setState(OfferStates.RESERVED);
+		Reserve reserve = new Reserve(guest, this);
 		return true;
 	}
+	
+	/*Ver si metemos un guest*/
+	public Boolean buyOffer() throws NotRegisteredUser{
+		/*Case Not Registered User*/
+		if (app.getLog() == null) throw new NotRegisteredUser();
+		/*Case the offer is reserved or bought*/
+		if(this.isReserved() == true || this.isBought() == true) return false;
+		this.setState(OfferStates.BOUGHT);
+		
+		
+		
+		
+		return true;
+	}
+	
+	
+	public Boolean compareOffer(Offer offer) {
+		if(this.house.compareHouse(offer.house) == true) return true;
+	}
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * @return the iniDate
 	 */
@@ -128,9 +162,6 @@ public abstract class Offer {
 	public void setHouse(House house) {
 		this.house = house;
 	}
-	
-	public Boolean compareOffer(Offer offer) {
-		return true;
-	}
+
 
 }

@@ -15,7 +15,7 @@ public class Reserve {
 	private User guest;
 	private Offer offer;
 	
-	public Reserve(User guest, Offer offer) throws NotGuest{
+	public Reserve(User guest, Offer offer) throws NotGuest, NotRegisteredUser{
 		if(guest.getState().compareTo(UserStates.CONNECTED_GUEST) != 0) {
 			NotGuest ex = new NotGuest(guest.getUsername());
 			throw ex;
@@ -27,6 +27,12 @@ public class Reserve {
 	
 	public Boolean buyOffer() {
 		offer.setState(OfferStates.BOUGHT);
+		return true;
+	}
+	
+	public Boolean cancelReserve() {
+		offer.setState(OfferStates.AVAILABLE);
+		if(guest.removeReserve(offer) == false) return false;
 		return true;
 	}
 

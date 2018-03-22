@@ -1,6 +1,4 @@
 package App;
-import java.util.*;
-import Exception.*;
 
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
@@ -12,8 +10,7 @@ public class User {
 	private String Surname;
 	private String Username;
 	private String Password;
-	private UserStates State = UserStates.DISCONNECTED;
-	private List<Profile> profile; 
+	private UserStates State = UserStates.Disconnected;
 	
 	/**
 	 * @param name
@@ -22,32 +19,12 @@ public class User {
 	 * @param password
 	 */
 	
-	public User(String name, String surname, String username, String password, String profile, String CCNumber) throws wrongProfile {
+	public User(String name, String surname, String username, String password) {
+		super();
 		Name = name;
 		Surname = surname;
 		Username = username;
 		Password = password;
-		if(profile.equals("D") == true) {
-			this.profile  = new ArrayList<Profile>(1);
-			Profile p =  new Guest(CCNumber);
-			this.profile.add(p) ;
-		}
-		else if (profile.equals("O") == true) {
-			this.profile = new ArrayList<Profile>(1);
-			Profile p =  new Host(CCNumber);
-			this.profile.add(p) ;
-		}
-		else if (profile.equals("OD")) {
-			this.profile = new ArrayList<Profile>(2);
-			Profile p1 =  new Host(CCNumber);
-			Profile p2 =  new Guest(CCNumber);
-			this.profile.add(p1) ;
-			this.profile.add(p2) ;
-		}
-		else {
-			throw new wrongProfile(profile);
-		}
-		
 	}
 
 	/**
