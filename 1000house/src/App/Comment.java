@@ -4,7 +4,6 @@
 package App;
 
 /**
- * Abstract Class Comment
  * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
@@ -12,13 +11,6 @@ package App;
 public abstract class Comment {
 	private User user;
 	private Offer offer;
-	
-	
-	public Comment(User user, Offer offer) {
-		this.user = user;
-		this.offer = offer;
-	}
-	
 	
 	/**
 	 * @return the user

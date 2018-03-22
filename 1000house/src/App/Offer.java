@@ -4,8 +4,6 @@
 package App;
 import java.util.*;
 
-import Exception.NotGuest;
-
 /**
  * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
@@ -42,30 +40,11 @@ public abstract class Offer {
 		return false;
 	} 
 	
-	public Boolean bookOffer(User guest) throws NotGuest {
+	public Boolean bookOffer() {
 		if (this.isReserved() == true || this.isBought() == true) return false;
 		this.setState(OfferStates.RESERVED);
-		
-		Reserve reserve = new Reserve(guest, this);
 		return true;
 	}
-	
-	/*Ver si metemos un guest*/
-	public Boolean buyOffer() {
-		if(this.isReserved() == true || this.isBought() == true) return false;
-		this.setState(OfferStates.BOUGHT);
-		return true;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @return the iniDate
 	 */
