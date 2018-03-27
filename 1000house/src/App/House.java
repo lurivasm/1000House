@@ -11,6 +11,7 @@ public class House {
 	private String location;
 	private String description;
 	private List<Characteristics> characteristics = new ArrayList<Characteristics>();
+	private long zipcode;
 	private User host;
 	private List<Offer> offers = new ArrayList<Offer>(2);
 	
@@ -20,10 +21,11 @@ public class House {
 	 * @param characteristics
 	 * @param host
 	 */
-	public House(String location, String description, List<Characteristics> characteristics, User host) {
+	public House(String location, String description, List<Characteristics> characteristics,long zipcode ,User host) {
 		this.location = location;
 		this.description = description;
 		this.characteristics = characteristics;
+		this.zipcode = zipcode;
 		this.host = host;
 	}
 
@@ -88,6 +90,20 @@ public class House {
 	 */
 	public List<Offer> getOffers() {
 		return offers;
+	}
+
+	/**
+	 * @return the zipcode
+	 */
+	public long getZipcode() {
+		return zipcode;
+	}
+
+	/**
+	 * @param zipcode the zipcode to set
+	 */
+	public void setZipcode(long zipcode) {
+		this.zipcode = zipcode;
 	}
 
 

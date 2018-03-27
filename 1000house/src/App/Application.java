@@ -5,7 +5,8 @@ package App;
 import java.util.*;
 import Exception.*;
 /**
- * @author eps
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
 public class Application {
@@ -120,9 +121,18 @@ public class Application {
 	}
 
 
-	public Boolean createHouse(String description, List<Characteristics> characteristics, String location)  throws NotHost{
+	/**
+	 * Creates a house and ads it to the host's house list
+	 * @param description
+	 * @param characteristics
+	 * @param location
+	 * @param zipcode
+	 * @return true if the house is created correctly, false otherwise
+	 * @throws NotHost if the user who tries to create a house is not a host
+	 */
+	public Boolean createHouse(String description, List<Characteristics> characteristics, String location,long zipcode)  throws NotHost{
 		if(log.getState().equals(UserStates.CONNECTED_HOST)) {
-			House h = new House(location, description, characteristics,log);
+			House h = new House(location, description, characteristics,zipcode,log);
 			log.getHostProfile().getHouses().add(h);
 			return true;
 		}
@@ -131,7 +141,69 @@ public class Application {
 		}
 		
 	}
-
+	
+	/**
+	 * Search in the app offer list the ones that have been bought
+	 * @return a list of bought offers
+	 * @throws NotRegisteredUser if the user who tries to search is not registered
+	 */
+	public List<Offer> searchBought() throws NotRegisteredUser{
+		if(log != null) {
+			List<Offer> res = new ArrayList<Offer>();
+			for(Offer o : offers) {
+				if(o.getState().equals(OfferStates.BOUGHT) == true) {
+					res.add(o);
+				}
+			}
+			return res;
+		}
+		else {
+			throw new NotRegisteredUser();
+		}
+	}
+	
+	/**
+	 * Search in the app offer list the ones that have been reserved
+	 * @return a list of reserved offers
+	 * @throws NotRegisteredUser if the user who tries to search is not registered
+	 */
+	public List<Offer> searchBooked() throws NotRegisteredUser{
+		if(log != null) {
+			List<Offer> res = new ArrayList<Offer>();
+			for(Offer o : offers) {
+				if(o.getState().equals(OfferStates.RESERVED) == true) {
+					res.add(o);
+				}
+			}
+			return res;
+		}
+		else {
+			throw new NotRegisteredUser();
+		}
+	}
+	
+	/**
+	 * Search in the app offer list the ones that have the rate given or more
+	 * @param rate
+	 * @return a list of offers with an average rate equal or higher than the rate given
+	 * @throws NotRegisteredUser if the user who tries to search is not registered
+	 */
+	public List<Offer> searchRate(double rate) throws NotRegisteredUser{
+		if(log != null) {
+			List<Offer> res = new ArrayList<Offer>();
+			for(Offer o : offers) {
+				if(o.getAverageRate() >= rate) {
+					res.add(o);
+				}
+			}
+			return res;
+		}
+		else {
+			throw new NotRegisteredUser();
+		}
+	}
+	
+	
 	
 	
 }

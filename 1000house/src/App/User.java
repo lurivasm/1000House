@@ -23,6 +23,17 @@ public class User {
 	 * @param password
 	 */
 	
+	/**
+	 * Constructor of user
+	 * @param name of the user
+	 * @param surname of the user
+	 * @param username of the user
+	 * @param password of the user
+	 * @param profile : depending of the type of user. O if it's a host , D if it's a guest, and OD if it's both .The administrator will have the profile list empty
+	 * @param CCNumber of the user
+	 * @param app related to the user
+	 * @throws WrongProfile if the type of profile to create is wrong
+	 */
 	public User(String name, String surname, String username, String password, String profile, String CCNumber,Application app ) throws WrongProfile {
 		this.name = name;
 		this.surname = surname;
@@ -162,7 +173,12 @@ public class User {
 		}
 		
 
-		public Boolean bannUser() throws NotAdmin {
+		/**
+		 * Bans a user, changing his state to banned an removing his access to the app
+		 * @return true if the user is banned
+		 * @throws NotAdminm if someone who isn't the admin tries to ban an user
+		 */
+		public Boolean banUser() throws NotAdmin {
 			if(app.getLog().getUsername().equals(app.getAdmUsername()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
 				state = UserStates.BANNED;
 				app = null;
@@ -173,6 +189,12 @@ public class User {
 			}
 		}
 		
+		/**
+		 * Restore an user that had been banned, changing his state to disconnected and restoring his acces to the appp
+		 * @param app
+		 * @return true if the user is restored correctly
+		 * @throws NotAdmin  if someone who isn't the admin tries to restore an user
+		 */
 		public Boolean restoreUser(Application app) throws NotAdmin{
 			if(app.getLog().getUsername().equals(app.getAdmUsername()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
 				state = UserStates.DISCONNECTED;
@@ -184,6 +206,12 @@ public class User {
 			}
 		}
 		
+		/**
+		 * Changes from the Host profile to the guest and from the guest to the host
+		 * @param prof
+		 * @return true if everything is correct
+		 * @throws WrongProfile if the user tries to change to a profile that doesn't exist
+		 */
 		public Boolean changeProfile(String prof) throws WrongProfile{
 			if(prof.equals("D") == true && profile.size() == 2) {
 				state = UserStates.CONNECTED_GUEST;

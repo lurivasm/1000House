@@ -1,6 +1,11 @@
 package App;
 import java.util.*;
 
+/**
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ *
+ */
 public class Guest extends Profile{
 	
 	public List<Reserve> reserves = new ArrayList<Reserve>();
@@ -26,9 +31,14 @@ public class Guest extends Profile{
 		return offers;
 	}
 	
-	public Boolean removeReserve(Offer o) {
+	/**
+	 * Removes a reserve from the reserves list of the Guest
+	 * @param offer
+	 * @return true if everything is correct, false otherwise
+	 */
+	public Boolean removeReserve(Offer offer) {
 		for(Reserve r : reserves) {
-			if(r.getOffer().compareOffer(o) == true) {
+			if(r.getOffer().compareOffer(offer) == true) {
 				reserves.remove(r);
 				return true;
 			}
@@ -36,6 +46,20 @@ public class Guest extends Profile{
 		return false;
 	}
 	
+	/**
+	 * Removes an offer from the offers list of the Guest
+	 * @param offer
+	 * @return true if everything is correct, false otherwise
+	 */
+	public Boolean removeOffer(Offer offer) {
+		for(Offer o : offers) {
+			if(o.compareOffer(offer) == true) {
+				offers.remove(offer);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 
