@@ -4,7 +4,7 @@ package Exception;
  * @author eps
  *
  */
-public class wrongProfile extends Exception{
+public class WrongProfile extends Exception{
 	
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class wrongProfile extends Exception{
 	/**
 	 * @param profile
 	 */
-	public wrongProfile(String profile) {
+	public WrongProfile(String profile) {
 		this.profile = profile;
 	}
 	

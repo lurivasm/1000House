@@ -13,11 +13,6 @@ package Exception;
 public class NotGuest extends Exception {
 	private static final long serialVersionUID = 1L;
 	
-	public String username;
-	
-	public NotGuest(String username) {
-		this.username = username;
-	}
 	
 	public String toString() {
 		return "You are not the guest I'm looking for";

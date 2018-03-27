@@ -12,7 +12,7 @@ import Exception.*;
  *
  */
 public abstract class Offer {
-	private Aplication app;
+	private Application app;
 	private String iniDate;
 	private int price;
 	private OfferStates state;

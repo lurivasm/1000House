@@ -8,62 +8,89 @@ import java.util.*;
  */
 public class House {
 	
-	private String Location;
-	private String Description;
-	private List<Characteristics> Characteristics = new ArrayList<Characteristics>();
+	private String location;
+	private String description;
+	private List<Characteristics> characteristics = new ArrayList<Characteristics>();
+	private User host;
+	private List<Offer> offers = new ArrayList<Offer>(2);
 	
 	/**
 	 * @param location
 	 * @param description
 	 * @param characteristics
+	 * @param host
 	 */
-	public House(String location, String description, List<App.Characteristics> characteristics) {
-		Location = location;
-		Description = description;
-		Characteristics = characteristics;
+	public House(String location, String description, List<Characteristics> characteristics, User host) {
+		this.location = location;
+		this.description = description;
+		this.characteristics = characteristics;
+		this.host = host;
 	}
 
 	/**
-	 * @return Location of the house
+	 * @return the location
 	 */
 	public String getLocation() {
-		return Location;
+		return location;
 	}
 
 	/**
-	 * @param location
+	 * @param location the location to set
 	 */
 	public void setLocation(String location) {
-		Location = location;
+		this.location = location;
 	}
 
 	/**
-	 * @return Description odf the house
+	 * @return the description
 	 */
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	/**
-	 * @param description
+	 * @param description the description to set
 	 */
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 	/**
-	 * @return list of the House characteristics
+	 * @return the characteristics
 	 */
 	public List<Characteristics> getCharacteristics() {
-		return Characteristics;
+		return characteristics;
 	}
 
 	/**
-	 * @param characteristics
+	 * @param characteristics the characteristics to set
 	 */
 	public void setCharacteristics(List<Characteristics> characteristics) {
-		Characteristics = characteristics;
+		this.characteristics = characteristics;
 	}
+
+	/**
+	 * @return the host
+	 */
+	public User getHost() {
+		return host;
+	}
+
+	/**
+	 * @param host the host to set
+	 */
+	public void setHost(User host) {
+		this.host = host;
+	}
+
+	/**
+	 * @return the offers
+	 */
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+
 	
 	
 	
