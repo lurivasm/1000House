@@ -3,7 +3,7 @@
  */
 package App;
 import java.util.*;
-
+import java.io.*;
 import Exception.*;
 
 /**
@@ -11,7 +11,11 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public abstract class Offer {
+public abstract class Offer implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private String iniDate;
 	private int price;

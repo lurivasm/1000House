@@ -1,13 +1,16 @@
 package App;
 import java.util.*;
 import Exception.*;
+import java.io.*;
 
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class User {
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	private String surname;
 	private String password;

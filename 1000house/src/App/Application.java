@@ -15,8 +15,8 @@ public class Application implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private String admNIF;
-	private String admPassword;
+	private String admNIF = "11235813F";
+	private String admPassword = "Fibonacci";
 	private User log;
 	private List<User> users= new ArrayList<User>();
 	private List<Offer> offers = new ArrayList<Offer>();
@@ -24,13 +24,9 @@ public class Application implements Serializable{
 	
 	/**
 	 * @param name
-	 * @param admUsername
-	 * @param admPassword
 	 */
-	public Application(String name, String admUsername, String admPassword) {
+	public Application(String name) {
 		this.name = name;
-		this.admNIF = admUsername;
-		this.admPassword = admPassword;
 	}
 
 
@@ -238,6 +234,7 @@ public class Application implements Serializable{
 			this.offers = app.getOffers();
 		}
 		catch(FileNotFoundException excep1) {
+			System.out.println("CArgando");
 			BufferedReader buffer = new BufferedReader(	new InputStreamReader(new FileInputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/users.txt")));
 			String line;
 			line = buffer.readLine();
@@ -278,7 +275,17 @@ public class Application implements Serializable{
 	
 	
 	public Boolean logout() throws Exception {
-		ObjectOutputStream outputObject = new ObjectOutputStream( new FileOutputStream( name + ".objectData" ));
+		try{
+			ObjectOutputStream outputObject = new ObjectOutputStream( new FileOutputStream( name + ".objectData" ));
+		
+		outputObject.writeObject(this);
+		outputObject.close();
+		return true;
+		}
+		catch(Exception excep) {
+			System.out.println(excep);
+			return false;
+		}
 	}
 	
 }

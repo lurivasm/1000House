@@ -1,13 +1,18 @@
 package App;
 import java.util.*;
+import java.io.*;
 
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class House {
+public class House implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String location;
 	private String description;
 	private List<Characteristics> characteristics = new ArrayList<Characteristics>();

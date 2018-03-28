@@ -3,6 +3,7 @@
  */
 package App;
 import java.util.*;
+import java.io.*;
 import Exception.*;
 
 /**
@@ -11,7 +12,11 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class Reserve {
+public class Reserve implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User guest;
 	private Offer offer;
 	

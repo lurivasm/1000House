@@ -3,14 +3,16 @@
  */
 package App;
 import Exception.*;
+import java.io.*;
 
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public abstract class Profile {
+public abstract class Profile implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private String ccNumber;
 	
 

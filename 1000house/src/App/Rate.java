@@ -3,6 +3,7 @@
  */
 package App;
 import Exception.RateException;
+import java.io.*;
 
 /**
  * Class Rate
@@ -11,7 +12,11 @@ import Exception.RateException;
  *
  */
 
-public class Rate extends Comment {
+public class Rate extends Comment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int rate;
 	
 	public Rate(int rate, User user, Offer offer) throws RateException{

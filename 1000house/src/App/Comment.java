@@ -2,14 +2,18 @@
  * 
  */
 package App;
-
+import java.io.*;
 /**
  * Abstract Class Comment
  * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public abstract class Comment {
+public abstract class Comment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User user;
 	private Offer offer;
 	

@@ -1,13 +1,17 @@
 package App;
 import java.util.*;
-
+import java.io.*;
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class Guest extends Profile{
+public class Guest extends Profile implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public List<Reserve> reserves = new ArrayList<Reserve>();
 	public List<Offer> offers = new ArrayList<Offer>();
 	/**

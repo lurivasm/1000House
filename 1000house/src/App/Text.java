@@ -3,6 +3,7 @@
  */
 package App;
 import java.util.*;
+import java.io.*;
 
 /**
  * Class Text
@@ -10,7 +11,11 @@ import java.util.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class Text extends Comment{
+public class Text extends Comment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String text;
 	private List<Comment> answers;
 	
