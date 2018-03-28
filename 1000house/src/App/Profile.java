@@ -12,7 +12,11 @@ import java.io.*;
  */
 public abstract class Profile implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5833794154819821835L;
 	private String ccNumber;
 	
 

@@ -15,7 +15,11 @@ public abstract class Offer implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8322253759336858206L;
+	/**
+	 * 
+	 */
+	
 	private Application app;
 	private String iniDate;
 	private int price;

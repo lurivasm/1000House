@@ -13,6 +13,10 @@ import java.io.*;
 public class Application implements Serializable{
 
 	
+	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String admNIF = "11235813F";
@@ -225,7 +229,7 @@ public class Application implements Serializable{
 	 */
 	public Boolean login(String NIF, String password) throws Exception {
 		try{
-			ObjectInputStream savedObject = new ObjectInputStream(new FileInputStream( name + ".objectData" ));
+			ObjectInputStream savedObject = new ObjectInputStream(new FileInputStream( "/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/" + name + ".objectData" ));
 			Application app = (Application)savedObject.readObject();
 			savedObject.close();
 			this.admNIF = app.getAdmNIF();
@@ -273,16 +277,16 @@ public class Application implements Serializable{
 		}
 	}
 	
-	
 	public Boolean logout() throws Exception {
-		try{
-			ObjectOutputStream outputObject = new ObjectOutputStream( new FileOutputStream( name + ".objectData" ));
-		
-		outputObject.writeObject(this);
-		outputObject.close();
-		return true;
-		}
-		catch(Exception excep) {
+		try {
+			ObjectOutputStream outputObject = new ObjectOutputStream(
+					new FileOutputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/users.txt"));
+			
+			log.setState(UserStates.DISCONNECTED);
+			outputObject.writeObject(this);
+			outputObject.close();
+			return true;
+		} catch (Exception excep) {
 			System.out.println(excep);
 			return false;
 		}

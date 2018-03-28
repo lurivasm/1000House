@@ -9,7 +9,10 @@ public class Prueba {
 
 	public static void main(String[] args) throws Exception, InvalidNIF {
 		Application app = new Application("Prueba");
-		app.login("1234", "1234");
-		app.logout();	
+		if(app.login("51999111X", "pezEspada") == true) {
+		System.out.println("DONE");	
+		}
+		app.logout();
+		
 	}	
 }
