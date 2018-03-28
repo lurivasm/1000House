@@ -10,8 +10,8 @@ import Exception.*;
 public class User {
 	private String name;
 	private String surname;
-	private String username;
 	private String password;
+	private String NIF;
 	private UserStates state = UserStates.DISCONNECTED;
 	private List<Profile> profile; 
 	private Application app;
@@ -29,16 +29,17 @@ public class User {
 	 * @param surname of the user
 	 * @param username of the user
 	 * @param password of the user
+	 * @param NIF of the user
 	 * @param profile : depending of the type of user. O if it's a host , D if it's a guest, and OD if it's both .The administrator will have the profile list empty
 	 * @param CCNumber of the user
 	 * @param app related to the user
 	 * @throws WrongProfile if the type of profile to create is wrong
 	 */
-	public User(String name, String surname, String username, String password, String profile, String CCNumber,Application app ) throws WrongProfile {
+	public User(String name, String surname, String password, String NIF, String profile, String CCNumber,Application app ) throws WrongProfile {
 		this.name = name;
 		this.surname = surname;
-		this.username = username;
 		this.password = password;
+		this.NIF = NIF;
 		if(profile.equals("D") == true) {
 			this.profile  = new ArrayList<Profile>(1);
 			Guest p =  new Guest(CCNumber);
@@ -89,20 +90,7 @@ public class User {
 			this.surname = surname;
 		}
 
-		/**
-		 * @return the username
-		 */
-		public String getUsername() {
-			return username;
-		}
-
-		/**
-		 * @param username the username to set
-		 */
-		public void setUsername(String username) {
-			this.username = username;
-		}
-
+		
 		/**
 		 * @return the password
 		 */
@@ -115,6 +103,23 @@ public class User {
 		 */
 		public void setPassword(String password) {
 			this.password = password;
+		}
+		
+		
+		
+
+		/**
+		 * @return the nIF
+		 */
+		public String getNIF() {
+			return NIF;
+		}
+
+		/**
+		 * @param nIF the nIF to set
+		 */
+		public void setNIF(String nIF) {
+			NIF = nIF;
 		}
 
 		/**
@@ -179,7 +184,7 @@ public class User {
 		 * @throws NotAdminm if someone who isn't the admin tries to ban an user
 		 */
 		public Boolean banUser() throws NotAdmin {
-			if(app.getLog().getUsername().equals(app.getAdmUsername()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
+			if(app.getLog().getNIF().equals(app.getAdmNIF()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
 				state = UserStates.BANNED;
 				app = null;
 				return true;
@@ -196,7 +201,7 @@ public class User {
 		 * @throws NotAdmin  if someone who isn't the admin tries to restore an user
 		 */
 		public Boolean restoreUser(Application app) throws NotAdmin{
-			if(app.getLog().getUsername().equals(app.getAdmUsername()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
+			if(app.getLog().getNIF().equals(app.getAdmNIF()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
 				state = UserStates.DISCONNECTED;
 				this.app = app;
 				return true;

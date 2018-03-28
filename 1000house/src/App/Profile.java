@@ -36,7 +36,7 @@ public abstract class Profile {
 	 * @throws NotAdmin
 	 */
 	public Boolean changeCCNumber(String cCNumber, Application app) throws NotAdmin {
-		if(app.getAdmUsername().equals(app.getLog().getUsername()) == true && app.getAdmPassword().equals(app.getLog().getPassword()) == true) {
+		if(app.getAdmNIF().equals(app.getLog().getNIF()) == true && app.getAdmPassword().equals(app.getLog().getPassword()) == true) {
 			ccNumber = cCNumber;
 			return true;
 		}

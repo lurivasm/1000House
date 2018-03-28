@@ -4,15 +4,18 @@
 package App;
 import java.util.*;
 import Exception.*;
+import java.io.*;
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class Application {
+public class Application implements Serializable{
 
+	
+	private static final long serialVersionUID = 1L;
 	private String name;
-	private String admUsername;
+	private String admNIF;
 	private String admPassword;
 	private User log;
 	private List<User> users= new ArrayList<User>();
@@ -26,7 +29,7 @@ public class Application {
 	 */
 	public Application(String name, String admUsername, String admPassword) {
 		this.name = name;
-		this.admUsername = admUsername;
+		this.admNIF = admUsername;
 		this.admPassword = admPassword;
 	}
 
@@ -50,8 +53,8 @@ public class Application {
 	/**
 	 * @return
 	 */
-	public String getAdmUsername() {
-		return admUsername;
+	public String getAdmNIF() {
+		return admNIF;
 	}
 
 
@@ -84,8 +87,8 @@ public class Application {
 	/**
 	 * @param admUsername the admUsername to set
 	 */
-	public void setAdmUsername(String admUsername) {
-		this.admUsername = admUsername;
+	public void setAdmNIF(String admNIF) {
+		this.admNIF = admNIF;
 	}
 
 
@@ -203,6 +206,35 @@ public class Application {
 		}
 	}
 	
+	
+	
+	public Boolean login(String username, String password) throws Exception {
+		try{
+			ObjectInputStream entradaObjetos = 	new ObjectInputStream(new FileInputStream( "app.objectData" ));
+		}
+		catch(FileNotFoundException excep1) {
+			BufferedReader buffer = new BufferedReader(	new InputStreamReader(new FileInputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/users.txt")));
+			String line;
+			line = buffer.readLine();
+			while((line = buffer.readLine()) != null) {
+				String[] words = line.split(";");
+				String[] fullname = words[2].split(",");
+				try{
+					for(User u : users ) {
+						if(u.getNIF().equals(words[2])) {
+							throw new InvalidNIF(words[2]);
+						}
+					}
+					users.add(new User(fullname[1], fullname[0], words[3], words[1], words[0], words[4], this));
+				}
+				catch(InvalidNIF excep2) {
+					System.out.println(excep2);
+				}
+			}
+			/*We also create the Admin Profile*/
+			users.add(new User("Admin", "istrator",admPassword, admNIF ))
+		}
+	}
 	
 	
 	
