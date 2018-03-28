@@ -73,9 +73,17 @@ public class Application implements Serializable{
 	public User getLog() {
 		return log;
 	}
+	 
 	
 	
-	
+	/**
+	 * @return the offers
+	 */
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+
 	/**
 	 * @param name the name to set
 	 */
@@ -208,9 +216,26 @@ public class Application implements Serializable{
 	
 	
 	
-	public Boolean login(String username, String password) throws Exception {
+	/**
+	 * Logs the user with the password and NIF given in the app
+	 * If it's the first time that someone logs in, it creates the user list (readed from file) and the admin user.
+	 * Otherwise, reads the saved app and restores the values it had the last time someone logged out.
+	 * Finally, it checks that the user's reserves are still on date to be bought
+	 * @param NIF of the user
+	 * @param password of the user
+	 * @return true if the user logs in, false otherwise
+	 * @throws InvalidNIF if there is an user in the file with the same NIF that another user
+	 * @throws NotRegisteredUser if a user that it's not in the users list tries to log in
+	 */
+	public Boolean login(String NIF, String password) throws Exception {
 		try{
-			ObjectInputStream entradaObjetos = 	new ObjectInputStream(new FileInputStream( "app.objectData" ));
+			ObjectInputStream savedObject = new ObjectInputStream(new FileInputStream( name + ".objectData" ));
+			Application app = (Application)savedObject.readObject();
+			savedObject.close();
+			this.admNIF = app.getAdmNIF();
+			this.admPassword = app.getAdmPassword();
+			this.users = app.getUsers();
+			this.offers = app.getOffers();
 		}
 		catch(FileNotFoundException excep1) {
 			BufferedReader buffer = new BufferedReader(	new InputStreamReader(new FileInputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/users.txt")));
@@ -232,11 +257,29 @@ public class Application implements Serializable{
 				}
 			}
 			/*We also create the Admin Profile*/
-			users.add(new User("Admin", "istrator",admPassword, admNIF ))
+			users.add(new User("Admin", "istrator",admPassword, admNIF, "A", null, this ));
+			buffer.close();
+		}
+		
+		try {
+			for(User u : users) {
+				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
+					log = u;
+					return true;
+				}
+			}
+			throw new NotRegisteredUser();
+		}
+		catch(NotRegisteredUser excep){
+			System.out.println(excep);
+			return false;
 		}
 	}
 	
 	
+	public Boolean logout() throws Exception {
+		ObjectOutputStream outputObject = new ObjectOutputStream( new FileOutputStream( name + ".objectData" ));
+	}
 	
 }
 

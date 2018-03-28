@@ -57,6 +57,10 @@ public class User {
 			this.profile.add(p1) ;
 			this.profile.add(p2) ;
 		}
+		else if(profile.equals("A")) {
+			this.profile = null;
+		}
+			
 		else {
 			throw new WrongProfile(profile);
 		}
