@@ -8,13 +8,13 @@ package Exception;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class NotHost extends Exception {
+public class NotOwner extends Exception {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public String toString() {
-		return "You're not logged as Host. Please change your profile.";
+		return "You're not the owner of this offer";
 	}
 }

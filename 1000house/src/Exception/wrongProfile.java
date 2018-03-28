@@ -5,7 +5,7 @@ package Exception;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class WrongProfile extends Exception{
+public class wrongProfile extends Exception{
 
 	/**
 	 *
@@ -17,7 +17,7 @@ public class WrongProfile extends Exception{
 	/**
 	 * @param profile
 	 */
-	public WrongProfile(String profile) {
+	public wrongProfile(String profile) {
 		this.profile = profile;
 	}
 
