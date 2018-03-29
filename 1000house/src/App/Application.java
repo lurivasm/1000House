@@ -266,6 +266,7 @@ public class Application implements Serializable{
 			for(User u : users) {
 				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
 					log = u;
+					
 					return true;
 				}
 			}
@@ -280,7 +281,7 @@ public class Application implements Serializable{
 	public Boolean logout() throws Exception {
 		try {
 			ObjectOutputStream outputObject = new ObjectOutputStream(
-					new FileOutputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/users.txt"));
+					new FileOutputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/" + name + ".objectData"));
 			
 			log.setState(UserStates.DISCONNECTED);
 			outputObject.writeObject(this);

@@ -241,7 +241,14 @@ public class User implements Serializable {
 				throw new WrongProfile(prof);
 			}
 		}
-	
+		
+		
+		public Boolean isHost() {
+			if(profile.size() == 2 || profile.get(0) instanceof Host) {
+				return true;
+			}
+			return false;
+		}
 }
 
 	
