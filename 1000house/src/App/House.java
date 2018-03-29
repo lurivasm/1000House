@@ -112,7 +112,17 @@ public class House implements Serializable {
 	}
 
 
-	
+	/**
+	 * Compares two houses, checking if the location an d the zipcode is the same
+	 * @param h :house to compare with
+	 * @return true if it's the same house, false otherwise
+	 */
+	public Boolean compareHouse(House h) {
+		if(h.getLocation().equals(location) && h.getZipcode() == zipcode) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

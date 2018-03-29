@@ -19,7 +19,7 @@ public class Reserve {
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
 		this.guest = guest;
 		this.offer = offer;
@@ -27,9 +27,9 @@ public class Reserve {
 
 	public Boolean buyOffer() throws NotRegisteredUser{
 		/*Case Not Registered User*/
-		if (app.getLog() == null) throw new NotRegisteredUser;
+		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;{
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();{
 
 		if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
 		offer.setState(OfferStates.BOUGHT);
@@ -40,9 +40,9 @@ public class Reserve {
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;{
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();{
 
-		if(guest.removeReserve(offer) == false) return false;
+		if(guest.getGuestProfile().removeReserve(offer) == false) return false;
 		offer.setState(OfferStates.AVAILABLE);
 		return true;
 	}

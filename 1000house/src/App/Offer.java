@@ -24,7 +24,7 @@ public abstract class Offer {
 	 * Constructor of an offer
 	 * @return New Offer
 	 */
-	public Offer(String iniDate, int price, House house, Aplication app) {
+	public Offer(String iniDate, int price, House house, Application app) {
 		this.iniDate = iniDate;
 		this.price = price;
 		this.house = house;

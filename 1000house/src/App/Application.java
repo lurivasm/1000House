@@ -153,6 +153,51 @@ public class Application implements Serializable{
 		
 	}
 	
+	
+	
+	
+	/**
+	 * Search in the app offer list the ones of the type given
+	 * @param type of the offer
+	 * @return the list of offers
+	 */
+	public List<Offer> searchType(String type){
+		List<Offer> res = new ArrayList<Offer>();
+		if(type.equals("Holidays")) {
+			for(Offer o : offers) {
+				if(o instanceof HolidaysOffer) {
+					res.add(o);
+				}
+			}
+		}
+		else if(type.equals("Living")) {
+			for(Offer o : offers) {
+				if(o instanceof LivingOffer) {
+					res.add(o);
+				}
+			}
+		}
+		return res;
+	}
+	
+	
+	
+	
+	/**
+	 * Search in the app offer list the ones where the house has the code  given as zip code
+	 * @param code of the house
+	 * @return the list of offers 
+	 */
+	public List<Offer> searchCode(long code){
+		List<Offer> res = new ArrayList<Offer>();
+		for(Offer o : offers) {
+			if(o.getHouse().getZipcode() == code) {
+				res.add(o);
+			}
+		}
+		return res;
+	}
+	
 	/**
 	 * Search in the app offer list the ones that have been bought
 	 * @return a list of bought offers

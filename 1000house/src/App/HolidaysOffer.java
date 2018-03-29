@@ -18,7 +18,7 @@ public class HolidaysOffer extends Offer{
   *Constructor of HolidaysOffer
   * @return new HolidaysOffer
   */
-  public HolidaysOffer(String iniDate, int price, House house, Aplication app, String endDate){
+  public HolidaysOffer(String iniDate, int price, House house, Application app, String endDate){
     super(iniDate, price, house, app);
     this.endDate = endDate;
   }
