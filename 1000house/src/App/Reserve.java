@@ -1,9 +1,8 @@
 /**
- * 
+ *
  */
 package App;
 import java.util.*;
-import java.io.*;
 import Exception.*;
 
 /**
@@ -12,32 +11,39 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class Reserve implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Reserve {
 	private User guest;
 	private Offer offer;
-	
+
 	public Reserve(User guest, Offer offer) throws NotGuest, NotRegisteredUser{
-		if(guest.getState().compareTo(UserStates.CONNECTED_GUEST) != 0) {
-			NotGuest ex = new NotGuest(guest.getUsername());
-			throw ex;
-		}
-		
+		/*Case Not Registered User*/
+		if (app.getLog() == null) throw new NotRegisteredUser();
+		/*Case the user is not a guest*/
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;
+
 		this.guest = guest;
 		this.offer = offer;
 	}
-	
-	public Boolean buyOffer() {
+
+	public Boolean buyOffer() throws NotRegisteredUser{
+		/*Case Not Registered User*/
+		if (app.getLog() == null) throw new NotRegisteredUser;
+		/*Case the user is not a guest*/
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;{
+
+		if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
 		offer.setState(OfferStates.BOUGHT);
 		return true;
 	}
-	
+
 	public Boolean cancelReserve() {
-		offer.setState(OfferStates.AVAILABLE);
+		/*Case Not Registered User*/
+		if (app.getLog() == null) throw new NotRegisteredUser();
+		/*Case the user is not a guest*/
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;{
+
 		if(guest.removeReserve(offer) == false) return false;
+		offer.setState(OfferStates.AVAILABLE);
 		return true;
 	}
 
@@ -56,6 +62,6 @@ public class Reserve implements Serializable{
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	
+
+
 }

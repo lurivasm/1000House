@@ -7,9 +7,9 @@ import java.io.*;
  *
  */
 public class Guest extends Profile implements Serializable{
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	public List<Reserve> reserves = new ArrayList<Reserve>();
@@ -17,7 +17,7 @@ public class Guest extends Profile implements Serializable{
 	/**
 	 * @param ccNumber
 	 */
-	
+
 	public Guest(String ccNumber) {
 		super(ccNumber);
 	}
@@ -34,7 +34,7 @@ public class Guest extends Profile implements Serializable{
 	public List<Offer> getOffers() {
 		return offers;
 	}
-	
+
 	/**
 	 * Removes a reserve from the reserves list of the Guest
 	 * @param offer
@@ -49,7 +49,7 @@ public class Guest extends Profile implements Serializable{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes an offer from the offers list of the Guest
 	 * @param offer
@@ -64,7 +64,15 @@ public class Guest extends Profile implements Serializable{
 		}
 		return false;
 	}
-	
-	
+
+	public Boolean addReserve(Offer offer) {
+		reserves.add(offer);
+		return true;
+	}
+
+	public Boolean addOffer(Offer offer) {
+		offers.add(offer);
+		return true;
+	}
 
 }
