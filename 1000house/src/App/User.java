@@ -249,6 +249,14 @@ public class User implements Serializable {
 			}
 			return false;
 		}
+		
+		public Boolean isGuest() {
+			if(profile.size() == 2 || profile.get(0) instanceof Guest) {
+				return true;
+			}
+			return false;
+		}
+		
 }
 
 	
