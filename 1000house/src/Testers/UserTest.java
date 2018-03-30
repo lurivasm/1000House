@@ -4,7 +4,8 @@
 package Testers;
 
 import static org.junit.Assert.*;
-
+import App.*;
+import Exception.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,11 +15,14 @@ import org.junit.Test;
  */
 public class UserTest {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
+	private static Application app;
+	private static User u1;
+	private static User u2;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		app = new Application("TestApp");
+		u1 = new User("Lucia", "Rivas Molina", "Gnomo72", "123456F","OD","1234567", app );
+		u2 =  new User("Admin", "Istrator","Fibonacci",  "11235813F","A","1237890", app );
 	}
 
 	/**
