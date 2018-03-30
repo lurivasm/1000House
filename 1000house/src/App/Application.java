@@ -186,7 +186,7 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones where the house has the code  given as zip code
 	 * @param code of the house
-	 * @return the list of offers gt
+	 * @return the list of offers 
 	 */
 	public List<Offer> searchCode(long code){
 		List<Offer> res = new ArrayList<Offer>();
@@ -311,15 +311,7 @@ public class Application implements Serializable{
 			for(User u : users) {
 				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
 					log = u;
-					if(log.isHost() == true) {
-						log.setState(UserStates.CONNECTED_HOST);
-					}
-					else if(log.isGuest() == true) {
-						log.setState(UserStates.CONNECTED_GUEST);
-					}
-					else{
-						log.setState(UserStates.ADMIN);
-					}
+					
 					return true;
 				}
 			}

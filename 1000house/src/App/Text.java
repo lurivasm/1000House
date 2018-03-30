@@ -11,7 +11,7 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class Text extends Comment{
+public class Text extends Comment implements Serializable{
 	private String text;
 	private List<Comment> answers;
 

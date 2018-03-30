@@ -11,7 +11,7 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public abstract class Offer {
+public abstract class Offer implements Serializable{
 	private Application app;
 	private String iniDate;
 	private int price;
@@ -91,7 +91,7 @@ public abstract class Offer {
 
 		/*Correct case*/
 		Reserve reserve = new Reserve(app.getLog(), this);
-		if (app.getLog().getGuestProfile().addReserve(this) == false) return false;
+		if (app.getLog().getGuestProfile().addReserve(reserve) == false) return false;
 		this.setState(OfferStates.RESERVED);
 		return true;
 	}
@@ -114,8 +114,8 @@ public abstract class Offer {
 		if (this.isAvailable() == false) return false;
 
 		/*Correct case*/
-		this.setState(OfferStates.BOUGHT);
 		if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
+		this.setState(OfferStates.BOUGHT);
 		return true;
 	}
 

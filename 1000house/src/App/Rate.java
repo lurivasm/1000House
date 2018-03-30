@@ -11,7 +11,7 @@ import Exception.RateException;
  *
  */
 
-public class Rate extends Comment {
+public class Rate extends Comment implements Serializable{
 	private int rate;
 
 	/**

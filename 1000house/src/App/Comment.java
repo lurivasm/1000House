@@ -9,7 +9,7 @@ package App;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public abstract class Comment {
+public abstract class Comment implements Serializable{
 	private User user;
 	private Offer offer;
 

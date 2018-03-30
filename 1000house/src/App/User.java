@@ -195,7 +195,7 @@ public class User implements Serializable {
 		 * @throws NotAdminm if someone who isn't the admin tries to ban an user
 		 */
 		public Boolean banUser() throws NotAdmin {
-			if(app.getLog().isAdmin() == true){
+			if(app.getLog().getNIF().equals(app.getAdmNIF()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
 				state = UserStates.BANNED;
 				app = null;
 				return true;
@@ -212,7 +212,7 @@ public class User implements Serializable {
 		 * @throws NotAdmin  if someone who isn't the admin tries to restore an user
 		 */
 		public Boolean restoreUser(Application app) throws NotAdmin{
-			if(app.getLog().isAdmin() == true){
+			if(app.getLog().getNIF().equals(app.getAdmNIF()) == true && app.getLog().getPassword().equals(app.getAdmPassword()) == true){
 				state = UserStates.DISCONNECTED;
 				this.app = app;
 				return true;
@@ -249,21 +249,6 @@ public class User implements Serializable {
 			}
 			return false;
 		}
-		
-		public Boolean isGuest() {
-			if(profile.size() == 2 || profile.get(0) instanceof Guest) {
-				return true;
-			}
-			return false;
-		}
-		
-		public Boolean isAdmin() {
-			if(state == UserStates.ADMIN) {
-				return true;
-			}
-			return false;
-		}
-		
 }
 
 	

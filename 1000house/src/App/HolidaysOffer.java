@@ -11,7 +11,7 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class HolidaysOffer extends Offer{
+public class HolidaysOffer extends Offer implements Serializable{
   private String endDate;
 
   /**

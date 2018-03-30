@@ -11,7 +11,7 @@ import Exception.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class LivingOffer extends Offer{
+public class LivingOffer extends Offer implements Serializable{
   private int numMonths;
 
   /**
