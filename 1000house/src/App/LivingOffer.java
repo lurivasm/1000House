@@ -3,7 +3,7 @@
  */
 package App;
 import java.io.Serializable;
-import java.util.*;
+
 
 import Exception.*;
 
@@ -22,11 +22,19 @@ public class LivingOffer extends Offer implements Serializable{
   /**
   *Constructor of LivingOffer
   * @return new LivingOffer
+ * @throws HouseOfferException 
   */
-  public LivingOffer(String iniDate, int price, House house, Application app, int numMonths){
-    super(iniDate, price, house, app);
-    this.numMonths = numMonths;
-  }
+	public LivingOffer(String iniDate, int price, House house, Application app, int numMonths) throws HouseOfferException {
+		super(iniDate, price, house, app);
+
+		for (Offer o : house.getOffers()) {
+			if (o instanceof LivingOffer) {
+				throw new HouseOfferException();
+			}
+		}
+		this.numMonths = numMonths;
+
+	}
 
   /**
   * When the offer is asked for changes, the host can change its characteristics

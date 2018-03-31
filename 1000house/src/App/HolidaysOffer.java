@@ -18,14 +18,22 @@ public class HolidaysOffer extends Offer implements Serializable{
 	private static final long serialVersionUID = -4113687983271560385L;
 private String endDate;
 
-  /**
-  *Constructor of HolidaysOffer
-  * @return new HolidaysOffer
-  */
-  public HolidaysOffer(String iniDate, int price, House house, Application app, String endDate){
-    super(iniDate, price, house, app);
-    this.endDate = endDate;
-  }
+  	/**
+	 * Constructor of HolidaysOffer
+	 * 
+	 * @return new HolidaysOffer
+	 */
+	public HolidaysOffer(String iniDate, int price, House house, Application app, String endDate) throws Exception {
+		super(iniDate, price, house, app);
+
+		for (Offer o : house.getOffers()) {
+			if (o instanceof HolidaysOffer) {
+				throw new HouseOfferException();
+			}
+		}
+		this.endDate = endDate;
+
+	}
 
   /**
 	* When the offer is asked for changes, the host can change its characteristics

@@ -3,8 +3,10 @@
  */
 package App;
 import java.io.Serializable;
+import java.time.LocalDate;
+
 import Exception.*;
-import modifiableDates.*;
+
 
 /**
  * Class Reserve
@@ -19,7 +21,7 @@ public class Reserve implements Serializable{
 	private static final long serialVersionUID = 8905846146125294016L;
 	private User guest;
 	private Offer offer;
-	private ModifiableDate date =  ;
+	private LocalDate date ;
 
 	/**
 	* Constructor of class Reserve
@@ -34,8 +36,8 @@ public class Reserve implements Serializable{
 
 		this.guest = guest;
 		this.offer = offer;
-		date = new ModifiableDate();
-		date.setToday();
+		date = LocalDate.now();
+		
 	}
 
 	/**
@@ -97,6 +99,18 @@ public class Reserve implements Serializable{
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
+
+	/**
+	 * @return the date
+	 */
+	public LocalDate getDate() {
+		return date;
+	}
+
+
+	
+	
+	
 
 
 }

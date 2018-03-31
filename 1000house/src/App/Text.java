@@ -56,7 +56,7 @@ public class Text extends Comment implements Serializable{
 	* @param offer the offer who is being commented
 	* @return Boolean if the function has been succesful
 	*/
-	public Boolean addAnswer(int rate, User user, Offer offer){
+	public Boolean addAnswer(int rate, User user, Offer offer) throws RateException{
 		Rate r = new Rate(rate, user, offer);
 		if (answers.add(r) == false) return false;
 		return true;

@@ -5,6 +5,7 @@ package App;
 import java.util.*;
 import Exception.*;
 import java.io.*;
+import modifiableDates.*;;
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
@@ -291,7 +292,7 @@ public class Application implements Serializable{
 	 * Logs the user with the password and NIF given in the app
 	 * If it's the first time that someone logs in, it creates the user list (readed from file) and the admin user.
 	 * Otherwise, reads the saved app and restores the values it had the last time someone logged out.
-	 * Finally, it checks that the user's reserves are still on date to be bought
+	 * Finally, checks that the user's reserves are still on date to be bought, and then logs the user in
 	 * @param NIF of the user
 	 * @param password of the user
 	 * @return true if the user logs in, false otherwise
@@ -337,29 +338,53 @@ public class Application implements Serializable{
 			for(User u : users) {
 				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
 					log = u;
-
+					
 					if(log.isHost() == true) {
 						log.setState(UserStates.CONNECTED_HOST);
+						return true;
 					}
 					else if(log.isGuest() == true) {
 						log.setState(UserStates.CONNECTED_GUEST);
+						for(Reserve r : log.getGuestProfile().getReserves()) {
+							if(r.getDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
+								if(r.getDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
+									if((ModifiableDate.getModifiableDate().getDayOfMonth() - r.getDate().getDayOfMonth()) > 5 ) {
+										log.getGuestProfile().getReserves().remove(r);
+									}
+								}
+								else if(r.getDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
+									log.getGuestProfile().getReserves().remove(r);
+								}
+							}
+							else if(r.getDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
+								log.getGuestProfile().getReserves().remove(r);
+							}
+						}
+						return true;
 					}
 					else{
 						log.setState(UserStates.ADMIN);
+						return true;
 					}
-					return true;
+					
 				}
+				
 			}
 			throw new NotRegisteredUser();
+			
 		}
 		catch(NotRegisteredUser excep){
 			System.out.println(excep);
 			return false;
 		}
+		
+		
+		
 	}
 	
 	/**
-	 * @return
+	 * Logs the user out of the app, saving the state of the app in an .objectData
+	 * @return true if everything is correct, false otherwise
 	 * @throws Exception
 	 */
 	public Boolean logout() throws Exception {
@@ -373,6 +398,79 @@ public class Application implements Serializable{
 			return true;
 		} catch (Exception excep) {
 			System.out.println(excep);
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Creates a Living offer, adding it to the waiting for review list of the app and to the house offers list
+	 * @param house :the house of the offer
+	 * @param iniDate : date when the offer begins
+	 * @param numMonths : number of months of the offer
+	 * @param price :price per month of the offer
+	 * @return true if everything is correct, false otherwise
+	 * @throws NotHost if an user who is not a host tries to create an offer
+	 * @throws NotOwner if a host tries to create an offer on a house that doesn't belong to him
+	 * @throws HouseOfferException if the house already has an offer of that type
+	 */
+	public Boolean createOffer(House house, String iniDate, int numMonths, int price) throws Exception {
+		try {
+			if(log.getState() != UserStates.CONNECTED_HOST) {
+				throw new NotHost();
+			}
+			if(log.getHostProfile().getHouses().contains(house) == false) {
+				throw new NotOwner();
+			}
+			LivingOffer o = new LivingOffer(iniDate, price, house, this, numMonths); 
+			house.getOffers().add(o);
+			waitoffers.add(o);
+			return true;
+		}
+		catch(NotHost excep1) {
+			System.out.println(excep1);
+			return false;
+		}
+		catch (HouseOfferException excep2) {
+			System.out.println(excep2);
+			return false;
+		}
+		catch(NotOwner excep3) {
+			System.out.println(excep3);
+			return false;
+		}
+	}
+	
+	/**
+	 * Creates a Holiday offer, adding it to the waiting for review list of the app and to the house offers list
+	 * @param house :the house of the offer
+	 * @param iniDate : date when the offer begins
+	 * @param endDate : date when the offer ends
+	 * @param price :price of the hole holiday
+	 * @return true if everything is correct, false otherwise
+	 * @throws NotHost if an user who is not a host tries to create an offer
+	 * @throws NotOwner if a host tries to create an offer on a house that doesn't belong to him
+	 * @throws HouseOfferException if the house already has an offer of that type
+	 */
+	public Boolean createOffer(House house, String iniDate, String endDate, int price) throws Exception {
+		try {
+			if(log.getState() != UserStates.CONNECTED_HOST) {
+				throw new NotHost();
+			}
+			HolidaysOffer o = new HolidaysOffer(iniDate, price, house, this, endDate); 
+			house.getOffers().add(o);
+			waitoffers.add(o);
+			return true;
+		}
+		catch(NotHost excep1) {
+			System.out.println(excep1);
+			return false;
+		}
+		catch (HouseOfferException excep2) {
+			System.out.println(excep2);
 			return false;
 		}
 	}

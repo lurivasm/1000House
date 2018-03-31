@@ -154,6 +154,7 @@ public abstract class Offer implements Serializable{
 			throw new NotAdmin();
 		}
 		state = OfferStates.DENIED;
+		app.getwaitoffers().remove(this);
 		return true;
 	}
 
@@ -168,6 +169,8 @@ public abstract class Offer implements Serializable{
 			throw new NotAdmin();
 		}
 		state = OfferStates.AVAILABLE;
+		app.getwaitoffers().remove(this);
+		app.getavoffers().add(this);
 		return true;
 	}
 
