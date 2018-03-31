@@ -2,6 +2,7 @@
  *
  */
 package App;
+import java.io.Serializable;
 import java.util.*;
 import Exception.*;
 
@@ -12,6 +13,10 @@ import Exception.*;
  *
  */
 public class Text extends Comment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3467003339082362870L;
 	private String text;
 	private List<Comment> answers;
 
@@ -24,8 +29,8 @@ public class Text extends Comment implements Serializable{
 	 * @throws TextException when the text is over 150 characters
 	 */
 	public Text(String text, User user, Offer offer) throws TextException{
-		if (text.lenght() > 150) return new TextException;
 		super(user, offer);
+		if (text.length() > 150) throw new TextException();
 		this.text = text;
 		this.answers = new ArrayList<Comment>();
 	}
@@ -38,7 +43,7 @@ public class Text extends Comment implements Serializable{
 	* @param offer the offer who is being commented
 	* @return Boolean if the function has been succesful
 	*/
-	public Boolean addAnswer(String text, User user, Offer offer){
+	public Boolean addAnswer(String text, User user, Offer offer) throws TextException{
 		Text t = new Text(text, user, offer);
 		if (answers.add(t) == false) return false;
 		return true;

@@ -6,5 +6,5 @@ import java.io.*;
  *
  */
 public enum UserStates implements Serializable {
-	CONNECTED_HOST, CONNECTED_GUEST, DISCONNECTED, BANNED;
+	CONNECTED_HOST, CONNECTED_GUEST, DISCONNECTED, BANNED,ADMIN;
 }

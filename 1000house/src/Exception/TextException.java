@@ -10,16 +10,14 @@ package Exception;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class RateException extends Exception {
+public class TextException extends Exception {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public RateException() {
-
-	}
-
+	
+	
 	public String toString() {
 		return "The text is over 150 characters. Please, write less";
 	}

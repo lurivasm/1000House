@@ -2,8 +2,9 @@
  *
  */
 package App;
-import java.util.*;
+import java.io.Serializable;
 import Exception.*;
+import modifiableDates.*;
 
 /**
  * Class Reserve
@@ -12,22 +13,29 @@ import Exception.*;
  *
  */
 public class Reserve implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8905846146125294016L;
 	private User guest;
 	private Offer offer;
+	private ModifiableDate date =  ;
 
 	/**
 	* Constructor of class Reserve
 	* @param user who books an offer
 	* @param offer to book
 	* @return a new Reserve
-	* @trhows NotGuest in case the user is not a guest
+	* @throws NotGuest in case the user is not a guest
 	*/
 	public Reserve(User guest, Offer offer) throws NotGuest{
 		/*Case the user is not a guest*/
-		if (guest.get.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
+		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
 		this.guest = guest;
 		this.offer = offer;
+		date = new ModifiableDate();
+		date.setToday();
 	}
 
 	/**
@@ -39,7 +47,7 @@ public class Reserve implements Serializable{
 	*/
 	public Boolean buyOffer() throws NotGuest{
 		/*Case the user is not a guest*/
-		if (guest.get.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
+		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
 		if (guest.getGuestProfile().addOffer(offer) == false) return false;
 		if (guest.getGuestProfile().removeReserve(offer) == false) return false;
@@ -55,7 +63,7 @@ public class Reserve implements Serializable{
 	*/
 	public Boolean cancelReserve() throws NotGuest{
 		/*Case the user is not a guest*/
-		if (guest.get.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
+		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
 		if(guest.getGuestProfile().removeReserve(offer) == false) return false;
 		offer.setState(OfferStates.AVAILABLE);

@@ -23,7 +23,9 @@ public class Application implements Serializable{
 	private String admPassword = "Fibonacci";
 	private User log;
 	private List<User> users= new ArrayList<User>();
-	private List<Offer> offers = new ArrayList<Offer>();
+	private List<Offer> avoffers = new ArrayList<Offer>();
+	private List<Offer> waitoffers = new ArrayList<Offer>();
+	
 	
 	
 	/**
@@ -77,10 +79,26 @@ public class Application implements Serializable{
 	
 	
 	/**
-	 * @return the offers
+	 * @return the list of available offers
 	 */
-	public List<Offer> getOffers() {
-		return offers;
+	public List<Offer> getavoffers(){
+		return avoffers;
+
+	}
+
+	
+	
+	/**
+	 * This getter is only accessible for the admin
+	 * @return the list of available offers
+	 */
+	public List<Offer> getwaitoffers() throws NotAdmin {
+		if(log.isAdmin() == true) {
+			return waitoffers;
+		}
+		else {
+			throw new NotAdmin();
+		}
 	}
 
 
@@ -125,10 +143,18 @@ public class Application implements Serializable{
 
 
 	/**
-	 * @param offers the offers to set
+	 * @param Avoffers the avoffers to set
 	 */
-	public void setOffers(List<Offer> offers) {
-		this.offers = offers;
+	public void setavoffers(List<Offer> avoffers) {
+		this.avoffers = avoffers;
+	}
+
+	
+	/**
+	 * @param waitoffers the waitoffers to set
+	 */
+	public void setWaitoffers(List<Offer> waitoffers) {
+		this.waitoffers = waitoffers;
 	}
 
 
@@ -159,19 +185,19 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones of the type given
 	 * @param type of the offer
-	 * @return the list of offers
+	 * @return the list of Avavoffers
 	 */
 	public List<Offer> searchType(String type){
 		List<Offer> res = new ArrayList<Offer>();
 		if(type.equals("Holidays")) {
-			for(Offer o : offers) {
+			for(Offer o : avoffers) {
 				if(o instanceof HolidaysOffer) {
 					res.add(o);
 				}
 			}
 		}
 		else if(type.equals("Living")) {
-			for(Offer o : offers) {
+			for(Offer o : avoffers) {
 				if(o instanceof LivingOffer) {
 					res.add(o);
 				}
@@ -186,11 +212,11 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones where the house has the code  given as zip code
 	 * @param code of the house
-	 * @return the list of offers 
+	 * @return the list of avoffers 
 	 */
 	public List<Offer> searchCode(long code){
 		List<Offer> res = new ArrayList<Offer>();
-		for(Offer o : offers) {
+		for(Offer o : avoffers) {
 			if(o.getHouse().getZipcode() == code) {
 				res.add(o);
 			}
@@ -200,13 +226,13 @@ public class Application implements Serializable{
 	
 	/**
 	 * Search in the app offer list the ones that have been bought
-	 * @return a list of bought offers
+	 * @return a list of bought avoffers
 	 * @throws NotRegisteredUser if the user who tries to search is not registered
 	 */
 	public List<Offer> searchBought() throws NotRegisteredUser{
 		if(log != null) {
 			List<Offer> res = new ArrayList<Offer>();
-			for(Offer o : offers) {
+			for(Offer o : avoffers) {
 				if(o.getState().equals(OfferStates.BOUGHT) == true) {
 					res.add(o);
 				}
@@ -220,13 +246,13 @@ public class Application implements Serializable{
 	
 	/**
 	 * Search in the app offer list the ones that have been reserved
-	 * @return a list of reserved offers
+	 * @return a list of reserved avoffers
 	 * @throws NotRegisteredUser if the user who tries to search is not registered
 	 */
 	public List<Offer> searchBooked() throws NotRegisteredUser{
 		if(log != null) {
 			List<Offer> res = new ArrayList<Offer>();
-			for(Offer o : offers) {
+			for(Offer o : avoffers) {
 				if(o.getState().equals(OfferStates.RESERVED) == true) {
 					res.add(o);
 				}
@@ -241,13 +267,13 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones that have the rate given or more
 	 * @param rate
-	 * @return a list of offers with an average rate equal or higher than the rate given
+	 * @return a list of avoffers with an average rate equal or higher than the rate given
 	 * @throws NotRegisteredUser if the user who tries to search is not registered
 	 */
 	public List<Offer> searchRate(double rate) throws NotRegisteredUser{
 		if(log != null) {
 			List<Offer> res = new ArrayList<Offer>();
-			for(Offer o : offers) {
+			for(Offer o : avoffers) {
 				if(o.getAverageRate() >= rate) {
 					res.add(o);
 				}
@@ -280,7 +306,7 @@ public class Application implements Serializable{
 			this.admNIF = app.getAdmNIF();
 			this.admPassword = app.getAdmPassword();
 			this.users = app.getUsers();
-			this.offers = app.getOffers();
+			this.avoffers = app.getavoffers();
 		}
 		catch(FileNotFoundException excep1) {
 			System.out.println("CArgando");
@@ -311,7 +337,16 @@ public class Application implements Serializable{
 			for(User u : users) {
 				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
 					log = u;
-					
+
+					if(log.isHost() == true) {
+						log.setState(UserStates.CONNECTED_HOST);
+					}
+					else if(log.isGuest() == true) {
+						log.setState(UserStates.CONNECTED_GUEST);
+					}
+					else{
+						log.setState(UserStates.ADMIN);
+					}
 					return true;
 				}
 			}
@@ -323,6 +358,10 @@ public class Application implements Serializable{
 		}
 	}
 	
+	/**
+	 * @return
+	 * @throws Exception
+	 */
 	public Boolean logout() throws Exception {
 		try {
 			ObjectOutputStream outputObject = new ObjectOutputStream(

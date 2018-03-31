@@ -2,6 +2,7 @@
  *
  */
 package App;
+import java.io.Serializable;
 import java.util.*;
 
 import Exception.*;
@@ -12,13 +13,17 @@ import Exception.*;
  *
  */
 public class LivingOffer extends Offer implements Serializable{
-  private int numMonths;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5100019223446512297L;
+	private int numMonths;
 
   /**
   *Constructor of LivingOffer
   * @return new LivingOffer
   */
-  public HolidaysOffer(String iniDate, int price, House house, Aplication app, int nunDays){
+  public LivingOffer(String iniDate, int price, House house, Application app, int numMonths){
     super(iniDate, price, house, app);
     this.numMonths = numMonths;
   }
@@ -33,32 +38,32 @@ public class LivingOffer extends Offer implements Serializable{
   * @throws NotOwner if the user who tries to modify the offer does not own it
   * @return Boolean
   */
-  public Boolean changeOffer(String iniDate, int price, House house, int nunDays) throws NotHost, NotOwner{
+  public Boolean changeOffer(String iniDate, int price, House house, int numMonths) throws NotHost, NotOwner{
     /*Case the user is not a host*/
-    if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost;
+    if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost();
     /*Case the host is not the owner of the offer*/
-    if (this.house.getHost().equals(app.getLog()) == false) throw new NotOwner;
+    if (this.house.getHost().equals(app.getLog()) == false) throw new NotOwner();
     /*Case the offer has not the state CHANGES*/
     if (this.getState().equals(OfferStates.CHANGES) == false) return false;
 
-    setIniDate(iniDate);
-		setPrice(price);
-		setHouse(house);
-    setnumMonths(numMonths);
+    this.iniDate = iniDate;
+	this.price = price;
+	this.house = house;
+    this.numMonths = numMonths;
     return true;
   }
 
   	/**
   	 * @return the numMonths
   	 */
-  	public String getnumMonths() {
+  	public int getnumMonths() {
   		return numMonths;
   	}
 
   	/**
   	 * @param numMonths the numMonths to set
   	 */
-  	public void setnumMonths(String numMonths) {
+  	public void setnumMonths(int numMonths) {
   		this.numMonths = numMonths;
   	}
 }

@@ -2,7 +2,7 @@
  *
  */
 package App;
-import java.util.*;
+import java.io.*;
 
 import Exception.*;
 
@@ -12,7 +12,11 @@ import Exception.*;
  *
  */
 public class HolidaysOffer extends Offer implements Serializable{
-  private String endDate;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4113687983271560385L;
+private String endDate;
 
   /**
   *Constructor of HolidaysOffer
@@ -35,16 +39,16 @@ public class HolidaysOffer extends Offer implements Serializable{
 	*/
 	public Boolean changeOffer(String iniDate, int price, House house, String endDate) throws NotHost, NotOwner{
 		/*Case the user is not a host*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost;
+		if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost();
 		/*Case the host is not the owner of the offer*/
-		if (this.house.getHost().equals(app.getLog()) == false) throw new NotOwner;
+		if (this.house.getHost().equals(app.getLog()) == false) throw new NotOwner();
 		/*Case the offer has not the state CHANGES*/
 		if (this.getState().equals(OfferStates.CHANGES) == false) return false;
 
-		setIniDate(iniDate);
-		setPrice(price);
-		setHouse(house);
-    setEndDate(endDate);
+		this.iniDate = iniDate;
+		this.price = price;
+		this.house = house;
+		this.endDate = endDate;
 		return true;
 	}
 
@@ -59,7 +63,7 @@ public class HolidaysOffer extends Offer implements Serializable{
   	/**
   	 * @param endDate the endDate to set
   	 */
-  	public void setEndDate(String iniDate) {
+  	public void setEndDate(String endDate) {
   		this.endDate = endDate;
   	}
 }

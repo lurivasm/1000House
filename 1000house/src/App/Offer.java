@@ -2,6 +2,7 @@
  *
  */
 package App;
+import java.io.Serializable;
 import java.util.*;
 
 import Exception.*;
@@ -12,13 +13,17 @@ import Exception.*;
  *
  */
 public abstract class Offer implements Serializable{
-	private Application app;
-	private String iniDate;
-	private int price;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -943306651005895813L;
+	protected Application app;
+	protected String iniDate;
+	protected int price;
 	private OfferStates state;
 	private double averageRate;
 	private List<Comment> comments;
-	private House house;
+	protected House house;
 
 	/**
 	 * Constructor of an offer
@@ -31,7 +36,7 @@ public abstract class Offer implements Serializable{
 		this.averageRate = 0;
 		this.state = OfferStates.WAITING;
 		this.app = app;
-		this.comments =  = new ArrayList<Comment>();
+		this.comments = new ArrayList<Comment>();
 	}
 
 
@@ -85,7 +90,7 @@ public abstract class Offer implements Serializable{
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 		/*Case the offer is not available*/
 		if (this.isAvailable() == false) return false;
 
@@ -109,13 +114,13 @@ public abstract class Offer implements Serializable{
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest;
+		if (app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 		/*Case the offer is not available*/
 		if (this.isAvailable() == false) return false;
 
 		/*Correct case*/
-		if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
 		this.setState(OfferStates.BOUGHT);
+		if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
 		return true;
 	}
 
@@ -141,14 +146,14 @@ public abstract class Offer implements Serializable{
 	/**
 	* The admin can deny offers which do not check the requirements changing the offer state to DENIED
 	* @throws NotAdmin if the user who tries to deny an offer is not an admin
-	* @return Boolean if the function has been succesful or not
+	* @return Boolean if the function has been successful or not
 	*/
 	public Boolean denyOffer() throws NotAdmin{
 		/*If the user who tries to deny an offer is not an admin*/
-		if(app.getLog().getNIF().equals(app.getAdmNIF()) == false || app.getLog().getPassword().equals(app.getAdmPassword()) == false){
-			throw new NotAdmin;
+		if(app.getLog().isAdmin() == false){
+			throw new NotAdmin();
 		}
-		if(this.setState(OfferStates.DENIED) == false) return false;
+		state = OfferStates.DENIED;
 		return true;
 	}
 
@@ -159,11 +164,11 @@ public abstract class Offer implements Serializable{
 	*/
 	public Boolean approveOffer() throws NotAdmin{
 		/*If the user who tries to approve an offer is not an admin*/
-		if(app.getLog().getNIF().equals(app.getAdmNIF()) == false || app.getLog().getPassword().equals(app.getAdmPassword()) == false){
-			throw new NotAdmin;
+		if(app.getLog().isAdmin() == false){
+			throw new NotAdmin();
 		}
-		if(this.setState(OfferStates.AVAILABLE)) return true;
-		return false;
+		state = OfferStates.AVAILABLE;
+		return true;
 	}
 
 	/**
@@ -173,10 +178,10 @@ public abstract class Offer implements Serializable{
 	*/
 	public Boolean askForChanges() throws NotAdmin{
 		/*If the user who tries to ask for changes is not an admin*/
-		if(app.getLog().getNIF().equals(app.getAdmNIF()) == false || app.getLog().getPassword().equals(app.getAdmPassword()) == false){
-			throw new NotAdmin;
+		if(app.getLog().isAdmin() == false){
+			throw new NotAdmin();
 		}
-		this.setState(OfferStates.CHANGES);
+		state = OfferStates.CHANGES;
 	 	return true;
 	}
 
@@ -187,9 +192,11 @@ public abstract class Offer implements Serializable{
 	*/
 	public Boolean calculateRate(){
 		int aux = 0, cont = 0;
-		for (Rate rate : comments){
-			aux = aux + rate.getRate();
-			cont++;
+		for (Comment rate : comments){
+			if(rate instanceof Rate) {
+				aux = aux + ((Rate)rate).getRate();
+				cont++;
+			}
 		}
 		setAverageRate(aux/cont);
 		return true;

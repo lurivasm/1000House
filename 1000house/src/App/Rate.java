@@ -2,6 +2,8 @@
  *
  */
 package App;
+import java.io.Serializable;
+
 import Exception.RateException;
 
 /**
@@ -12,6 +14,10 @@ import Exception.RateException;
  */
 
 public class Rate extends Comment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1405443129398161362L;
 	private int rate;
 
 	/**

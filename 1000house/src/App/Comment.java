@@ -2,6 +2,7 @@
  *
  */
 package App;
+import java.io.*;
 
 /**
  * Abstract Class Comment
@@ -10,13 +11,17 @@ package App;
  *
  */
 public abstract class Comment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -547558948029079746L;
 	private User user;
 	private Offer offer;
 
 	/**
 	* Constructor of Comment
 	* @param user The user who writes the comment
-	* @param offer The offer that recibes this comment
+	* @param offer The offer that receives this comment
 	* @return new Comment
 	*/
 	public Comment(User user, Offer offer) {
