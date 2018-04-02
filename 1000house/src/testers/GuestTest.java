@@ -2,6 +2,7 @@ package testers;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.junit.*;
@@ -39,7 +40,7 @@ public class GuestTest {
 		u2.setState(UserStates.ADMIN);
 		List<Characteristics> c = new ArrayList<Characteristics>() ;
 		House h = new House("L", "D", c, 654,u1);
-		offer = new HolidaysOffer("2018-03-06", 50, h, app, "2018-03-20");
+		offer = new HolidaysOffer(LocalDate.of(2018, 6, 3), 50, h, app, LocalDate.of(2018, 20, 3));
 		reserve = new Reserve(u1,offer);
 	}
 

@@ -7,6 +7,8 @@ import java.util.*;
 import exception.*;
 
 import java.io.*;
+import java.time.LocalDate;
+
 import modifiableDates.*;;
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
@@ -215,13 +217,38 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones where the house has the code  given as zip code
 	 * @param code of the house
-	 * @return the list of avoffers 
+	 * @return the list of offers 
 	 */
 	public List<Offer> searchCode(long code){
 		List<Offer> res = new ArrayList<Offer>();
 		for(Offer o : avoffers) {
 			if(o.getHouse().getZipcode() == code) {
 				res.add(o);
+			}
+		}
+		return res;
+	}
+	
+	
+	
+	/**
+	 * Search in the app the offers that are between from date and to date
+	 * @param from
+	 * @param to
+	 * @return the list of offers
+	 */
+	public List<Offer> searchDate(LocalDate from, LocalDate to){
+		List<Offer> res = new ArrayList<Offer>();
+		for(Offer o: avoffers) {
+			if(o instanceof LivingOffer) {
+				if(from.isAfter(o.getIniDate()) && to.isBefore(o.getIniDate().plusMonths(((LivingOffer) o).getnumMonths()))) {
+					res.add(o);
+				}
+			}
+			else if(o instanceof HolidaysOffer) {
+				if(from.isAfter(o.getIniDate()) && to.isBefore(((HolidaysOffer) o).getendDate())) {
+					res.add(o);
+				}
 			}
 		}
 		return res;
@@ -419,7 +446,7 @@ public class Application implements Serializable{
 	 * @throws NotOwner if a host tries to create an offer on a house that doesn't belong to him
 	 * @throws HouseOfferException if the house already has an offer of that type
 	 */
-	public Boolean createOffer(House house, String iniDate, int numMonths, int price) throws Exception {
+	public Boolean createOffer(House house, LocalDate iniDate, int numMonths, int price) throws Exception {
 		try {
 			if(log.getState() != UserStates.CONNECTED_HOST) {
 				throw new NotHost();
@@ -457,7 +484,7 @@ public class Application implements Serializable{
 	 * @throws NotOwner if a host tries to create an offer on a house that doesn't belong to him
 	 * @throws HouseOfferException if the house already has an offer of that type
 	 */
-	public Boolean createOffer(House house, String iniDate, String endDate, int price) throws Exception {
+	public Boolean createOffer(House house, LocalDate iniDate, LocalDate endDate, int price) throws Exception {
 		try {
 			if(log.getState() != UserStates.CONNECTED_HOST) {
 				throw new NotHost();

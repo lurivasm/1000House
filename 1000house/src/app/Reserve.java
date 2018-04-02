@@ -47,7 +47,7 @@ public class Reserve implements Serializable{
 	* @return Boolean in case he function has been successful or not
 	* @throws NotGuest in case the user is not a guest
 	*/
-	public Boolean buyOffer() throws NotGuest{
+	public Boolean payOffer() throws NotGuest{
 		/*Case the user is not a guest*/
 		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 

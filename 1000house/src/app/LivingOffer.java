@@ -3,6 +3,7 @@
  */
 package app;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import exception.*;
 
@@ -23,7 +24,7 @@ public class LivingOffer extends Offer implements Serializable{
   * @return new LivingOffer
  * @throws HouseOfferException 
   */
-	public LivingOffer(String iniDate, int price, House house, Application app, int numMonths) throws HouseOfferException {
+	public LivingOffer(LocalDate iniDate, int price, House house, Application app, int numMonths) throws HouseOfferException {
 		super(iniDate, price, house, app);
 
 		for (Offer o : house.getOffers()) {
@@ -45,7 +46,7 @@ public class LivingOffer extends Offer implements Serializable{
   * @throws NotOwner if the user who tries to modify the offer does not own it
   * @return Boolean
   */
-  public Boolean changeOffer(String iniDate, int price, House house, int numMonths) throws NotHost, NotOwner{
+  public Boolean changeOffer(LocalDate iniDate, int price, House house, int numMonths) throws NotHost, NotOwner{
     /*Case the user is not a host*/
     if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost();
     /*Case the host is not the owner of the offer*/

@@ -3,6 +3,7 @@
  */
 package app;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 import exception.*;
@@ -18,7 +19,7 @@ public abstract class Offer implements Serializable{
 	 */
 	private static final long serialVersionUID = -943306651005895813L;
 	protected Application app;
-	protected String iniDate;
+	protected LocalDate iniDate;
 	protected int price;
 	private OfferStates state;
 	private double averageRate;
@@ -29,7 +30,7 @@ public abstract class Offer implements Serializable{
 	 * Constructor of an offer
 	 * @return New Offer
 	 */
-	public Offer(String iniDate, int price, House house, Application app) {
+	public Offer(LocalDate iniDate, int price, House house, Application app) {
 		this.iniDate = iniDate;
 		this.price = price;
 		this.house = house;
@@ -110,7 +111,7 @@ public abstract class Offer implements Serializable{
 	* @throws NotRegisteredUser in case the user is not Registered
 	* @return Boolean if the purchase has been successful or not
 	*/
-	public Boolean payOffer() throws NotRegisteredUser, NotGuest{
+	public Boolean buyOffer() throws NotRegisteredUser, NotGuest{
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
@@ -201,7 +202,10 @@ public abstract class Offer implements Serializable{
 				cont++;
 			}
 		}
-		setAverageRate(aux/cont);
+		if(cont == 0) {
+			return true;
+		}
+		averageRate = aux/cont;
 		return true;
 	}
 
@@ -209,14 +213,14 @@ public abstract class Offer implements Serializable{
 	/**
 	 * @return the iniDate
 	 */
-	public String getIniDate() {
+	public LocalDate getIniDate() {
 		return iniDate;
 	}
 
 	/**
 	 * @param iniDate the iniDate to set
 	 */
-	public void setIniDate(String iniDate) {
+	public void setIniDate(LocalDate iniDate) {
 		this.iniDate = iniDate;
 	}
 
