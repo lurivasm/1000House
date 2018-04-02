@@ -20,15 +20,7 @@ public class Prueba {
 		u3.setState(UserStates.CONNECTED_HOST);
 		u4.setState(UserStates.CONNECTED_GUEST);
 		
-		app.setLog(u2);
-		try {
-			u3.banUser();
-		}
-		catch(NotAdmin excep) {
-			System.out.println(excep);
-		}
-		
-		System.out.println(");
+		System.out.println(u2.getGuestProfile());
 	}
 
 }

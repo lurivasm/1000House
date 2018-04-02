@@ -180,7 +180,10 @@ public class User implements Serializable {
 	 * @return the host profile
 	 */
 	public Host getHostProfile() throws NotHost {
-		if (profile.size() == 2 || state.equals(UserStates.CONNECTED_HOST)) {
+		if(profile == null) {
+			throw new NotHost();
+		}
+		else if (profile.size() == 2 || state.equals(UserStates.CONNECTED_HOST)) {
 			return (Host) profile.get(0);
 		} else {
 			throw new NotHost();
@@ -191,7 +194,10 @@ public class User implements Serializable {
 	 * @return the guest profile
 	 */
 	public Guest getGuestProfile() throws NotGuest {
-		if (profile.size() == 2) {
+		if(profile == null) {
+			throw new NotGuest();
+		}
+		else if (profile.size() == 2) {
 			return (Guest) profile.get(1);
 		} else if (state.equals(UserStates.CONNECTED_GUEST)) {
 			return (Guest) profile.get(0);
@@ -260,6 +266,9 @@ public class User implements Serializable {
 	 * @return true if the user is Host, false otherwise
 	 */
 	public Boolean isHost() {
+		if(profile == null) {
+			return false;
+		}
 		if (profile.size() == 2 || profile.get(0) instanceof Host) {
 			return true;
 		}
@@ -270,7 +279,10 @@ public class User implements Serializable {
 	 * @return true if the user is Guest, false otherwise
 	 */
 	public Boolean isGuest() {
-		if (profile.size() == 2 || profile.get(0) instanceof Guest) {
+		if(profile == null) {
+			return false;
+		}
+		else if (profile.size() == 2 || profile.get(0) instanceof Guest) {
 			return true;
 		}
 		return false;

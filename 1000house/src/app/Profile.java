@@ -43,7 +43,7 @@ public abstract class Profile implements Serializable{
 	 * @throws NotAdmin
 	 */
 	public Boolean changeCCNumber(String cCNumber, Application app) throws NotAdmin {
-		if(app.getAdmNIF().equals(app.getLog().getNIF()) == true && app.getAdmPassword().equals(app.getLog().getPassword()) == true) {
+		if(app.getLog().isAdmin() == true) {
 			ccNumber = cCNumber;
 			return true;
 		}
