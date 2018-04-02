@@ -97,6 +97,7 @@ public class GuestTest {
 	 * Then, changes the logged user to  the admin,and saves the actual value of the credit card in an string cc.
 	 * Finally, it changes the credit card of the guest,checking it returns true, and checks that prob is equal to 1 
 	 * and the actual value of the credit card is different to cc
+	 * @throws NotAdmin
 	 */
 	@Test
 	public void testChangeCCNumber() throws NotAdmin{

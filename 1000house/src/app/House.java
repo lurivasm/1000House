@@ -1,6 +1,7 @@
 package app;
 import java.util.*;
 import java.io.*;
+import exception.*;
 
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
@@ -26,7 +27,10 @@ public class House implements Serializable {
 	 * @param characteristics
 	 * @param host
 	 */
-	public House(String location, String description, List<Characteristics> characteristics,long zipcode ,User host) {
+	public House(String location, String description, List<Characteristics> characteristics,long zipcode ,User host) throws NotHost {
+		if(host.isHost() == false) {
+			throw new NotHost();
+		}
 		this.location = location;
 		this.description = description;
 		this.characteristics = characteristics;

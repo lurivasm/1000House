@@ -41,13 +41,14 @@ public class UserTest {
 	@SuppressWarnings("unused")
 	
 	/**
-	 * @throws WrongProfile
+	 * Test method for {@link app.User#User(java.lang.String, java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String,  app.Application)}.
 	 * This test tries to create a user with a profile(W) that doesn't exist.
 	 * The exception is thrown and the value of an int prob changes to 1
 	 * Finally, it checks that the value of prob is 1(It means that the exception was thrown)
+	 * @throws WrongProfile
 	 */
 	@Test
-	public void testConstructor() throws WrongProfile{
+	public void testUser() throws WrongProfile{
 		User user;
 		int prob = 0;
 		try {

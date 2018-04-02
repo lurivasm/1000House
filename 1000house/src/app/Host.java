@@ -31,12 +31,7 @@ public class Host extends Profile implements Serializable{
 		return houses;
 	}
 	
-	public void printHouses() {
-		for(House h : houses) {
-			System.out.println("Location" +  h.getLocation() + "\n" + "Description" + h.getDescription() + "\n");
-		}
-	}
-
+	
 	
 	
 	
