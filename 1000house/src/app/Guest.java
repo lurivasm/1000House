@@ -65,11 +65,21 @@ public class Guest extends Profile implements Serializable{
 		return false;
 	}
 
+	/**
+	 * Adds a reserve to the reserve list of the guest
+	 * @param reserve : the reserve to add
+	 * @return true when the reserve is added
+	 */
 	public Boolean addReserve(Reserve reserve) {
 		reserves.add(reserve);
 		return true;
 	}
 
+	/**
+	 * Adds an offer to the offer list of the guest
+	 * @param offer: the offer to add
+	 * @return true when the offer is added
+	 */
 	public Boolean addOffer(Offer offer) {
 		offers.add(offer);
 		return true;

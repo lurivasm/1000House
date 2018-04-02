@@ -83,6 +83,7 @@ public class User implements Serializable {
 		else {
 			throw new WrongProfile(profile);
 		}
+		this.app = app;
 	}
 
 	/**
@@ -277,7 +278,7 @@ public class User implements Serializable {
 	
 	
 	/**
-	 * @return
+	 * @return true if the user is the admin, false otherwise
 	 */
 	public Boolean isAdmin() {
 		if (state == UserStates.ADMIN) {
