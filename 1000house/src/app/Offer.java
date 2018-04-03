@@ -21,10 +21,12 @@ public abstract class Offer implements Serializable{
 	protected Application app;
 	protected LocalDate iniDate;
 	protected int price;
-	private OfferStates state;
-	private double averageRate;
-	private List<Comment> comments;
+	protected OfferStates state;
+	protected double averageRate;
+	protected List<Comment> comments;
 	protected House house;
+	protected String changes;
+	protected LocalDate changesDate;
 
 	/**
 	 * Constructor of an offer
@@ -180,13 +182,15 @@ public abstract class Offer implements Serializable{
 	* @throws NotAdmin if the user who tries to deny an offer is not an admin
 	* @return Boolean if the function has been succesful or not
 	*/
-	public Boolean askForChanges() throws NotAdmin{
+	public Boolean askForChanges(String changes) throws NotAdmin{
 		/*If the user who tries to ask for changes is not an admin*/
 		if(app.getLog().isAdmin() == false){
 			throw new NotAdmin();
 		}
 		state = OfferStates.CHANGES;
-	 	return true;
+		this.changes = changes;
+		changesDate = LocalDate.now();
+		return true;
 	}
 
 
@@ -208,8 +212,9 @@ public abstract class Offer implements Serializable{
 		averageRate = aux/cont;
 		return true;
 	}
-
-
+	
+	
+	
 	/**
 	 * @return the iniDate
 	 */
@@ -294,5 +299,54 @@ public abstract class Offer implements Serializable{
 		this.house = house;
 	}
 
+
+	/**
+	 * @return the app
+	 */
+	public Application getApp() {
+		return app;
+	}
+
+
+	/**
+	 * @param app the app to set
+	 */
+	public void setApp(Application app) {
+		this.app = app;
+	}
+
+
+	/**
+	 * @return the changes
+	 */
+	public String getChanges() {
+		return changes;
+	}
+
+
+	/**
+	 * @param changes the changes to set
+	 */
+	public void setChanges(String changes) {
+		this.changes = changes;
+	}
+
+
+	/**
+	 * @return the changesDate
+	 */
+	public LocalDate getChangesDate() {
+		return changesDate;
+	}
+
+
+	/**
+	 * @param changesDate the changesDate to set
+	 */
+	public void setChangesDate(LocalDate changesDate) {
+		this.changesDate = changesDate;
+	}
+	
+	
 
 }
