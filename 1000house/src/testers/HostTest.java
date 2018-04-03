@@ -26,7 +26,7 @@ public class HostTest {
 	 * @throws Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUpBefore() throws Exception {
 		host = new Host("39875096");
 		app = new Application("Test");
 		u1 = new User( "Lucia", "Rivas Molina", "Gnomo69", "12796482F", "OD", "12345678" ,app);

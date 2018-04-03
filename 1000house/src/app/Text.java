@@ -31,7 +31,7 @@ public class Text extends Comment implements Serializable{
 	 */
 	public Text(String text, User user, Offer offer) throws TextException{
 		super(user, offer);
-		if (text.length() > 150) throw new TextException();
+		if (text.length() > 250) throw new TextException();
 		this.text = text;
 		this.answers = new ArrayList<Comment>();
 	}
@@ -42,9 +42,10 @@ public class Text extends Comment implements Serializable{
 	* @param text the text to write
 	* @param user the user who writes the text
 	* @param offer the offer who is being commented
-	* @return Boolean if the function has been succesful
+	* @return Boolean if the function has been successful
 	*/
-	public Boolean addAnswer(String text, User user, Offer offer) throws TextException{
+	public Boolean addAnswer(String text, User user, Offer offer) throws TextException, NotGuest{
+		if(offer.app.getLog().isGuest() == false) throw new NotGuest();
 		Text t = new Text(text, user, offer);
 		if (answers.add(t) == false) return false;
 		return true;
@@ -55,9 +56,10 @@ public class Text extends Comment implements Serializable{
 	* @param rate the rate to write
 	* @param user the user who writes the rate
 	* @param offer the offer who is being commented
-	* @return Boolean if the function has been succesful
+	* @return Boolean if the function has been successful
 	*/
-	public Boolean addAnswer(int rate, User user, Offer offer) throws RateException{
+	public Boolean addAnswer(int rate, User user, Offer offer) throws RateException, NotGuest{
+		if(offer.app.getLog().isGuest() == false) throw new NotGuest();
 		Rate r = new Rate(rate, user, offer);
 		if (answers.add(r) == false) return false;
 		return true;
