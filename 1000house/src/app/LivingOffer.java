@@ -22,7 +22,7 @@ public class LivingOffer extends Offer implements Serializable{
   /**
   *Constructor of LivingOffer
   * @return new LivingOffer
- * @throws HouseOfferException 
+  * @throws HouseOfferException 
   */
 	public LivingOffer(LocalDate iniDate, int price, House house, Application app, int numMonths) throws HouseOfferException {
 		super(iniDate, price, house, app);

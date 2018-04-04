@@ -1,6 +1,6 @@
 package testers;
 
-import org.junit.Assert.*;
+
 
 import static org.junit.Assert.*;
 import java.time.LocalDate;
@@ -40,6 +40,7 @@ public class TextTest {
 		u1.setState(UserStates.CONNECTED_HOST);
 		u2 = new User("Javier", "Lopez Cano", "gatiti", "87654321B", "OD", "87654321", app);
 		u2.setState(UserStates.CONNECTED_GUEST);
+		app.setLog(u2);
 		house = new House("LOCATION1", "DESCRIPTION1", charact, 28974, u1);
 		ini = LocalDate.of(2018, 4, 28);
 		end =  LocalDate.of(2018, 5, 10);
@@ -58,34 +59,41 @@ public class TextTest {
 		catch(RateException ex) {
 			exRate = 1;
 		}
+		app.setLog(u1);
 		try {
 			text.addAnswer(5, u1, offer);
 		}
 		catch(NotGuest excep) {
 			exGuest = 1;
 		}
+		app.setLog(u2);
 		assertTrue(text.addAnswer(3, u2, offer));
 		assertEquals(exRate, 1);
 		assertEquals(exGuest, 1);
 	}
 	
 	@Test
-	public void testAddAnswerText() throws NotGuest, TextException{
+	public void testAddAnswerText() throws Exception{
 		int exRate = 0;
 		int exGuest = 0;
-		String aka = ""
+		String aka = "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
+				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
+				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
+				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO";
 		try{
 			text.addAnswer(aka, u2, offer);
 		}
 		catch(TextException ex) {
 			exRate = 1;
 		}
+		app.setLog(u1);
 		try {
 			text.addAnswer(5, u1, offer);
 		}
 		catch(NotGuest excep) {
 			exGuest = 1;
 		}
+		app.setLog(u2);
 		assertTrue(text.addAnswer(3, u2, offer));
 		assertEquals(exRate, 1);
 		assertEquals(exGuest, 1);

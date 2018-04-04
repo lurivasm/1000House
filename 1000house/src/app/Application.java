@@ -26,7 +26,7 @@ public class Application implements Serializable{
 	private String name;
 	private String admNIF = "11235813F";
 	private String admPassword = "Fibonacci";
-	private User log;
+	private User log = null;
 	private List<User> users= new ArrayList<User>();
 	private List<Offer> avoffers = new ArrayList<Offer>();
 	private List<Offer> waitoffers = new ArrayList<Offer>();
@@ -51,7 +51,7 @@ public class Application implements Serializable{
 			savedObject.close();
 		}
 		catch(FileNotFoundException excep1) {
-			System.out.println("CArgando");
+			
 			BufferedReader buffer = new BufferedReader(	new InputStreamReader(new FileInputStream("users.txt")));
 			String line;
 			line = buffer.readLine();
@@ -203,15 +203,36 @@ public class Application implements Serializable{
 	 * @return true if the house is created correctly, false otherwise
 	 * @throws NotHost if the user who tries to create a house is not a host
 	 */
-	public Boolean createHouse(String description, List<Characteristics> characteristics, String location,long zipcode)  throws NotHost{
-		if(log.getState().equals(UserStates.CONNECTED_HOST)) {
-			House h = new House(location, description, characteristics,zipcode,log);
-			log.getHostProfile().getHouses().add(h);
-			return true;
+	public Boolean createHouse(String description, List<Characteristics> characteristics, String location,long zipcode)  throws Exception{
+		try{
+			if(log.getState().equals(UserStates.CONNECTED_HOST)) {
+				House h = new House(location, description, characteristics,zipcode,log);
+				for(Offer o : avoffers){
+					if(o.getHouse().compareHouse(h)){
+						throw new HouseException();
+					}
+				}
+				for(Offer o : waitoffers){
+					if(o.getHouse().compareHouse(h)){
+						throw new HouseException();
+					}
+				}
+				log.getHostProfile().getHouses().add(h);
+				return true;
+			}
+			else {
+				throw new NotHost();
+			}
 		}
-		else {
-			throw new NotHost();
+		catch(NotHost excep1){
+			System.out.println(excep1);
+			return false;
 		}
+		catch(HouseException excep2){
+			System.out.println(excep2);
+			return false;
+		}
+		
 		
 	}
 	
@@ -269,15 +290,18 @@ public class Application implements Serializable{
 	 * @return the list of offers
 	 */
 	public List<Offer> searchDate(LocalDate from, LocalDate to){
+		from = from.minusDays(1);
+		to = to.plusDays(1);
 		List<Offer> res = new ArrayList<Offer>();
 		for(Offer o: avoffers) {
 			if(o instanceof LivingOffer) {
-				if(from.isAfter(o.getIniDate()) && to.isBefore(o.getIniDate().plusMonths(((LivingOffer) o).getnumMonths()))) {
+				LocalDate end = o.getIniDate().plusMonths(((LivingOffer) o).getnumMonths());
+				if(o.getIniDate().isAfter(from) && end.isBefore(to)) {
 					res.add(o);
 				}
 			}
 			else if(o instanceof HolidaysOffer) {
-				if(from.isAfter(o.getIniDate()) && to.isBefore(((HolidaysOffer) o).getendDate())) {
+				if(o.getIniDate().isAfter(from) && ((HolidaysOffer) o).getendDate().isBefore(to)) {
 					res.add(o);
 				}
 			}
@@ -291,18 +315,25 @@ public class Application implements Serializable{
 	 * @throws NotRegisteredUser if the user who tries to search is not registered
 	 */
 	public List<Offer> searchBought() throws NotRegisteredUser{
-		if(log != null) {
-			List<Offer> res = new ArrayList<Offer>();
-			for(Offer o : avoffers) {
-				if(o.getState().equals(OfferStates.BOUGHT) == true) {
-					res.add(o);
+		try{
+			if(log != null) {
+				List<Offer> res = new ArrayList<Offer>();
+				for(Offer o : avoffers) {
+					if(o.getState().equals(OfferStates.BOUGHT) == true) {
+						res.add(o);
+					}
 				}
+				return res;
 			}
-			return res;
+			else {
+				throw new NotRegisteredUser();
+			}
 		}
-		else {
-			throw new NotRegisteredUser();
+		catch(NotRegisteredUser excep){
+			System.out.println(excep);
+			return null;
 		}
+		
 	}
 	
 	/**
@@ -311,18 +342,25 @@ public class Application implements Serializable{
 	 * @throws NotRegisteredUser if the user who tries to search is not registered
 	 */
 	public List<Offer> searchBooked() throws NotRegisteredUser{
-		if(log != null) {
-			List<Offer> res = new ArrayList<Offer>();
-			for(Offer o : avoffers) {
-				if(o.getState().equals(OfferStates.RESERVED) == true) {
-					res.add(o);
+		try{
+			if(log != null) {
+				List<Offer> res = new ArrayList<Offer>();
+				for(Offer o : avoffers) {
+					if(o.getState().equals(OfferStates.RESERVED) == true) {
+						res.add(o);
+					}
 				}
+				return res;
 			}
-			return res;
+			else {
+				throw new NotRegisteredUser();
+			}
 		}
-		else {
-			throw new NotRegisteredUser();
+		catch(NotRegisteredUser excep){
+			System.out.println(excep);
+			return null;
 		}
+		
 	}
 	
 	/**
@@ -332,18 +370,25 @@ public class Application implements Serializable{
 	 * @throws NotRegisteredUser if the user who tries to search is not registered
 	 */
 	public List<Offer> searchRate(double rate) throws NotRegisteredUser{
-		if(log != null) {
-			List<Offer> res = new ArrayList<Offer>();
-			for(Offer o : avoffers) {
-				if(o.getAverageRate() >= rate) {
-					res.add(o);
+		try{
+			if(log != null) {
+				List<Offer> res = new ArrayList<Offer>();
+				for(Offer o : avoffers) {
+					if(o.getAverageRate() >= rate) {
+						res.add(o);
+					}
 				}
+				return res;
 			}
-			return res;
+			else {
+				throw new NotRegisteredUser();
+			}
 		}
-		else {
-			throw new NotRegisteredUser();
+		catch(NotRegisteredUser excep){
+			System.out.println(excep);
+			return null;
 		}
+		
 	}
 	
 	
@@ -470,6 +515,7 @@ public class Application implements Serializable{
 			log.setState(UserStates.DISCONNECTED);
 			outputObject.writeObject(this);
 			outputObject.close();
+			log = null;
 			return true;
 		} catch (Exception excep) {
 			System.out.println(excep);
