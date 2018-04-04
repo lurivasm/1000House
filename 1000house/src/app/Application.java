@@ -217,6 +217,12 @@ public class Application implements Serializable{
 						throw new HouseException();
 					}
 				}
+				for(House house : log.getHostProfile().getHouses()) {
+					if(h.compareHouse(house)) {
+						throw new HouseException();
+					}
+					
+				}
 				log.getHostProfile().getHouses().add(h);
 				return true;
 			}
@@ -581,6 +587,9 @@ public class Application implements Serializable{
 			if(log.getState() != UserStates.CONNECTED_HOST) {
 				throw new NotHost();
 			}
+			if(log.getHostProfile().getHouses().contains(house) == false) {
+				throw new NotOwner();
+			}
 			HolidaysOffer o = new HolidaysOffer(iniDate, price, house, this, endDate); 
 			house.getOffers().add(o);
 			waitoffers.add(o);
@@ -592,6 +601,10 @@ public class Application implements Serializable{
 		}
 		catch (HouseOfferException excep2) {
 			System.out.println(excep2);
+			return false;
+		}
+		catch(NotOwner excep3) {
+			System.out.println(excep3);
 			return false;
 		}
 	}

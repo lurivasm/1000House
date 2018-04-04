@@ -68,17 +68,19 @@ public class ApplicationTest {
 
 	/**
 	 * Test method for {@link app.Application#createHouse(java.lang.String, java.util.List, java.lang.String, long)}.
+	 * This test tries to create a house when the logged user is guest, and checkd that the method returns false
+	 * Then creates a house when the logged user is a host,an checks that the method returns true
+	 * Finally, tries to create the same house again, and checks that the method returns false
 	 */
 	@Test
 	public void testCreateHouse() throws Exception{
-		int prob = 0;
 		List<Characteristics> c = new ArrayList<Characteristics>();
 		app.setLog(u4);		
 		assertFalse(app.createHouse("D", c, "L", 34677));		
 		app.setLog(u3);
-		app.createHouse("D", c, "L", 34677);
-		assertEquals(prob,1);
+		assertTrue(app.createHouse("D", c, "L", 34677));
 		assertNotSame(0,app.getLog().getHostProfile().getHouses().size());
+		assertFalse(app.createHouse("D", c, "L", 34677));
 	}
 
 	/**
@@ -124,25 +126,17 @@ public class ApplicationTest {
 	/**
 	 * Test method for {@link app.Application#searchBought()}.
 	 * This test search the offers that have been bought
-	 * First it initializes an int prob to 0. Tries to search when the user is not registered.
-	 * When the exception is thrown, the value of prob changes to 1
+	 * First it tries to search in the app when the user searching is not registered, and checks that the method returns null
 	 * Finally, it sets one offer as bought,search in the app, and checks the valiue of prob and the size of the list resulting from the search
 	 */
 	@Test
 	public void testSearchBought() throws Exception {
-		int prob = 0;
-		List<Offer> l1 ;
-		try{
-			l1 = app.searchBought();
-		}
-		catch(NotRegisteredUser excep){
-			prob = 1;
-		}
+		List<Offer> l1 ;		
+		assertEquals(null,app.searchBought());		
 		app.setLog(u1);
 		app.getavoffers().get(0).setState(OfferStates.BOUGHT);
 		app.getavoffers().get(1).setState(OfferStates.AVAILABLE);
 		l1= app.searchBought();		
-		assertEquals(1,prob);
 		assertEquals(l1.size(),1);
 		
 	}
@@ -150,51 +144,35 @@ public class ApplicationTest {
 	/**
 	 * Test method for {@link app.Application#searchBooked()}.
 	 * This test search the offers that have been reserved
-	 * First it initializes an int prob to 0. Tries to search when the user is not registered.
-	 * When the exception is thrown, the value of prob changes to 1
+	 * First it tries to search in the app when the user searching is not registered, and checks that the method returns null
 	 * Finally, it sets one offer as reserved,search in the app, and checks the value of prob and the size of the list resulting from the search
 	 */
 	@Test
 	public void testSearchBooked() throws NotRegisteredUser{
-		int prob = 0;
 		List<Offer> l1 ;
-		try{
-			l1 = app.searchBooked();
-		}
-		catch(NotRegisteredUser excep){
-			prob = 1;
-		}
+		assertEquals(null,app.searchBooked());
 		app.setLog(u1);
 		app.getavoffers().get(0).setState(OfferStates.RESERVED);
 		app.getavoffers().get(1).setState(OfferStates.AVAILABLE);
 		l1= app.searchBooked();		
-		assertEquals(1,prob);
 		assertEquals(l1.size(),1);
 	}
 
 	/**
 	 * Test method for {@link app.Application#searchRate(double)}.
 	 * This test search the offers that have the same or more than the rate given
-	 * First it initializes an int prob to 0. Tries to search when the user is not registered.
-	 * When the exception is thrown, the value of prob changes to 1
+	 * First it tries to search in the app when the user searching is not registered, and checks that the method returns null
 	 * Finally, it sets one offer rate over the given and the other under the given,search in the app, and checks the value of prob and the size of the list resulting from the search
 	 * 
 	 */
 	@Test
 	public void testSearchRate() throws NotRegisteredUser {
-		int prob = 0;
 		List<Offer> l1 ;
-		try{
-			l1 = app.searchRate(3);
-		}
-		catch(NotRegisteredUser excep){
-			prob = 1;
-		}
+		assertEquals(null,app.searchRate(3));		
 		app.setLog(u1);
 		app.getavoffers().get(0).setAverageRate(5);
 		app.getavoffers().get(1).setAverageRate(2);
 		l1= app.searchRate(3);		
-		assertEquals(1,prob);
 		assertEquals(l1.size(),1);
 	}
 
@@ -224,6 +202,10 @@ public class ApplicationTest {
 
 	/**
 	 * Test method for {@link app.Application#createOffer(app.House, java.time.LocalDate, int, int)}.
+	 * This test firstly tries to create an offer when the logged user is not a host,and checks that the method returns false
+	 * Secondly tries to create an offer when the logged user is not the owner of the house where the offer is created, and checks that the method returns false
+	 * Then tries to create a LivingOffer in a house that already has a LivingOffer, checking that the method returns false
+	 * Finally, it creates a house and checks that the method returns true
 	 */
 	@Test
 	public void test1CreateOffer() throws Exception{
@@ -242,10 +224,24 @@ public class ApplicationTest {
 
 	/**
 	 * Test method for {@link app.Application#createOffer(app.House, java.time.LocalDate, java.time.LocalDate, int)}.
+	 * This test firstly tries to create an offer when the logged user is not a host,and checks that the method returns false
+	 * Secondly tries to create an offer when the logged user is not the owner of the house where the offer is created, and checks that the method returns false
+	 * Then tries to create a HolidaysOffer in a house that already has a HolidaysOffer, checking that the method returns false
+	 * Finally, it creates a house and checks that the method returns true
 	 */
 	@Test
-	public void test2CreateOffer() {
-		fail("Not yet implemented");
+	public void test2CreateOffer() throws Exception {
+		List<Characteristics> c = new ArrayList<Characteristics>();
+		House house = new House("LOCATION", "DESCRIPTION", c, 28974,u3);
+		u3.getHostProfile().getHouses().add(house);
+		app.setLog(u2);
+		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
+		u1.setState(UserStates.CONNECTED_HOST);
+		app.setLog(u1);
+		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
+		assertFalse(app.createOffer(h, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
+		app.setLog(u3);
+		assertTrue(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
 	}
 
 }
