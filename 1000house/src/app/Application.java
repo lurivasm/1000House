@@ -48,6 +48,7 @@ public class Application implements Serializable{
 			this.admPassword = app.getAdmPassword();
 			this.users = app.getUsers();
 			this.avoffers = app.getavoffers();
+			savedObject.close();
 		}
 		catch(FileNotFoundException excep1) {
 			System.out.println("CArgando");
