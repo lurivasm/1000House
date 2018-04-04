@@ -9,7 +9,7 @@ import exception.*;
 import java.io.*;
 import java.time.LocalDate;
 
-import modifiableDates.*;;
+import modifiableDates.*;
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
@@ -34,10 +34,45 @@ public class Application implements Serializable{
 	
 	
 	/**
+	 * Sets the name of the application and if it's the first time that someone creates that app, it creates the user list (readed from file) and the admin user.
+	 * Otherwise, reads the saved app and restores the values it had the last time someone created it.
 	 * @param name
 	 */
-	public Application(String name) {
+	public Application(String name) throws Exception {
 		this.name = name;
+		try{
+			ObjectInputStream savedObject = new ObjectInputStream(new FileInputStream( name + ".objectData" ));
+			Application app = (Application)savedObject.readObject();
+			savedObject.close();
+			this.admNIF = app.getAdmNIF();
+			this.admPassword = app.getAdmPassword();
+			this.users = app.getUsers();
+			this.avoffers = app.getavoffers();
+		}
+		catch(FileNotFoundException excep1) {
+			System.out.println("CArgando");
+			BufferedReader buffer = new BufferedReader(	new InputStreamReader(new FileInputStream("users.txt")));
+			String line;
+			line = buffer.readLine();
+			while((line = buffer.readLine()) != null) {
+				String[] words = line.split(";");
+				String[] fullname = words[2].split(",");
+				try{
+					for(User u : users ) {
+						if(u.getNIF().equals(words[2])) {
+							throw new InvalidNIF(words[2]);
+						}
+					}
+					users.add(new User(fullname[1], fullname[0], words[3], words[1], words[0], words[4], this));
+				}
+				catch(InvalidNIF excep2) {
+					System.out.println(excep2);
+				}
+			}
+			/*We also create the Admin Profile*/
+			users.add(new User("Admin", "istrator",admPassword, admNIF, "A", null, this ));
+			buffer.close();
+		}
 	}
 
 
@@ -97,13 +132,8 @@ public class Application implements Serializable{
 	 * This getter is only accessible for the admin
 	 * @return the list of available offers
 	 */
-	public List<Offer> getwaitoffers() throws NotAdmin {
-		if(log.isAdmin() == true) {
-			return waitoffers;
-		}
-		else {
-			throw new NotAdmin();
-		}
+	public List<Offer> getwaitoffers() {
+		return waitoffers;	
 	}
 
 
@@ -316,12 +346,77 @@ public class Application implements Serializable{
 	}
 	
 	
+	/**
+	 * Checks that the offers asked for changes of the user given are on date to be changed.
+	 * If it isn't on date,it removes it from the waiting-for-review app list and set it state to DENIED
+	 * @param u : the user
+	 * @param app : app were the user is trying to log
+	 * @return true
+	 * @throws NotHost
+	 */
+	private Boolean checkOffers(User u, Application app) throws NotHost{
+		for(House h  : u.getHostProfile().getHouses()) {
+			for(Offer o:h.getOffers()) {
+				if(o.getState().equals(OfferStates.CHANGES)) {
+					if(o.getChangesDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
+						if(o.getChangesDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
+							if((ModifiableDate.getModifiableDate().getDayOfMonth() - o.getChangesDate().getDayOfMonth()) > 5 ) {
+								app.getwaitoffers().remove(o);
+								o.setState(OfferStates.DENIED);
+								return true;
+							}
+						}
+						else if(o.getChangesDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
+							app.getwaitoffers().remove(o);
+							o.setState(OfferStates.DENIED);
+							return true;
+						}
+					}
+					else if(o.getChangesDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
+						app.getwaitoffers().remove(o);
+						o.setState(OfferStates.DENIED);
+						return true;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	
 	
 	/**
-	 * Logs the user with the password and NIF given in the app
-	 * If it's the first time that someone logs in, it creates the user list (readed from file) and the admin user.
-	 * Otherwise, reads the saved app and restores the values it had the last time someone logged out.
-	 * Finally, checks that the user's reserves are still on date to be bought, and then logs the user in
+	 * Checks that the user's reserves are still on date to be bought.
+	 * If it isn't on date,it removes it from the user-resrves list 
+	 * @param u
+	 * @return
+	 * @throws NotGuest
+	 */
+	private Boolean checkReserves(User u) throws NotGuest{
+		for(Reserve r : u.getGuestProfile().getReserves()) {
+			if(r.getDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
+				if(r.getDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
+					if((ModifiableDate.getModifiableDate().getDayOfMonth() - r.getDate().getDayOfMonth()) > 5 ) {
+						u.getGuestProfile().getReserves().remove(r);
+						return true;
+					}
+				}
+				else if(r.getDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
+					u.getGuestProfile().getReserves().remove(r);
+					return true;
+				}
+			}
+			else if(r.getDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
+				u.getGuestProfile().getReserves().remove(r);
+				return true;
+			}
+		}
+		return true;
+	}
+	/**
+	 * Logs the user with the password and NIF given in the app.
+	 * Also checks that the offers asked for changes and the reserves are still on date to be changed(offers9 or paid(reserves)
+	 * Then logs the user in
 	 * @param NIF of the user
 	 * @param password of the user
 	 * @return true if the user logs in, false otherwise
@@ -329,40 +424,6 @@ public class Application implements Serializable{
 	 * @throws NotRegisteredUser if a user that it's not in the users list tries to log in
 	 */
 	public Boolean login(String NIF, String password) throws Exception {
-		try{
-			ObjectInputStream savedObject = new ObjectInputStream(new FileInputStream( "/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/" + name + ".objectData" ));
-			Application app = (Application)savedObject.readObject();
-			savedObject.close();
-			this.admNIF = app.getAdmNIF();
-			this.admPassword = app.getAdmPassword();
-			this.users = app.getUsers();
-			this.avoffers = app.getavoffers();
-		}
-		catch(FileNotFoundException excep1) {
-			System.out.println("CArgando");
-			BufferedReader buffer = new BufferedReader(	new InputStreamReader(new FileInputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/users.txt")));
-			String line;
-			line = buffer.readLine();
-			while((line = buffer.readLine()) != null) {
-				String[] words = line.split(";");
-				String[] fullname = words[2].split(",");
-				try{
-					for(User u : users ) {
-						if(u.getNIF().equals(words[2])) {
-							throw new InvalidNIF(words[2]);
-						}
-					}
-					users.add(new User(fullname[1], fullname[0], words[3], words[1], words[0], words[4], this));
-				}
-				catch(InvalidNIF excep2) {
-					System.out.println(excep2);
-				}
-			}
-			/*We also create the Admin Profile*/
-			users.add(new User("Admin", "istrator",admPassword, admNIF, "A", null, this ));
-			buffer.close();
-		}
-		
 		try {
 			for(User u : users) {
 				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
@@ -370,37 +431,21 @@ public class Application implements Serializable{
 					
 					if(log.isHost() == true) {
 						log.setState(UserStates.CONNECTED_HOST);
+						checkOffers(log,this);
 						return true;
 					}
 					else if(log.isGuest() == true) {
 						log.setState(UserStates.CONNECTED_GUEST);
-						for(Reserve r : log.getGuestProfile().getReserves()) {
-							if(r.getDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
-								if(r.getDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
-									if((ModifiableDate.getModifiableDate().getDayOfMonth() - r.getDate().getDayOfMonth()) > 5 ) {
-										log.getGuestProfile().getReserves().remove(r);
-									}
-								}
-								else if(r.getDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
-									log.getGuestProfile().getReserves().remove(r);
-								}
-							}
-							else if(r.getDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
-								log.getGuestProfile().getReserves().remove(r);
-							}
-						}
+						checkReserves(log);
 						return true;
 					}
 					else{
 						log.setState(UserStates.ADMIN);
 						return true;
-					}
-					
-				}
-				
+					}					
+				}				
 			}
-			throw new NotRegisteredUser();
-			
+			throw new NotRegisteredUser();			
 		}
 		catch(NotRegisteredUser excep){
 			System.out.println(excep);
@@ -419,7 +464,7 @@ public class Application implements Serializable{
 	public Boolean logout() throws Exception {
 		try {
 			ObjectOutputStream outputObject = new ObjectOutputStream(
-					new FileOutputStream("/home/danist/Documentos/UAM/PADSOF/Padsof/1000house/text/" + name + ".objectData"));
+					new FileOutputStream(name + ".objectData"));
 			
 			log.setState(UserStates.DISCONNECTED);
 			outputObject.writeObject(this);
