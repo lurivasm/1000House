@@ -524,7 +524,7 @@ public class Application implements Serializable{
 			ObjectOutputStream outputObject = new ObjectOutputStream(
 					new FileOutputStream(name + ".objectData"));
 			
-			log.setState(UserStates.DISCONNECTED);
+			if(log.getState().equals(UserStates.BANNED) == false) log.setState(UserStates.DISCONNECTED);
 			outputObject.writeObject(this);
 			outputObject.close();
 			log = null;

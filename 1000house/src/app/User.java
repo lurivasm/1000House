@@ -233,6 +233,7 @@ public class User implements Serializable {
 	public Boolean banUser() {
 		state = UserStates.BANNED;
 		app = null;
+		
 		return true;
 	}
 

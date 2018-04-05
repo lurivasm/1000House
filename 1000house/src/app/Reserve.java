@@ -52,9 +52,7 @@ public class Reserve implements Serializable{
 		/*Case the user is not a guest*/
 		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
-		/*We add it to guest's offers*/
-		if (guest.getGuestProfile().addOffer(offer) == false) return false;
-		if (guest.getGuestProfile().removeReserve(offer) == false) return false;
+		
 		/*We check the guest ccnumber and bann him in case is false*/
 		if(TeleChargeAndPaySystem.isValidCardNumber(guest.getGuestProfile().getccNumber()) == false) {
 			guest.banUser();
@@ -81,6 +79,9 @@ public class Reserve implements Serializable{
 			}
 		}
 		offer.setState(OfferStates.BOUGHT);
+		/*We add it to guest's offers*/
+		if (guest.getGuestProfile().addOffer(offer) == false) return false;
+		if (guest.getGuestProfile().removeReserve(offer) == false) return false;
 		return true;
 	}
 
