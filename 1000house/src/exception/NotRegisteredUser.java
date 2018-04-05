@@ -18,6 +18,6 @@ public class NotRegisteredUser extends Exception {
 	}
 	
 	public String toString() {
-		return "ERROR 403\nYou are not registered";
+		return "ERROR 403\nYou are not registered\n";
 	}
 }

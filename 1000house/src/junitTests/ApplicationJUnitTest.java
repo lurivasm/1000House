@@ -7,6 +7,7 @@ import exception.*;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -176,7 +177,9 @@ public class ApplicationJUnitTest {
 		l1= app.searchRate(3);		
 		assertEquals(l1.size(),1);
 	}
-
+	
+		
+	
 	/**
 	 * Test method for {@link app.Application#login(java.lang.String, java.lang.String)}.
 	 * This test first tries to login a user that is not registered,checking that he is not logged.
@@ -214,13 +217,13 @@ public class ApplicationJUnitTest {
 		House house = new House("LOCATION", "DESCRIPTION", c, 28974,u3);
 		u3.getHostProfile().getHouses().add(house);
 		app.setLog(u2);
-		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),50,3));
+		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),3,50,10));
 		u1.setState(UserStates.CONNECTED_HOST);
 		app.setLog(u1);
-		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),50,3));
-		assertFalse(app.createOffer(h, LocalDate.of(2018, 4, 5),50,3));
+		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),3,50,10));
+		assertFalse(app.createOffer(h, LocalDate.of(2018, 4, 5),3,50,10));
 		app.setLog(u3);
-		assertTrue(app.createOffer(house, LocalDate.of(2018, 4, 5),50,3));
+		assertTrue(app.createOffer(house, LocalDate.of(2018, 4, 5),3,50,10));
 	}
 
 	/**
@@ -236,13 +239,13 @@ public class ApplicationJUnitTest {
 		House house = new House("LOCATION", "DESCRIPTION", c, 28974,u3);
 		u3.getHostProfile().getHouses().add(house);
 		app.setLog(u2);
-		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
+		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50,10));
 		u1.setState(UserStates.CONNECTED_HOST);
 		app.setLog(u1);
-		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
-		assertFalse(app.createOffer(h, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
+		assertFalse(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50,10));
+		assertFalse(app.createOffer(h, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50,10));
 		app.setLog(u3);
-		assertTrue(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
+		assertTrue(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50,10));
 	}
 	
 	
@@ -261,5 +264,11 @@ public class ApplicationJUnitTest {
 		assertEquals(1,l.size());
 		app.setLog(u1);
 		assertEquals(null,app.getBannedUsers());
+	}
+	
+	@AfterClass
+	public static void afterClass() throws Exception{
+		File thanos = new File("Test.objectData");
+		thanos.delete();		
 	}
 }

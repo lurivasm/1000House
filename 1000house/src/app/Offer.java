@@ -21,12 +21,14 @@ public abstract class Offer implements Serializable{
 	protected Application app;
 	protected LocalDate iniDate;
 	protected int price;
+	protected int deposit;
 	protected OfferStates state;
 	protected double averageRate;
 	protected List<Comment> comments;
 	protected House house;
 	protected String changes;
 	protected LocalDate changesDate;
+
 	
 
 	/**
@@ -36,6 +38,7 @@ public abstract class Offer implements Serializable{
 	public Offer(LocalDate iniDate, int price,int deposit, House house, Application app) {
 		this.iniDate = iniDate;
 		this.price = price;
+		this.deposit = deposit;
 		this.house = house;
 		this.averageRate = 0;
 		this.state = OfferStates.WAITING;
@@ -214,7 +217,8 @@ public abstract class Offer implements Serializable{
 		averageRate = aux/cont;
 		return true;
 	}
-
+	
+	
 
 	/**
 	 * @return the iniDate
@@ -224,10 +228,12 @@ public abstract class Offer implements Serializable{
 	}
 
 	/**
+	 * Sets the iniDate and the user state as waiting for changes
 	 * @param iniDate the iniDate to set
 	 */
 	public void setIniDate(LocalDate iniDate) {
 		this.iniDate = iniDate;
+		state = OfferStates.WAITING;
 	}
 
 	/**
@@ -238,10 +244,12 @@ public abstract class Offer implements Serializable{
 	}
 
 	/**
+	 * Sets the price and the user state as waiting for changes
 	 * @param price the price to set
 	 */
 	public void setPrice(int price) {
 		this.price = price;
+		state = OfferStates.WAITING;
 	}
 
 	/**
@@ -346,6 +354,23 @@ public abstract class Offer implements Serializable{
 	 */
 	public void setChangesDate(LocalDate changesDate) {
 		this.changesDate = changesDate;
+	}
+
+
+	/**
+	 * @return the deposit
+	 */
+	public int getDeposit() {
+		return deposit;
+	}
+
+
+	/**
+	 * @param deposit the deposit to set
+	 */
+	public void setDeposit(int deposit) {
+		this.deposit = deposit;
+		state = OfferStates.WAITING;
 	}
 
 	

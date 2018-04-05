@@ -48,6 +48,7 @@ public class Application implements Serializable{
 			this.admPassword = app.getAdmPassword();
 			this.users = app.getUsers();
 			this.avoffers = app.getavoffers();
+			this.waitoffers = app.getwaitoffers();
 			savedObject.close();
 		}
 		catch(FileNotFoundException excep1) {
@@ -439,7 +440,7 @@ public class Application implements Serializable{
 	
 	/**
 	 * Checks that the user's reserves are still on date to be bought.
-	 * If it isn't on date,it removes it from the user-resrves list 
+	 * If it isn't on date,it removes it from the user-reserves list 
 	 * @param u
 	 * @return
 	 * @throws NotGuest
@@ -544,7 +545,7 @@ public class Application implements Serializable{
 	 * @throws NotOwner if a host tries to create an offer on a house that doesn't belong to him
 	 * @throws HouseOfferException if the house already has an offer of that type
 	 */
-	public Boolean createOffer(House house, LocalDate iniDate, int numMonths, int price) throws Exception {
+	public Boolean createOffer(House house, LocalDate iniDate, int numMonths, int price, int deposit) throws Exception {
 		try {
 			if(log.getState() != UserStates.CONNECTED_HOST) {
 				throw new NotHost();
@@ -552,7 +553,7 @@ public class Application implements Serializable{
 			if(log.getHostProfile().getHouses().contains(house) == false) {
 				throw new NotOwner();
 			}
-			LivingOffer o = new LivingOffer(iniDate, price, house, this, numMonths); 
+			LivingOffer o = new LivingOffer(iniDate, price, deposit, house, this, numMonths); 
 			house.getOffers().add(o);
 			waitoffers.add(o);
 			return true;
@@ -582,7 +583,7 @@ public class Application implements Serializable{
 	 * @throws NotOwner if a host tries to create an offer on a house that doesn't belong to him
 	 * @throws HouseOfferException if the house already has an offer of that type
 	 */
-	public Boolean createOffer(House house, LocalDate iniDate, LocalDate endDate, int price) throws Exception {
+	public Boolean createOffer(House house, LocalDate iniDate, LocalDate endDate, int price, int deposit) throws Exception {
 		try {
 			if(log.getState() != UserStates.CONNECTED_HOST) {
 				throw new NotHost();
@@ -590,7 +591,7 @@ public class Application implements Serializable{
 			if(log.getHostProfile().getHouses().contains(house) == false) {
 				throw new NotOwner();
 			}
-			HolidaysOffer o = new HolidaysOffer(iniDate, price, house, this, endDate); 
+			HolidaysOffer o = new HolidaysOffer(iniDate, price, deposit, house, this, endDate); 
 			house.getOffers().add(o);
 			waitoffers.add(o);
 			return true;

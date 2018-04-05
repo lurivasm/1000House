@@ -36,33 +36,9 @@ public class HolidaysOffer extends Offer implements Serializable{
 
 	}
 
-  /**
-	* When the offer is asked for changes, the host can change its characteristics
-  * @param iniDate the starting date
-  * @param price the price of the offer
-  * @param house the offerted house
-  * @param endDate the ending date
-	*	@throws NotHost if the user is not a host
-	* @throws NotOwner if the user who tries to modify the offer does not own it
-	* @return Boolean
-	*/
-	public Boolean changeOffer(LocalDate iniDate, int price, House house, LocalDate endDate) throws NotHost, NotOwner{
-		/*Case the user is not a host*/
-		if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost();
-		/*Case the host is not the owner of the offer*/
-		if (this.house.getHost().equals(app.getLog()) == false) throw new NotOwner();
-		/*Case the offer has not the state CHANGES*/
-		if (this.getState().equals(OfferStates.CHANGES) == false) return false;
-
-		this.iniDate = iniDate;
-		this.price = price;
-		this.house = house;
-		this.endDate = endDate;
-		return true;
-	}
-
 
   	/**
+  	 * Sets the endDate and the user state as waiting for changes
   	 * @return the endDate
   	 */
   	public LocalDate getendDate() {
@@ -74,5 +50,6 @@ public class HolidaysOffer extends Offer implements Serializable{
   	 */
   	public void setEndDate(LocalDate endDate) {
   		this.endDate = endDate;
+  		state = OfferStates.WAITING;
   	}
 }

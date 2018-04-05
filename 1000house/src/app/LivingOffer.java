@@ -36,31 +36,7 @@ public class LivingOffer extends Offer implements Serializable{
 
 	}
 
-  /**
-  * When the offer is asked for changes, the host can change its characteristics
-  * @param iniDate the starting date
-  * @param price the price of the offer
-  * @param house the offerted house
-  * @param numMonths the number of days the guest can be there
-  *	@throws NotHost if the user is not a host
-  * @throws NotOwner if the user who tries to modify the offer does not own it
-  * @return Boolean
-  */
-  public Boolean changeOffer(LocalDate iniDate, int price, House house, int numMonths) throws NotHost, NotOwner{
-    /*Case the user is not a host*/
-    if (app.getLog().getState().equals(UserStates.CONNECTED_HOST) == false) throw new NotHost();
-    /*Case the host is not the owner of the offer*/
-    if (this.house.getHost().equals(app.getLog()) == false) throw new NotOwner();
-    /*Case the offer has not the state CHANGES*/
-    if (this.getState().equals(OfferStates.CHANGES) == false) return false;
-
-    this.iniDate = iniDate;
-	this.price = price;
-	this.house = house;
-    this.numMonths = numMonths;
-    return true;
-  }
-
+ 
   	/**
   	 * @return the numMonths
   	 */
@@ -69,9 +45,11 @@ public class LivingOffer extends Offer implements Serializable{
   	}
 
   	/**
+  	 * Sets the numMonths and the user state as waiting for changes
   	 * @param numMonths the numMonths to set
   	 */
   	public void setnumMonths(int numMonths) {
   		this.numMonths = numMonths;
+  		state = OfferStates.WAITING;
   	}
 }
