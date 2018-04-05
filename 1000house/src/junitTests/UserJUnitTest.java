@@ -1,7 +1,7 @@
 /**
  * 
  */
-package testers;
+package junitTests;
 import exception.*;
 
 import static org.junit.Assert.*;
@@ -13,7 +13,7 @@ import app.*;
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class UserTest {
+public class UserJUnitTest {
 	
 	private User u1;
 	private User u2;

@@ -1,4 +1,4 @@
-package testers;
+package junitTests;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +15,7 @@ import app.*;
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class GuestTest {
+public class GuestJUnitTest {
 	Guest guest;
 	Application app;
 	User u1;

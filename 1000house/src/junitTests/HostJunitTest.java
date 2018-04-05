@@ -1,4 +1,4 @@
-package testers;
+package junitTests;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,7 @@ import app.*;
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class HostTest {
+public class HostJunitTest {
 	private Host host;
 	private Application app;
 	private User u1;

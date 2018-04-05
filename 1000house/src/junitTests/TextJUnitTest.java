@@ -1,4 +1,4 @@
-package testers;
+package junitTests;
 
 
 
@@ -15,7 +15,7 @@ import app.*;
  * @author Daniel Santo-Tomas <daniel.santo-tomas@estudiante.uam.es>
  *
  */
-public class TextTest {
+public class TextJUnitTest {
 	User u1;
 	User u2;
 	Offer offer;

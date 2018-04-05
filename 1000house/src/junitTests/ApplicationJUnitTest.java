@@ -1,7 +1,7 @@
 /**
  * 
  */
-package testers;
+package junitTests;
 
 import exception.*;
 
@@ -19,7 +19,7 @@ import app.*;
  * @author danist
  *
  */
-public class ApplicationTest {
+public class ApplicationJUnitTest {
 
 	
 	Application app;

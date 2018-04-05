@@ -1,7 +1,7 @@
 /**
  * 
  */
-package testers;
+package junitTests;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +17,7 @@ import exception.*;
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-public class HouseTest {
+public class HouseJUnitTest {
 	
 	House h1;
 	House h2;
