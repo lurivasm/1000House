@@ -23,7 +23,7 @@ public class Demo2 {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("Creating the app Demo. It was first created in the Demo1, so the constructor chrages the info from Demo1");
+		System.out.println("Creating the app Demo. It was first created in the Demo1, so the constructor charges the info from Demo1");
 		Application app = new Application("Demo");
 		System.out.println("App created!");
 		
@@ -228,6 +228,7 @@ public class Demo2 {
 			u.getHostProfile().changeCCNumber("6402894629053417", app);
 		}
 		u.restoreUser(app);
+		System.out.println("Now the debt is " +  u.getDebt() + "\n");
 		
 		System.out.println("Logging the Admin out...");
 		if(app.logout()){

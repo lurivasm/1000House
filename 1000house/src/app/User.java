@@ -253,6 +253,7 @@ public class User implements Serializable {
 			app.getBannedUsers().add(this);
 			if(debt != 0) {
 				TeleChargeAndPaySystem.charge(this.getHostProfile().getccNumber(), "Payment debts ", debt);
+				debt = 0;
 			}
 			return true;
 		} else {

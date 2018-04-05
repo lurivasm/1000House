@@ -40,7 +40,7 @@ public class GuestJUnitTest {
 		u2.setState(UserStates.ADMIN);
 		List<Characteristics> c = new ArrayList<Characteristics>() ;
 		House h = new House("L", "D", c, 654,u1);
-		offer = new HolidaysOffer(LocalDate.of(2018, 6, 3), 50,10, h, app, LocalDate.of(2018, 20, 3));
+		offer = new HolidaysOffer(LocalDate.of(2018, 6, 3), 50,10, h, app, LocalDate.of(2018, 12, 3));
 		reserve = new Reserve(u1,offer);
 	}
 

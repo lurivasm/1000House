@@ -1,0 +1,6 @@
+-DEMOS:
+	The demos must be executed following this order :Demo1,Demo2 and Demo3. If you want to restart the execution, you must execute the program called DESTROYER.
+-JUNIT:
+	We didn't implement the junit of the abstract classes. Instead, we tested their methods in the junit of the classes that inherit from them.
+-GOOD THINGS OF OUR IMPLEMENTATION:
+	To avoid castings, we created two methods in User,getHosProfile and getGuestProfile. If the user has the type of profile asked, it returns the profile from the user profile list,but instead of 	return it as Profile, returns it as Host or Guest, so you can access the methods without  a casting. 
