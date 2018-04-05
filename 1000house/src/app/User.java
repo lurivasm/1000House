@@ -249,6 +249,7 @@ public class User implements Serializable {
 		if (app.getLog().isAdmin() == true) {
 			state = UserStates.DISCONNECTED;
 			this.app = app;
+			app.getBannedUsers().add(this);
 			if(debt != 0) {
 				TeleChargeAndPaySystem.charge(this.getHostProfile().getccNumber(), "Payment debts ", debt);
 			}

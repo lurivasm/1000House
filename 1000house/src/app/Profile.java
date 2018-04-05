@@ -35,6 +35,15 @@ public abstract class Profile implements Serializable{
 	public String getccNumber() {
 		return ccNumber;
 	}
+	
+	
+
+	/**
+	 * @param ccNumber the ccNumber to set
+	 */
+	public void setCcNumber(String ccNumber) {
+		this.ccNumber = ccNumber;
+	}
 
 	/**
 	 * @param cCNumber
