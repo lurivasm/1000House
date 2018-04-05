@@ -44,7 +44,7 @@ public class TextJUnitTest {
 		house = new House("LOCATION1", "DESCRIPTION1", charact, 28974, u1);
 		ini = LocalDate.of(2018, 4, 28);
 		end =  LocalDate.of(2018, 5, 10);
-		offer =  new HolidaysOffer(ini, 1000, house, app, end);
+		offer =  new HolidaysOffer(ini, 1000, 200,house, app, end);
 		text = new Text("This offer is sublime", u2, offer);
 	}
 

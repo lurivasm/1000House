@@ -33,7 +33,7 @@ public abstract class Offer implements Serializable{
 	 * Constructor of an offer
 	 * @return New Offer
 	 */
-	public Offer(LocalDate iniDate, int price, House house, Application app) {
+	public Offer(LocalDate iniDate, int price,int deposit, House house, Application app) {
 		this.iniDate = iniDate;
 		this.price = price;
 		this.house = house;

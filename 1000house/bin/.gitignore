@@ -1,6 +1,6 @@
 /app/
-/exception/
-/modifiableDates/
-/testers/
-/junitTests/
 /classTesters/
+/exception/
+/junitTests/
+/modifiableDates/
+/appDemos/

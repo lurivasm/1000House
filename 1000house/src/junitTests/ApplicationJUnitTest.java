@@ -48,8 +48,8 @@ public class ApplicationJUnitTest {
 		List<Characteristics> c = new ArrayList<Characteristics>();
 		h = new House("LOCATION1", "DESCRIPTION1", c, 28974,u1);		
 		u1.getHostProfile().getHouses().add(h);
-		o1 = new HolidaysOffer(LocalDate.of(2018, 4, 5),50,u1.getHostProfile().getHouses().get(0),app,LocalDate.of(2018, 4, 20));
-		o2 = new LivingOffer(LocalDate.of(2018, 4, 5),50,u1.getHostProfile().getHouses().get(0),app,3);
+		o1 = new HolidaysOffer(LocalDate.of(2018, 4, 5), 50, 10, u1.getHostProfile().getHouses().get(0), app, LocalDate.of(2018, 4, 20));
+		o2 = new LivingOffer(LocalDate.of(2018, 4, 5), 50, 10, u1.getHostProfile().getHouses().get(0), app, 3);
 		h.getOffers().add(o1);
 		h.getOffers().add(o2);
 		app.getavoffers().add(o1);

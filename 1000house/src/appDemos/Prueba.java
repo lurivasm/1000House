@@ -1,4 +1,4 @@
-package classTesters;
+package appDemos;
 
 import app.Application;
 import app.HolidaysOffer;

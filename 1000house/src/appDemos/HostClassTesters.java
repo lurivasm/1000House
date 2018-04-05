@@ -1,7 +1,7 @@
 /**
  * 
  */
-package classTesters;
+package appDemos;
 import app.*;
 import exception.*;
 

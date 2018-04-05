@@ -24,8 +24,8 @@ public class LivingOffer extends Offer implements Serializable{
   * @return new LivingOffer
   * @throws HouseOfferException 
   */
-	public LivingOffer(LocalDate iniDate, int price, House house, Application app, int numMonths) throws HouseOfferException {
-		super(iniDate, price, house, app);
+	public LivingOffer(LocalDate iniDate, int price, int deposit, House house, Application app, int numMonths) throws HouseOfferException {
+		super(iniDate, price, deposit,  house, app);
 
 		for (Offer o : house.getOffers()) {
 			if (o instanceof LivingOffer) {

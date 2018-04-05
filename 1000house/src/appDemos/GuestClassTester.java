@@ -1,7 +1,7 @@
 /**
  * 
  */
-package classTesters;
+package appDemos;
 
 
 

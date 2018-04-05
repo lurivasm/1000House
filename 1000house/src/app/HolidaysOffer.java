@@ -24,8 +24,8 @@ public class HolidaysOffer extends Offer implements Serializable{
 	 * 
 	 * @return new HolidaysOffer
 	 */
-	public HolidaysOffer(LocalDate iniDate, int price, House house, Application app,LocalDate endDate) throws Exception {
-		super(iniDate, price, house, app);
+	public HolidaysOffer(LocalDate iniDate, int price, int deposit, House house, Application app,LocalDate endDate) throws Exception {
+		super(iniDate, price,deposit, house, app);
 
 		for (Offer o : house.getOffers()) {
 			if (o instanceof HolidaysOffer) {
