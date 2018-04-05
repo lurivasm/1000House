@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 import exception.*;
+import java.util.regex.Pattern;
+import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 
 /**
  * @author Lucia Rivas Molina <lucia.rivasmolina@estudiante.uam.es>
@@ -117,7 +119,7 @@ public abstract class Offer implements Serializable{
 	* @throws NotRegisteredUser in case the user is not Registered
 	* @return Boolean if the purchase has been successful or not
 	*/
-	public Boolean buyOffer() throws NotRegisteredUser, NotGuest{
+	public Boolean buyOffer() throws Exception{
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
@@ -125,10 +127,25 @@ public abstract class Offer implements Serializable{
 		/*Case the offer is not available*/
 		if (this.isAvailable() == false) return false;
 
-		/*Correct case*/
-		this.setState(OfferStates.BOUGHT);
-		if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
-		return true;
+		/*We check the guest ccnumber and bann him in case is false*/
+		if(TeleChargeAndPaySystem.isValidCardNumber(app.getLog().getGuestProfile().getccNumber()) == false) {
+			app.getLog().banUser();
+			app.logout();
+			return false;
+		}
+		/*Check host's ccnumber and bann him in case is false but guest buys the offer*/
+		else {
+			if(TeleChargeAndPaySystem.isValidCardNumber(house.getHost().getHostProfile().getccNumber()) == false) {
+				house.getHost().banUser();
+				house.getHost().getHostProfile().setDeb(deposit+price);
+			}
+			TeleChargeAndPaySystem.charge(app.getLog().getGuestProfile().getccNumber(), "Payment "+app.getLog().getName()+ app.getLog().getSurname(), price+deposit);
+			
+			/*Correct case*/
+			this.setState(OfferStates.BOUGHT);
+			if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
+			return true;
+		}
 	}
 
 

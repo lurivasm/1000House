@@ -214,14 +214,10 @@ public class User implements Serializable {
 	 * @throws BanException
 	 *             if someone who isn't the admin or the System tries to ban an user 
 	 */
-	public Boolean banUser() throws BanException {
-		if (app.getLog() == null || app.getLog().isAdmin()) {
-			state = UserStates.BANNED;
-			app = null;
-			return true;
-		} else {
-			throw new BanException();
-		}
+	public Boolean banUser() {
+		state = UserStates.BANNED;
+		app = null;
+		return true;
 	}
 
 	/**

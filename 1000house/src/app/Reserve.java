@@ -5,6 +5,7 @@ package app;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 import exception.*;
 
 
@@ -51,8 +52,23 @@ public class Reserve implements Serializable{
 		/*Case the user is not a guest*/
 		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
+		/*We add it to guest's offers*/
 		if (guest.getGuestProfile().addOffer(offer) == false) return false;
 		if (guest.getGuestProfile().removeReserve(offer) == false) return false;
+		/*We check the guest ccnumber and bann him in case is false*/
+		if(TeleChargeAndPaySystem.isValidCardNumber(guest.getGuestProfile().getccNumber()) == false) {
+			guest.banUser();
+			offer.getApp().logout();
+			return false;
+		}
+		/*Check host's ccnumber and bann him in case is false but guest buys the offer*/
+		else {
+			if(TeleChargeAndPaySystem.isValidCardNumber(offer.getHouse().getHost().getHostProfile().getccNumber()) == false) {
+				offer.getHouse().getHost().banUser();
+				offer.getHouse().getHost().getHostProfile().setDeb(offer.deposit+offer.price);
+			}
+			TeleChargeAndPaySystem.charge(offer.getApp().getLog().getGuestProfile().getccNumber(), "Payment "+offer.getApp().getLog().getName()+ offer.getApp().getLog().getSurname(), offer.price+offer.deposit);
+			
 		offer.setState(OfferStates.BOUGHT);
 		return true;
 	}
