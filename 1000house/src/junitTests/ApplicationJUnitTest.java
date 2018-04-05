@@ -255,7 +255,7 @@ public class ApplicationJUnitTest {
 	 * Finally, tries to ge the list when the logged user is not the admin, and checks it returns null
 	 */
 	@Test
-	public void testGetBannedUsers() throws BanException,NotAdmin {
+	public void testGetBannedUsers() throws NotAdmin {
 		List<User> l; 
 		app.setLog(u2);
 		app.getUsers().add(u3);

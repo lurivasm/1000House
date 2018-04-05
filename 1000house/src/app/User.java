@@ -3,7 +3,7 @@ package app;
 import java.util.*;
 
 import exception.*;
-
+import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 import java.io.*;
 
 /**
@@ -24,6 +24,7 @@ public class User implements Serializable {
 	private UserStates state = UserStates.DISCONNECTED;
 	private List<Profile> profile;
 	private Application app;
+	double debt = 0;
 
 	/**
 	 * @param name
@@ -175,6 +176,21 @@ public class User implements Serializable {
 	public void setApp(Application app) {
 		this.app = app;
 	}
+	
+	
+	/**
+	 * @return the debt
+	 */
+	public double getDebt() {
+		return debt;
+	}
+
+	/**
+	 * @param debt the debt to set
+	 */
+	public void setDebt(double debt) {
+		this.debt = debt;
+	}
 
 	/**
 	 * @return the host profile
@@ -183,7 +199,7 @@ public class User implements Serializable {
 		if(profile == null) {
 			throw new NotHost();
 		}
-		else if (profile.size() == 2 || state.equals(UserStates.CONNECTED_HOST)) {
+		else if (profile.size() == 2 || profile.get(0) instanceof Host) {
 			return (Host) profile.get(0);
 		} else {
 			throw new NotHost();
@@ -199,7 +215,7 @@ public class User implements Serializable {
 		}
 		else if (profile.size() == 2) {
 			return (Guest) profile.get(1);
-		} else if (state.equals(UserStates.CONNECTED_GUEST)) {
+		} else if (profile.get(0) instanceof Guest) {
 			return (Guest) profile.get(0);
 		} else {
 			throw new NotGuest();
@@ -222,17 +238,20 @@ public class User implements Serializable {
 
 	/**
 	 * Restore an user that had been banned, changing his state to disconnected and
-	 * restoring his acces to the appp
+	 * restoring his acces to the app.If debt is not 0, pays the user(only happens in host mode) the money to be paid
 	 * 
 	 * @param app
 	 * @return true if the user is restored correctly
 	 * @throws NotAdmin
 	 *             if someone who isn't the admin tries to restore an user
 	 */
-	public Boolean restoreUser(Application app) throws NotAdmin {
+	public Boolean restoreUser(Application app) throws Exception{
 		if (app.getLog().isAdmin() == true) {
 			state = UserStates.DISCONNECTED;
 			this.app = app;
+			if(debt != 0) {
+				TeleChargeAndPaySystem.charge(this.getHostProfile().getccNumber(), "Payment debts ", debt);
+			}
 			return true;
 		} else {
 			throw new NotAdmin();

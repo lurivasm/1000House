@@ -48,7 +48,7 @@ public class Reserve implements Serializable{
 	* @return Boolean in case he function has been successful or not
 	* @throws NotGuest in case the user is not a guest
 	*/
-	public Boolean payOffer() throws NotGuest{
+	public Boolean payOffer() throws Exception{
 		/*Case the user is not a guest*/
 		if (guest.getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 
@@ -64,11 +64,22 @@ public class Reserve implements Serializable{
 		/*Check host's ccnumber and bann him in case is false but guest buys the offer*/
 		else {
 			if(TeleChargeAndPaySystem.isValidCardNumber(offer.getHouse().getHost().getHostProfile().getccNumber()) == false) {
-				offer.getHouse().getHost().banUser();
-				offer.getHouse().getHost().getHostProfile().setDeb(offer.deposit+offer.price);
+				offer.getHouse().getHost().banUser(); 
+				if(offer instanceof HolidaysOffer) {
+					offer.getHouse().getHost().setDebt(offer.getPrice() - 0.2*offer.getPrice() +offer.getDeposit());
+				}
+				else {
+					offer.getHouse().getHost().setDebt(offer.getPrice() - 0.01*offer.getPrice() +offer.getDeposit());
+				}
+				
 			}
-			TeleChargeAndPaySystem.charge(offer.getApp().getLog().getGuestProfile().getccNumber(), "Payment "+offer.getApp().getLog().getName()+ offer.getApp().getLog().getSurname(), offer.price+offer.deposit);
-			
+			if(offer instanceof HolidaysOffer) {
+				TeleChargeAndPaySystem.charge(offer.getApp().getLog().getGuestProfile().getccNumber(), "Payment "+ offer.getApp().getLog().getName()+ offer.getApp().getLog().getSurname(), offer.getPrice() - 0.2*offer.getPrice() +offer.getDeposit());
+			}
+			else {
+				TeleChargeAndPaySystem.charge(offer.getApp().getLog().getGuestProfile().getccNumber(), "Payment "+ offer.getApp().getLog().getName()+ offer.getApp().getLog().getSurname(), offer.getPrice() - 0.01*offer.getPrice() +offer.getDeposit());
+			}
+		}
 		offer.setState(OfferStates.BOUGHT);
 		return true;
 	}

@@ -49,7 +49,12 @@ public class Application implements Serializable{
 			this.users = app.getUsers();
 			this.avoffers = app.getavoffers();
 			this.waitoffers = app.getwaitoffers();
-			savedObject.close();
+			for(Offer o : avoffers) {
+				o.setApp(this);
+			}
+			for(Offer o : waitoffers) {
+				o.setApp(this);
+			}
 		}
 		catch(FileNotFoundException excep1) {
 			
@@ -249,7 +254,7 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones of the type given
 	 * @param type of the offer
-	 * @return the list of Avavoffers
+	 * @return the list of avoffers
 	 */
 	public List<Offer> searchType(String type){
 		List<Offer> res = new ArrayList<Offer>();
@@ -276,7 +281,7 @@ public class Application implements Serializable{
 	/**
 	 * Search in the app offer list the ones where the house has the code  given as zip code
 	 * @param code of the house
-	 * @return the list of offers 
+	 * @return the list of avoffers 
 	 */
 	public List<Offer> searchCode(long code){
 		List<Offer> res = new ArrayList<Offer>();
@@ -450,17 +455,17 @@ public class Application implements Serializable{
 			if(r.getDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
 				if(r.getDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
 					if((ModifiableDate.getModifiableDate().getDayOfMonth() - r.getDate().getDayOfMonth()) > 5 ) {
-						u.getGuestProfile().getReserves().remove(r);
+						r.cancelReserve();
 						return true;
 					}
 				}
 				else if(r.getDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
-					u.getGuestProfile().getReserves().remove(r);
+					r.cancelReserve();
 					return true;
 				}
 			}
 			else if(r.getDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
-				u.getGuestProfile().getReserves().remove(r);
+				r.cancelReserve();
 				return true;
 			}
 		}

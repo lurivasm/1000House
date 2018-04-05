@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 import exception.*;
-import java.util.regex.Pattern;
 import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 
 /**
@@ -137,9 +136,19 @@ public abstract class Offer implements Serializable{
 		else {
 			if(TeleChargeAndPaySystem.isValidCardNumber(house.getHost().getHostProfile().getccNumber()) == false) {
 				house.getHost().banUser();
-				house.getHost().getHostProfile().setDeb(deposit+price);
+				if(this instanceof HolidaysOffer) {
+					house.getHost().setDebt(price - 0.2*price +deposit);
+				}
+				else {
+					house.getHost().setDebt(price - 0.01*price +deposit);
+				}
 			}
-			TeleChargeAndPaySystem.charge(app.getLog().getGuestProfile().getccNumber(), "Payment "+app.getLog().getName()+ app.getLog().getSurname(), price+deposit);
+			if(this instanceof HolidaysOffer) {
+				TeleChargeAndPaySystem.charge(app.getLog().getGuestProfile().getccNumber(), "Payment "+ app.getLog().getName()+ app.getLog().getSurname(), price - 0.2*price +deposit);
+			}
+			else {
+				TeleChargeAndPaySystem.charge(app.getLog().getGuestProfile().getccNumber(), "Payment "+ app.getLog().getName()+ app.getLog().getSurname(), price - 0.01*price +deposit);
+			}
 			
 			/*Correct case*/
 			this.setState(OfferStates.BOUGHT);

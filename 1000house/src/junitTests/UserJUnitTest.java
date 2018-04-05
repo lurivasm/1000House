@@ -30,7 +30,7 @@ public class UserJUnitTest {
 		app = new Application("Test");
 		u1 = new User( "Lucia", "Rivas Molina", "Gnomo69", "12796482F", "OD", "12345678" ,app);
 		u2 = new User( "Admin", "Istrator", "11223", "12796567M", "A", "1234577" ,app);
-		u3 = new User( "User", "3", "PATO", "12796082F", "O", "12300678" ,app);
+		u3 = new User( "User", "3", "PATO", "12796082F", "O", "1230067890456782" ,app);
 		u4 = new User( "User", "4", "Bsnjs", "34596482F", "D", "1585678" ,app);
 		u1.setState(UserStates.CONNECTED_GUEST);
 		u2.setState(UserStates.ADMIN);
@@ -103,24 +103,12 @@ public class UserJUnitTest {
 
 	/**
 	 * Test method for {@link app.User#banUser()}.
-	 * This test first tries to ban a user when the logged user is not the admin.
-	 * When the exception is thrown, prob changes his value to 1.
-	 * Finally, it bans a user ,after changing the logged user to the admin.
-	 * It checks that the value of prob is 1 ,the user state is banned and the user can't acces to the app(user.app is null)
+	 * This test bans a user
+	 * It checks that the user state is banned and the user can't acces to the app(user.app is null)
 	 */
 	@Test
-	public void testBanUser() throws BanException{
-		int prob = 0;
-		app.setLog(u1);
-		try {
-			u3.banUser();
-		}
-		catch(BanException excep) {
-			prob = 1;
-		}
-		app.setLog(u2);
+	public void testBanUser() {
 		u1.banUser();
-		assertEquals(prob, 1);
 		assertEquals(u1.getState(), UserStates.BANNED);
 		assertEquals(u1.getApp(), null);
 	}
@@ -133,7 +121,7 @@ public class UserJUnitTest {
 	 * It checks that the value of prob is 1 ,the user state is disconnected and the user can access to the app(user.app isn't null)
 	 */
 	@Test
-	public void testRestoreUser() throws NotAdmin,BanException {
+	public void testRestoreUser() throws Exception {
 		int prob = 0;
 		app.setLog(u2);
 		u3.banUser();
@@ -145,9 +133,11 @@ public class UserJUnitTest {
 			prob = 1;
 		}
 		app.setLog(u2);
+		u3.setDebt(90);
 		u3.restoreUser(app);
 		assertEquals(prob, 1);
 		assertEquals(u3.getState(), UserStates.DISCONNECTED);
+		assertNotSame(90,u3.getDebt());
 		assertNotSame(null, u1.getApp());
 	}
 
