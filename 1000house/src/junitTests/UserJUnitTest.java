@@ -109,13 +109,13 @@ public class UserJUnitTest {
 	 * It checks that the value of prob is 1 ,the user state is banned and the user can't acces to the app(user.app is null)
 	 */
 	@Test
-	public void testBanUser() throws NotAdmin{
+	public void testBanUser() throws BanException{
 		int prob = 0;
 		app.setLog(u1);
 		try {
 			u3.banUser();
 		}
-		catch(NotAdmin excep) {
+		catch(BanException excep) {
 			prob = 1;
 		}
 		app.setLog(u2);
@@ -133,7 +133,7 @@ public class UserJUnitTest {
 	 * It checks that the value of prob is 1 ,the user state is disconnected and the user can access to the app(user.app isn't null)
 	 */
 	@Test
-	public void testRestoreUser() throws NotAdmin {
+	public void testRestoreUser() throws NotAdmin,BanException {
 		int prob = 0;
 		app.setLog(u2);
 		u3.banUser();

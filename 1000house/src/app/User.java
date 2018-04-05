@@ -81,7 +81,7 @@ public class User implements Serializable {
 		}
 
 		else {
-			throw new WrongProfile(profile);
+			throw new WrongProfile();
 		}
 		this.app = app;
 	}
@@ -208,18 +208,19 @@ public class User implements Serializable {
 
 	/**
 	 * Bans a user, changing his state to banned an removing his access to the app
+	 * Only the admin or the system can ban users. The system bans users only when there is a problem in the payment.
 	 * 
 	 * @return true if the user is banned
-	 * @throws NotAdminm
-	 *             if someone who isn't the admin tries to ban an user
+	 * @throws BanException
+	 *             if someone who isn't the admin or the System tries to ban an user 
 	 */
-	public Boolean banUser() throws NotAdmin {
-		if (app.getLog().isAdmin() == true) {
+	public Boolean banUser() throws BanException {
+		if (app.getLog() == null || app.getLog().isAdmin()) {
 			state = UserStates.BANNED;
 			app = null;
 			return true;
 		} else {
-			throw new NotAdmin();
+			throw new BanException();
 		}
 	}
 
@@ -258,7 +259,7 @@ public class User implements Serializable {
 			state = UserStates.CONNECTED_HOST;
 			return true;
 		} else {
-			throw new WrongProfile(prof);
+			throw new WrongProfile();
 		}
 	}
 

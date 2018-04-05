@@ -609,5 +609,25 @@ public class Application implements Serializable{
 		}
 	}
 	
+	public List<User> getBannedUsers() throws NotAdmin{
+		try {
+			if(log.isAdmin() == false) {
+				throw new NotAdmin();
+			}
+			List<User> res = new ArrayList<User>();
+			for(User u : users) {
+				if(u.getState().equals(UserStates.BANNED)) {
+					res.add(u);
+				}
+			}
+			return res;
+		}
+		catch(NotAdmin excep) {
+			System.out.println(excep);
+			return null;
+		}
+		
+	}
+	
 }
 

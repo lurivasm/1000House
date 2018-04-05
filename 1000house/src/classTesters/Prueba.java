@@ -1,4 +1,4 @@
-package junitTests;
+package classTesters;
 
 import app.Application;
 import app.HolidaysOffer;

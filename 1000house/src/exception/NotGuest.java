@@ -15,6 +15,6 @@ public class NotGuest extends Exception {
 	
 	
 	public String toString() {
-		return "You are not the guest I'm looking for";
+		return "You are not the guest I'm looking for\n";
 	}
 }

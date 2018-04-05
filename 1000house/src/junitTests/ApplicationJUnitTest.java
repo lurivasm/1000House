@@ -59,6 +59,7 @@ public class ApplicationJUnitTest {
 
 	/**
 	 * Test method for {@link app.Application#Application(java.lang.String)}.
+	 * This test cretaes an app and checks that it has users in it user list
 	 */
 	@Test
 	public void testApplication() throws Exception{
@@ -243,5 +244,22 @@ public class ApplicationJUnitTest {
 		app.setLog(u3);
 		assertTrue(app.createOffer(house, LocalDate.of(2018, 4, 5),LocalDate.of(2018, 4, 20),50));
 	}
-
+	
+	
+	/**
+	 * Test method for {@link app.Application#getBannedUsers()}
+	 * This test first bans a user, teh gets the ist of banned users when the logged user is the admin,checking the resulting list has size 1
+	 * Finally, tries to ge the list when the logged user is not the admin, and checks it returns null
+	 */
+	@Test
+	public void testGetBannedUsers() throws BanException,NotAdmin {
+		List<User> l; 
+		app.setLog(u2);
+		app.getUsers().add(u3);
+		u3.banUser();
+		l = app.getBannedUsers();
+		assertEquals(1,l.size());
+		app.setLog(u1);
+		assertEquals(null,app.getBannedUsers());
+	}
 }
