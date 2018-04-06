@@ -10,6 +10,7 @@ import java.util.*;
 
 import app.*;
 import modifiableDates.*;
+import exception.*;
 
 /**
  * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
@@ -206,6 +207,63 @@ public class Demo3 {
 		System.out.println("Logging the Admin out...");
 		if(app.logout()){
 			System.out.println("Admin logged out!\n");
+		}
+		
+		System.out.println("Logging the other Host-Guest user in...");
+		if(app.login("54444111D", "olvidame") == true){
+			System.out.println("Guest logged!\n");
+		}
+		
+		System.out.println("The user tries to comment  an offer in host mode");
+		try{
+			app.getavoffers().get(0).commentOffer("Is good");
+		}
+		catch(NotGuest excep) {
+			System.out.println(excep);
+		}
+		
+		System.out.println("The user changes to guest mode and tries to comment a long long text");
+		app.getLog().changeProfile("D");
+		String aka = "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
+				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
+				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
+				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO";
+		app.getavoffers().get(0).commentOffer(aka);
+		
+		System.out.println("The user comments with a normal comment");
+		if(app.getavoffers().get(0).commentOffer("I love this offer") == true) {
+			System.out.println("Offer commented!\n");
+		}
+		System.out.println("The size of the offer comments list now is " + app.getavoffers().get(0).getComments().size());
+		
+		System.out.println("Logging the Host-Guest out...");
+		if(app.logout()){
+			System.out.println("User logged out!\n");
+		}
+		
+		System.out.println("Logging the Guest user in ...");
+		if(app.login("55555111Z", "NoSeSaBe") == true){
+			System.out.println("Guest logged!\n");
+		}
+		
+		System.out.println("The host tries to answer the comment with a rate of 100");
+		try{
+			((Text)app.getavoffers().get(0).getComments().get(0)).addAnswer(100);
+		}
+		catch(RateException excep1) {
+			System.out.println(excep1);
+		}
+		
+		System.out.println("The host answer the comment with a rate of 3");
+		if(((Text)app.getavoffers().get(0).getComments().get(0)).addAnswer(3) == true) {
+			System.out.println("Comment answered!\n");
+		}
+		System.out.println("The size of the comment answer list now is " +((Text)app.getavoffers().get(0).getComments().get(0)).getAnswers().size());
+		
+		
+		System.out.println("Logging the Guest out...");
+		if(app.logout()){
+			System.out.println("User logged out!\n");
 		}
 		
 		System.out.println("END OF THE TEST");

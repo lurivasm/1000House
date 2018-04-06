@@ -53,21 +53,22 @@ public class TextJUnitTest {
 	public void testAddAnswerRate() throws NotGuest, RateException{
 		int exRate = 0;
 		int exGuest = 0;
+		app.setLog(u2);
 		try{
-			text.addAnswer(6, u2, offer);
+			text.addAnswer(6);
 		}
 		catch(RateException ex) {
 			exRate = 1;
 		}
 		app.setLog(u1);
 		try {
-			text.addAnswer(5, u1, offer);
+			text.addAnswer(5);
 		}
 		catch(NotGuest excep) {
 			exGuest = 1;
 		}
 		app.setLog(u2);
-		assertTrue(text.addAnswer(3, u2, offer));
+		assertTrue(text.addAnswer(3));
 		assertEquals(exRate, 1);
 		assertEquals(exGuest, 1);
 	}
@@ -76,25 +77,26 @@ public class TextJUnitTest {
 	public void testAddAnswerText() throws Exception{
 		int exRate = 0;
 		int exGuest = 0;
+		app.setLog(u2);
 		String aka = "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
 				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
 				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO "
 				+ "Pipopipopipopipiiiiiiii pipopipopiiiiiiiiii pipopipiiiii CONTIGO PIPO";
 		try{
-			text.addAnswer(aka, u2, offer);
+			text.addAnswer(aka);
 		}
 		catch(TextException ex) {
 			exRate = 1;
 		}
 		app.setLog(u1);
 		try {
-			text.addAnswer(5, u1, offer);
+			text.addAnswer(5);
 		}
 		catch(NotGuest excep) {
 			exGuest = 1;
 		}
 		app.setLog(u2);
-		assertTrue(text.addAnswer(3, u2, offer));
+		assertTrue(text.addAnswer(3));
 		assertEquals(exRate, 1);
 		assertEquals(exGuest, 1);
 	}

@@ -44,9 +44,9 @@ public class Text extends Comment implements Serializable{
 	* @param offer the offer who is being commented
 	* @return Boolean if the function has been successful
 	*/
-	public Boolean addAnswer(String text, User user, Offer offer) throws TextException, NotGuest{
+	public Boolean addAnswer(String text) throws TextException, NotGuest{
 		if(offer.app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
-		Text t = new Text(text, user, offer);
+		Text t = new Text(text, offer.getApp().getLog(), offer);
 		if (answers.add(t) == false) return false;
 		return true;
 	}
@@ -58,9 +58,9 @@ public class Text extends Comment implements Serializable{
 	* @param offer the offer who is being commented
 	* @return Boolean if the function has been successful
 	*/
-	public Boolean addAnswer(int rate, User user, Offer offer) throws RateException, NotGuest{
+	public Boolean addAnswer(int rate) throws RateException, NotGuest{
 		if(offer.app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
-		Rate r = new Rate(rate, user, offer);
+		Rate r = new Rate(rate, offer.getApp().getLog(), offer);
 		if (answers.add(r) == false) return false;
 		return true;
 	}

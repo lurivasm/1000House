@@ -15,8 +15,8 @@ public abstract class Comment implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -547558948029079746L;
-	private User user;
-	private Offer offer;
+	protected User user;
+	protected Offer offer;
 
 	/**
 	* Constructor of Comment

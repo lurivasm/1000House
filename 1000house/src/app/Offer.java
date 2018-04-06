@@ -244,7 +244,31 @@ public abstract class Offer implements Serializable{
 		return true;
 	}
 	
-	
+	public Boolean commentOffer(int rate) throws Exception{
+		if(app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
+		try{
+			Rate r = new Rate(rate, app.getLog(), this);
+			comments.add(r);
+			return true;
+		}
+		catch(RateException excep) {
+			System.out.println(excep);
+			return false;
+		}
+	}
+		
+	public Boolean commentOffer(String text) throws Exception{
+		if(app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
+		try{
+			Text t = new Text(text, app.getLog(), this);
+			comments.add(t);
+			return true;
+		}
+		catch(TextException excep) {
+			System.out.println(excep);
+			return false;
+		}			
+	}
 
 	/**
 	 * @return the iniDate

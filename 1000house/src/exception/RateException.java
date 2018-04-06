@@ -23,6 +23,6 @@ public class RateException extends Exception {
 	}
 	
 	public String toString() {
-		return "The rate " + rate + " is not between 0 and 5";
+		return "The rate " + rate + " is not between 0 and 5\n";
 	}
 }
