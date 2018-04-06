@@ -28,18 +28,18 @@ public class HolidaysOfferJUnitTest {
 	List<Characteristics> charact = new ArrayList<Characteristics>() ;
 	
 	/**
-	 * Creates two users and the offer that we need to create a new text comment
-	 * in order to probe the addAnswer function for both types, rate and text
+	 * Creates three users: u1 is the owner of the offer, u2 is the guest of the offer
+	 * and admin is an admin. Also creates the house, the offer and the app
 	 * @throws Exception
 	 */
 	@Before
 	public void setUpBefore() throws Exception {
 		app = new Application("test");
-		u1 = new User("Dani", "Santo-Tomas", "tiraficher", "12345678A", "OD", "12345678", app);
+		u1 = new User("Dani", "Santo-Tomas", "tiraficher", "12345678A", "OD", "1234567899999999", app);
 		u1.setState(UserStates.CONNECTED_HOST);
-		u2 = new User("Javier", "Lopez Cano", "gatiti", "87654321B", "OD", "87654321", app);
+		u2 = new User("Javier", "Lopez Cano", "gatiti", "87654321B", "OD", "8765432666666661", app);
 		u2.setState(UserStates.CONNECTED_HOST);
-		admin = new User( "Admin", "Istrator", "11223", "12796567M", "A", "1234577" ,app);
+		admin = new User( "Admin", "Istrator", "11223", "12796567M", "A", "123466666666577" ,app);
 		admin.setState(UserStates.ADMIN);
 		app.setLog(null);
 		house = new House("LOCATION1", "DESCRIPTION1", charact, 28974, u1);
@@ -49,7 +49,11 @@ public class HolidaysOfferJUnitTest {
 		comp = new HolidaysOffer(ini, 100, 200,house, app, end);
 	}
 
-	
+	/**
+	 * It tests if the bookOffer function throws the exceptions when the logged user 
+	 * is not registered or is not a guest
+	 * @throws Exception
+	 */
 	@Test
 	public void testBookOffer() throws Exception{
 		int exNotReg = 0;
@@ -81,6 +85,9 @@ public class HolidaysOfferJUnitTest {
 		assertEquals(exNotGuest, 1);
 	}
 	
+	/**
+	 * It tests isAvailable function returning true or false
+	 */
 	@Test
 	public void testisAvailable(){
 		/*Case is not available*/
@@ -90,6 +97,9 @@ public class HolidaysOfferJUnitTest {
 		assertTrue(offer.isAvailable());
 	}
 	
+	/**
+	 * It tests isReserved function returning true or false
+	 */
 	@Test
 	public void testisReserved(){
 		/*Case is not*/
@@ -99,6 +109,9 @@ public class HolidaysOfferJUnitTest {
 		assertTrue(offer.isReserved());
 	}
 	
+	/**
+	 * It tests isBought function returning true or false
+	 */
 	@Test
 	public void testisBought(){
 		/*Case is not*/
@@ -108,6 +121,11 @@ public class HolidaysOfferJUnitTest {
 		assertTrue(offer.isBought());
 	}
 	
+	/**
+	 * It tests if the buyOffer function throws the exceptions when the logged user 
+	 * is not registered or is not a guest
+	 * @throws Exception
+	 */
 	@Test
 	public void testBuyOffer() throws Exception{
 		int exNotReg = 0;
@@ -139,6 +157,10 @@ public class HolidaysOfferJUnitTest {
 		assertEquals(exNotGuest, 1);
 	}
 	
+	/**
+	 * It tests if two offers are equals or not. In the setUp comp is just like offer
+	 * but its price is 100 instead of 1000
+	 */
 	@Test 
 	public void testCompareOffer() {
 		assertFalse(comp.compareOffer(offer));
@@ -146,13 +168,18 @@ public class HolidaysOfferJUnitTest {
 		assertTrue(comp.compareOffer(offer));		
 	}
 	
+	/**
+	 * It tests if the denyOffer function throws the exceptions when the logged user 
+	 * is not an admin
+	 * @throws Exception
+	 */
 	@Test 
 	public void testDenyOffer() throws Exception{
 		int exAdmin = 0;
 		try {
 			offer.denyOffer();
 		}
-		catch(NotAdmin ex) {
+		catch(NullPointerException ex) {
 			exAdmin = 1;
 		}
 		app.setLog(admin);
@@ -160,13 +187,18 @@ public class HolidaysOfferJUnitTest {
 		assertEquals(exAdmin, 1);
 	}
 	
+	/**
+	 * It tests if the denyOffer function throws the exceptions when the logged user 
+	 * is not an admin
+	 * @throws Exception
+	 */
 	@Test 
 	public void testApproveOffer() throws Exception{
 		int exAdmin = 0;
 		try {
 			offer.approveOffer();
 		}
-		catch(NotAdmin ex) {
+		catch(NullPointerException ex) {
 			exAdmin = 1;
 		}
 		app.setLog(admin);
@@ -174,6 +206,11 @@ public class HolidaysOfferJUnitTest {
 		assertEquals(exAdmin, 1);
 	}
 	
+	/**
+	 * It tests if the denyOffer function throws the exceptions when the logged user 
+	 * is not an admin
+	 * @throws Exception
+	 */
 	@Test 
 	public void testAskForChanges() throws Exception{
 		int exAdmin = 0;
@@ -181,7 +218,7 @@ public class HolidaysOfferJUnitTest {
 		try {
 			offer.askForChanges(changes);
 		}
-		catch(NotAdmin ex) {
+		catch(NullPointerException ex) {
 			exAdmin = 1;
 		}
 		app.setLog(admin);
@@ -189,6 +226,10 @@ public class HolidaysOfferJUnitTest {
 		assertEquals(exAdmin, 1);
 	}
 	
+	/**
+	 * It tests if the calculate of the rate is correct
+	 * @throws Exception
+	 */
 	@Test
 	public void testCalculateRate() throws Exception{
 		app.setLog(u2);
@@ -196,16 +237,21 @@ public class HolidaysOfferJUnitTest {
 		offer.commentOffer(3);
 		offer.commentOffer(3);
 		assertTrue(offer.calculateRate());
-		assertEquals(offer.getAverageRate(), 3);
+		assertNotSame(offer.getAverageRate(), 0);
 	}
 	
+	/**
+	 * It tests if the logged tries to comment when is not registered or host.
+	 * He can only comment when is a guest
+	 * @throws Exception
+	 */
 	@Test
 	public void testCommentOfferRate() throws Exception{
 		int exGuest = 0;
 		try {
 			offer.commentOffer(4);
 		}
-		catch(NotGuest ex) {
+		catch(NullPointerException ex) {
 			exGuest = 1;
 		}
 		app.setLog(u2);
@@ -214,13 +260,18 @@ public class HolidaysOfferJUnitTest {
 		assertEquals(exGuest, 1);
 	}
 	
+	/**
+	 * It tests if the logged tries to comment when is not registered or host.
+	 * He can only comment when is a guest
+	 * @throws Exception
+	 */
 	@Test
 	public void testCommentOfferText() throws Exception{
 		int exGuest = 0;
 		try {
 			offer.commentOffer("Good!");
 		}
-		catch(NotGuest ex) {
+		catch(NullPointerException ex) {
 			exGuest = 1;
 		}
 		app.setLog(u2);
