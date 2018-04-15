@@ -75,22 +75,11 @@ public abstract class Offer implements Serializable{
 		return false;
 	}
 
-	/**
-	* Returns true if the offer has any problem: is denied, waiting or asked for changes
-	* @return Boolean
-	*/
-	public Boolean hasProblem() {
-		if (OfferStates.WAITING.compareTo(state) == 0) return true;
-		else if (OfferStates.CHANGES.compareTo(state) == 0) return true;
-		else if (OfferStates.DENIED.compareTo(state) == 0) return true;
-		return false;
-	}
-
 
 	/**
 	* To reserve an offer it state changes to RESERVED
 	* It creates a new reserve and adds it to the guest's list
-	*	@throws NotGuest in case the user is not a guest
+	* @throws NotGuest in case the user is not a guest
 	* @throws NotRegisteredUser in case the user is not Registered
 	* @return Boolean if the reserve has been successful or not
 	*/
