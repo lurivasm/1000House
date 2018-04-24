@@ -1,6 +1,7 @@
-package coso;
+package windows;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -37,26 +38,13 @@ class LoginWindow extends JFrame {
 		passwordLabel = new JLabel("Password: ");
 		passwordF = new JPasswordField(10);
 		
-		// The left side of label will be located 5 pixels away from the left side of
-		// container
+		
 		textLayout.putConstraint(SpringLayout.WEST, passwordLabel, 30, SpringLayout.WEST, textPanel);
-		// The upper side of label will be located 5 pixels away from the upper part of
-		// container
 		textLayout.putConstraint(SpringLayout.SOUTH, passwordLabel, -8, SpringLayout.SOUTH, textPanel);
-		
-		// The left side of field will be located 5 pixels away from the right side of
-		// label
 		textLayout.putConstraint(SpringLayout.WEST, passwordF, 5, SpringLayout.EAST, passwordLabel);
-		// The upper side of the field will be located 5 pixels away from the upper side
-		// of container
-		
 		textLayout.putConstraint(SpringLayout.SOUTH, passwordF, -5, SpringLayout.SOUTH, textPanel);
-		// The upper part of label2 will be located 5 pixels away from the lower border
-		// of label
 		textLayout.putConstraint(SpringLayout.SOUTH, nifLabel, -8, SpringLayout.NORTH, passwordLabel);
-		// The RIGHT side of field will be aligned with the RIGHT side of field2
 		textLayout.putConstraint(SpringLayout.EAST, nifLabel, 0, SpringLayout.EAST, passwordLabel);
-		// El upper side of field2 will be located 5 pixels away from field.
 		textLayout.putConstraint(SpringLayout.SOUTH, field, -5, SpringLayout.NORTH, passwordF);
 		textLayout.putConstraint(SpringLayout.WEST, field, 0, SpringLayout.WEST, passwordF);
 	
@@ -151,6 +139,7 @@ class LoginWindow extends JFrame {
 		searchPanel.setPreferredSize(new Dimension(300, 300));
 		
 		cp.add(searchPanel,BorderLayout.CENTER);
+
 		
 		
 		this.pack(); // Important: subcomponents are located according to �
@@ -159,5 +148,10 @@ class LoginWindow extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+	}
+	
+	public void setLoginController(ActionListener c) {
+		login.addActionListener(c);	
+//		field.addActionListener(c);
 	}
 }
