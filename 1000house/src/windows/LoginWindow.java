@@ -11,19 +11,25 @@ class LoginWindow extends JFrame {
 	*/
 	private static final long serialVersionUID = 9102096458417906733L;
 	private JPanel buttonPanel = new JPanel();
-	private JPanel textPanel = new JPanel();// Hereda de JPanel
+	private JPanel textPanel = new JPanel();
 	private JPanel searchPanel = new JPanel();
-	private JPanel thePanel = new JPanel();
+	private JPanel loginPanel = new JPanel();
+	private JPanel profilePanel = new JPanel();		
+	private JPanel logoutPanel = new JPanel();
 	private JButton login = new JButton("Login");
-	private JLabel nifLabel, passwordLabel,title;
-	private JTextField field, passwordF;
+	private JButton profilebutton = new JButton("Profile");
+	private JButton logout = new JButton("Logout");
+	private JTextField nifField;
+	private JPasswordField passwordF;
 
 	public LoginWindow() {
 		super("An example form");
+		
+		JLabel nifLabel, passwordLabel,title;
+		
 		SpringLayout panelLayout = new SpringLayout();
-		thePanel.setLayout(panelLayout); 
-		// The button panel(JPanel) by default uses FlowLayout, so we do nothing
-		buttonPanel.add(login); // Components rendered with flow layout are shown ...
+		loginPanel.setLayout(panelLayout); 
+		buttonPanel.add(login); 
 		
 		
 		
@@ -34,7 +40,7 @@ class LoginWindow extends JFrame {
 
 		// Components to be located ...
 		nifLabel = new JLabel("NIF: ");
-		field = new JTextField(10);
+		nifField = new JTextField(10);
 		passwordLabel = new JLabel("Password: ");
 		passwordF = new JPasswordField(10);
 		
@@ -45,11 +51,11 @@ class LoginWindow extends JFrame {
 		textLayout.putConstraint(SpringLayout.SOUTH, passwordF, -5, SpringLayout.SOUTH, textPanel);
 		textLayout.putConstraint(SpringLayout.SOUTH, nifLabel, -8, SpringLayout.NORTH, passwordLabel);
 		textLayout.putConstraint(SpringLayout.EAST, nifLabel, 0, SpringLayout.EAST, passwordLabel);
-		textLayout.putConstraint(SpringLayout.SOUTH, field, -5, SpringLayout.NORTH, passwordF);
-		textLayout.putConstraint(SpringLayout.WEST, field, 0, SpringLayout.WEST, passwordF);
+		textLayout.putConstraint(SpringLayout.SOUTH, nifField, -5, SpringLayout.NORTH, passwordF);
+		textLayout.putConstraint(SpringLayout.WEST, nifField, 0, SpringLayout.WEST, passwordF);
 	
 		textPanel.add(nifLabel);
-		textPanel.add(field);
+		textPanel.add(nifField);
 		textPanel.add(passwordLabel);
 		textPanel.add(passwordF);
 		textPanel.setPreferredSize(new Dimension(1, 90)); // important: preferred size for this panel
@@ -57,20 +63,42 @@ class LoginWindow extends JFrame {
 		
 		
 		
-		panelLayout.putConstraint(SpringLayout.WEST, textPanel, 20, SpringLayout.WEST, thePanel);
-		panelLayout.putConstraint(SpringLayout.NORTH, textPanel, 20, SpringLayout.NORTH, thePanel);
-		panelLayout.putConstraint(SpringLayout.EAST, textPanel, 20, SpringLayout.EAST, thePanel);
-		panelLayout.putConstraint(SpringLayout.WEST, buttonPanel, 110, SpringLayout.WEST, thePanel);
+		panelLayout.putConstraint(SpringLayout.WEST, textPanel, 20, SpringLayout.WEST, loginPanel);
+		panelLayout.putConstraint(SpringLayout.NORTH, textPanel, 20, SpringLayout.NORTH, loginPanel);
+		panelLayout.putConstraint(SpringLayout.EAST, textPanel, 20, SpringLayout.EAST, loginPanel);
+		panelLayout.putConstraint(SpringLayout.WEST, buttonPanel, 110, SpringLayout.WEST, loginPanel);
 		panelLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 4 , SpringLayout.SOUTH, textPanel);	
 		
-		thePanel.add(textPanel);
-		thePanel.add(buttonPanel);
-		thePanel.setPreferredSize(new Dimension(290, 120)); //
+		loginPanel.add(textPanel);
+		loginPanel.add(buttonPanel);
+		loginPanel.setPreferredSize(new Dimension(290, 120)); //		
+		loginPanel.setVisible(false);
 		
-				
-		Container cp = this.getContentPane(); // Get the Frame container
+			
+		
+		GridLayout profLayout =new GridLayout(2,2);		
+		profilePanel.setLayout(profLayout);	
+		profLayout.setVgap(600);
+		profLayout.setHgap(50);
+		profilePanel.add(profilebutton);
+		profilePanel.add(new JPanel());
+		profilePanel.add(new JPanel());
+		profilePanel.add(new JPanel());
+		
+		
+		GridLayout logoutLayout =new GridLayout(2,2);
+		logoutPanel.setLayout(logoutLayout);
+		logoutLayout.setVgap(600);
+		logoutPanel.add(new JPanel());
+		logoutPanel.add(logout);
+		logoutPanel.add(new JPanel());
+		logoutPanel.add(new JPanel());
+		
+		Container cp = this.getContentPane(); 
 		cp.setLayout(new BorderLayout());		
-		cp.add(thePanel,BorderLayout.WEST);
+		cp.add(loginPanel,BorderLayout.WEST);
+		cp.add(profilePanel,BorderLayout.WEST);
+		cp.add(logoutPanel,BorderLayout.EAST);
 		title = new JLabel("1000HOUSE");
 		title.setHorizontalAlignment(JTextField.CENTER);
 		title.setFont(new Font("Tahoma",40,40));
@@ -101,19 +129,17 @@ class LoginWindow extends JFrame {
 		JTextField date2Field = new JTextField("day-month-year");
 		date1Field.setPreferredSize(new Dimension(120,23 ));
 		date2Field.setPreferredSize(new Dimension(120,23 ));
-		JPanel date1Panel = new JPanel();
-		JPanel date2Panel = new JPanel();
 		JPanel datesPanel = new JPanel();
-		datesPanel.setLayout(new BorderLayout());
+		datesPanel.setLayout(new GridLayout(2,2));
 		JPanel searchDatePanel = new JPanel();
-		JLabel date1Label = new JLabel("Date beggining : ");
-		JLabel date2Label = new JLabel("Date ending : ");
-		date1Panel.add(date1Label);
-		date1Panel.add(date1Field);
-		date2Panel.add(date2Label);
-		date2Panel.add(date2Field);
-		datesPanel.add(date1Panel, BorderLayout.EAST);
-		datesPanel.add(date2Panel,BorderLayout.SOUTH);
+		JLabel date1Label = new JLabel("Date beggining :");
+		JLabel date2Label = new JLabel("Date ending :");
+		date1Label.setHorizontalAlignment(JTextField.RIGHT);
+		date2Label.setHorizontalAlignment(JTextField.RIGHT);
+		datesPanel.add(date1Label);
+		datesPanel.add(date1Field);
+		datesPanel.add(date2Label);
+		datesPanel.add(date2Field);
 		JButton searchButton3 = new JButton("SEARCH");
 		searchDatePanel.add(datesPanel);
 		searchDatePanel.add(searchButton3);
@@ -130,7 +156,7 @@ class LoginWindow extends JFrame {
 		searchLayout.putConstraint(SpringLayout.NORTH, searchCodePanel, 30, SpringLayout.SOUTH, searchTypePanel);
 		searchLayout.putConstraint(SpringLayout.WEST, search, 50, SpringLayout.WEST, searchTypePanel);
 		searchLayout.putConstraint(SpringLayout.SOUTH, search, -15, SpringLayout.NORTH, searchTypePanel);
-		searchLayout.putConstraint(SpringLayout.WEST, searchDatePanel, 0, SpringLayout.WEST, searchCodePanel);
+		searchLayout.putConstraint(SpringLayout.WEST, searchDatePanel, -15, SpringLayout.WEST, searchCodePanel);
 		searchLayout.putConstraint(SpringLayout.NORTH, searchDatePanel, 30, SpringLayout.SOUTH, searchCodePanel);
 		searchPanel.add(searchTypePanel);
 		searchPanel.add(searchCodePanel);
@@ -150,8 +176,20 @@ class LoginWindow extends JFrame {
 		
 	}
 	
+	public String getNif() {
+		return nifField.getText();
+	}
+	
+	public String getPassword() {
+		String p = "";
+		for(char c : passwordF.getPassword()) {
+			p = p + c;
+		}
+		return p;
+	}
+	
+	
 	public void setLoginController(ActionListener c) {
 		login.addActionListener(c);	
-//		field.addActionListener(c);
 	}
 }

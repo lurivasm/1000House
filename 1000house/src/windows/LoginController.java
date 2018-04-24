@@ -8,16 +8,19 @@ import javax.swing.*;
 
 
 public class LoginController implements ActionListener {
-	Application app;
+	Application model;
+	LoginWindow view;
 	
-	public LoginController() throws Exception{
-		app = new Application("ventanas");
+	public LoginController(LoginWindow l_, Application model) throws Exception{
+		view = l_;
+		this.model = model;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		System.out.println("Tu contraseña es: " + view.getPassword());
+		System.out.println("Tu nif es: " + view.getNif());
 		
-		System.out.println("EEY");
 		
 	}
 	

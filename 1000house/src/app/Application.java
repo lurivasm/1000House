@@ -32,7 +32,7 @@ public class Application implements Serializable{
 	private List<Offer> waitoffers = new ArrayList<Offer>();
 	
 	
-	
+		
 	/**
 	 * Sets the name of the application and if it's the first time that someone creates that app, it creates the user list (readed from file) and the admin user.
 	 * Otherwise, reads the saved app and restores the values it had the last time someone created it.
@@ -83,6 +83,7 @@ public class Application implements Serializable{
 	}
 
 
+	
 	/**
 	 * @return the name
 	 */
