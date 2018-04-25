@@ -17,16 +17,23 @@ public class LoginWindow extends JFrame {
 	private JPanel loginPanel = new JPanel();// Panel where the buttonpanel and the textpanel will be located
 	private JPanel profilePanel = new JPanel();	//Panel with the profile butt
 	private JPanel logoutPanel = new JPanel();//Panel with lthe logout button
+	private JPanel searchStatePanel = new JPanel(); // Panel of the bought or booked search
+	private JPanel searchRatePanel = new JPanel(); // Panel for the rate search
 	private JButton login = new JButton("Login");//Login button
 	private JButton profilebutton = new JButton("Profile");//Profile button
 	private JButton logout = new JButton("Logout");//Logout button
 	private JButton searchButton1 = new JButton("SEARCH");//Search button for the types search
 	private JButton searchButton2 = new JButton("SEARCH");//Search button for the code search
 	private JButton searchButton3 = new JButton("SEARCH");// Search button for the dates search
+	private JButton searchButton4 = new JButton("SEARCH");// Search button for the states search
+	private JButton searchButton5 = new JButton("SEARCH");// Search button for the rate search
 	private JTextField nifField;//Text field of the Nif
 	private JPasswordField passwordF;//Field of the password
 	private JTextField codeField; // field for the code search
+	private JTextField rateField; //Field for the rate search
 	private JComboBox<String> typesBox ;//ComboBox for the types search
+	private JComboBox<String> statesBox ;//ComboBox for the state search
+	private SpringLayout searchLayout;
 
 	public LoginWindow() {
 		super("1000House");
@@ -95,7 +102,6 @@ public class LoginWindow extends JFrame {
 		profilePanel.add(new JPanel());
 		
 		
-		
 		GridLayout logoutLayout =new GridLayout(2,2);// we set the layout as a  2x2 grid layout
 		logoutPanel.setLayout(logoutLayout);
 		logoutLayout.setVgap(600);//We set the vertical distance between the different components of the panel
@@ -107,7 +113,7 @@ public class LoginWindow extends JFrame {
 		
 		//Now we start with the search part.Each search will have a panel, that will be located in a different part of a bigger panel
 		
-		SpringLayout searchLayout = new SpringLayout();//We create the layout of the searchPanel
+		searchLayout = new SpringLayout();//We create the layout of the searchPanel
 		searchPanel.setLayout(searchLayout);
 		
 		//First,the types search
@@ -122,7 +128,7 @@ public class LoginWindow extends JFrame {
 		searchTypePanel.add(searchButton1);
 		//We put the type panel in his place in the seacrh panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchTypePanel, 80, SpringLayout.WEST, searchPanel);
-		searchLayout.putConstraint(SpringLayout.NORTH, searchTypePanel, 200, SpringLayout.NORTH, searchPanel);
+		searchLayout.putConstraint(SpringLayout.NORTH, searchTypePanel, 150, SpringLayout.NORTH, searchPanel);
 		searchPanel.add(searchTypePanel);
 		
 		//Secondly, the code search
@@ -139,7 +145,7 @@ public class LoginWindow extends JFrame {
 		searchLayout.putConstraint(SpringLayout.NORTH, searchCodePanel, 30, SpringLayout.SOUTH, searchTypePanel);
 		searchPanel.add(searchCodePanel);
 		
-		//Finally, the dates seacrh panel
+		//Then, the dates seacrh panel
 		JTextField date1Field = new JTextField("day-month-year");//We create the two Fields for the dates
 		JTextField date2Field = new JTextField("day-month-year");
 		date1Field.setPreferredSize(new Dimension(120,23 ));
@@ -156,13 +162,44 @@ public class LoginWindow extends JFrame {
 		datesPanel.add(date2Label);
 		datesPanel.add(date2Field);
 		JPanel searchDatePanel = new JPanel();// We create the bigger panel, that has flow layout(default)
-		//We add in order the dates panle and the button
+		//We add in order the dates panel and the button
 		searchDatePanel.add(datesPanel);
 		searchDatePanel.add(searchButton3);
 		//We put the search dates panel in his place in the search panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchDatePanel, -15, SpringLayout.WEST, searchCodePanel);
 		searchLayout.putConstraint(SpringLayout.NORTH, searchDatePanel, 30, SpringLayout.SOUTH, searchCodePanel);
 		searchPanel.add(searchDatePanel);
+		
+		//Now the search state panel. It would be invisible until the user is logged in
+		String[] states = {"Bought","Booked"};
+		statesBox = new JComboBox<String>(states);//We create a combobox with the two options
+		statesBox.setPreferredSize(new Dimension(120,23 ));
+		searchStatePanel = new JPanel();//We create the panel.It has Flow LAyout(default)
+		JLabel stateLabel = new JLabel("State : ");//We create the label
+		//We add the components in the order we want them to appear
+		searchStatePanel.add(stateLabel);
+		searchStatePanel.add(statesBox);
+		searchStatePanel.add(searchButton4);
+		//We put the type panel in his place in the seacrh panel, and add it
+		searchLayout.putConstraint(SpringLayout.WEST, searchStatePanel, 15, SpringLayout.WEST, searchDatePanel);
+		searchLayout.putConstraint(SpringLayout.NORTH, searchStatePanel, 30, SpringLayout.SOUTH, searchDatePanel);
+		searchPanel.add(searchStatePanel);
+		searchStatePanel.setVisible(false);
+		
+		//Finally, we create the search rate panel. It would be invisible until the user is logged in
+		rateField = new JTextField();//we create the text field
+		rateField.setPreferredSize(new Dimension(120,23 ));
+		JLabel rateLabel = new JLabel("Rate : ");// we create the label
+		//We add the components in the order we want them to appear
+		searchRatePanel.add(rateLabel);
+		searchRatePanel.add(rateField);
+		searchRatePanel.add(searchButton5);
+//		We put the code panel in his place in the seacrh panel, and add it
+		searchLayout.putConstraint(SpringLayout.WEST, searchRatePanel, 7, SpringLayout.WEST, searchStatePanel);
+		searchLayout.putConstraint(SpringLayout.NORTH, searchRatePanel, 30, SpringLayout.SOUTH, searchStatePanel);
+		searchPanel.add(searchRatePanel);
+		searchRatePanel.setVisible(false);
+		
 		
 		//We also create a title and put it on the top of the search panels
 		JLabel search = new JLabel("SEARCH IN THE APP!");
@@ -198,6 +235,9 @@ public class LoginWindow extends JFrame {
 		loginPanel.setVisible(false);
 		cp.add(profilePanel,BorderLayout.WEST);
 		cp.add(logoutPanel, BorderLayout.EAST);
+		searchStatePanel.setVisible(true);
+		searchRatePanel.setVisible(true);
+		
 	}
 	
 	public void  setUserLogout() {
@@ -207,7 +247,9 @@ public class LoginWindow extends JFrame {
 		nifField.setText("");
 		passwordF.setText("");
 		cp.add(loginPanel,BorderLayout.WEST);
-		cp.add(new JPanel(), BorderLayout.EAST);		
+		cp.add(new JPanel(), BorderLayout.EAST);
+		searchStatePanel.setVisible(false);
+		searchRatePanel.setVisible(false);
 	}
 	public void setLoginController(ActionListener c) {
 		login.addActionListener(c);	
