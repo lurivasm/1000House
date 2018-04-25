@@ -1,5 +1,7 @@
-package windows;
+package controllers;
 import app.*;
+import exception.*;
+import windows.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +20,13 @@ public class LoginController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("Tu contraseña es: " + view.getPassword());
-		System.out.println("Tu nif es: " + view.getNif());
-		
-		
+		try {
+			model.login(view.getNif(), view.getPassword());
+			view.setUserLogin();
+		}
+		catch(NotRegisteredUser e) {
+			JOptionPane.showMessageDialog(view,e );
+		}		
 	}
 	
 	

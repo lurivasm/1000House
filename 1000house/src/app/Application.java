@@ -413,31 +413,35 @@ public class Application implements Serializable{
 	 * @return true
 	 * @throws NotHost
 	 */
-	private Boolean checkOffers(User u, Application app) throws NotHost{
-		for(House h  : u.getHostProfile().getHouses()) {
-			for(Offer o:h.getOffers()) {
-				if(o.getState().equals(OfferStates.CHANGES)) {
-					if(o.getChangesDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
-						if(o.getChangesDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
-							if((ModifiableDate.getModifiableDate().getDayOfMonth() - o.getChangesDate().getDayOfMonth()) > 5 ) {
+	private Boolean checkOffers(User u, Application app) {
+		try {
+			for(House h  : u.getHostProfile().getHouses()) {
+				for(Offer o:h.getOffers()) {
+					if(o.getState().equals(OfferStates.CHANGES)) {
+						if(o.getChangesDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
+							if(o.getChangesDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
+								if((ModifiableDate.getModifiableDate().getDayOfMonth() - o.getChangesDate().getDayOfMonth()) > 5 ) {
+									app.getwaitoffers().remove(o);
+									o.setState(OfferStates.DENIED);
+									return true;
+								}
+							}
+							else if(o.getChangesDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
 								app.getwaitoffers().remove(o);
 								o.setState(OfferStates.DENIED);
 								return true;
 							}
 						}
-						else if(o.getChangesDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
+						else if(o.getChangesDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
 							app.getwaitoffers().remove(o);
 							o.setState(OfferStates.DENIED);
 							return true;
 						}
 					}
-					else if(o.getChangesDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
-						app.getwaitoffers().remove(o);
-						o.setState(OfferStates.DENIED);
-						return true;
-					}
 				}
 			}
+		} catch (NotHost e) {
+			e.printStackTrace();
 		}
 		return true;
 	}
@@ -451,24 +455,28 @@ public class Application implements Serializable{
 	 * @return
 	 * @throws NotGuest
 	 */
-	private Boolean checkReserves(User u) throws NotGuest{
-		for(Reserve r : u.getGuestProfile().getReserves()) {
-			if(r.getDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
-				if(r.getDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
-					if((ModifiableDate.getModifiableDate().getDayOfMonth() - r.getDate().getDayOfMonth()) > 5 ) {
+	private Boolean checkReserves(User u){
+		try {
+			for(Reserve r : u.getGuestProfile().getReserves()) {
+				if(r.getDate().getYear() == ModifiableDate.getModifiableDate().getYear()) {
+					if(r.getDate().getMonthValue() == ModifiableDate.getModifiableDate().getMonthValue()) {
+						if((ModifiableDate.getModifiableDate().getDayOfMonth() - r.getDate().getDayOfMonth()) > 5 ) {
+							r.cancelReserve();
+							return true;
+						}
+					}
+					else if(r.getDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
 						r.cancelReserve();
 						return true;
 					}
 				}
-				else if(r.getDate().getMonthValue() < ModifiableDate.getModifiableDate().getMonthValue()) {
+				else if(r.getDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
 					r.cancelReserve();
 					return true;
 				}
 			}
-			else if(r.getDate().getYear() < ModifiableDate.getModifiableDate().getYear()) {
-				r.cancelReserve();
-				return true;
-			}
+		} catch (NotGuest e) {
+			e.printStackTrace();
 		}
 		return true;
 	}
@@ -482,8 +490,7 @@ public class Application implements Serializable{
 	 * @throws InvalidNIF if there is an user in the file with the same NIF that another user
 	 * @throws NotRegisteredUser if a user that it's not in the users list tries to log in
 	 */
-	public Boolean login(String NIF, String password) throws Exception {
-		try {
+	public Boolean login(String NIF, String password) throws NotRegisteredUser {
 			for(User u : users) {
 				if(u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
 					log = u;
@@ -506,21 +513,14 @@ public class Application implements Serializable{
 			}
 			throw new NotRegisteredUser();			
 		}
-		catch(NotRegisteredUser excep){
-			System.out.println(excep);
-			return false;
-		}
-		
-		
-		
-	}
+	
 	
 	/**
 	 * Logs the user out of the app, saving the state of the app in an .objectData
 	 * @return true if everything is correct, false otherwise
 	 * @throws Exception
 	 */
-	public Boolean logout() throws Exception {
+	public Boolean logout()  {
 		try {
 			ObjectOutputStream outputObject = new ObjectOutputStream(
 					new FileOutputStream(name + ".objectData"));
@@ -530,7 +530,7 @@ public class Application implements Serializable{
 			outputObject.close();
 			log = null;
 			return true;
-		} catch (Exception excep) {
+		} catch (IOException excep) {
 			System.out.println(excep);
 			return false;
 		}

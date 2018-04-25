@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-class LoginWindow extends JFrame {
+public class LoginWindow extends JFrame {
 	/**
 	* 
 	*/
@@ -29,7 +29,7 @@ class LoginWindow extends JFrame {
 	private JComboBox<String> typesBox ;//ComboBox for the types search
 
 	public LoginWindow() {
-		super("An example form");
+		super("1000House");
 		
 		cp.setLayout(new BorderLayout());//We set the layout of the container as border layout
 		
@@ -171,14 +171,11 @@ class LoginWindow extends JFrame {
 		searchLayout.putConstraint(SpringLayout.SOUTH, search, -15, SpringLayout.NORTH, searchTypePanel);		
 		searchPanel.add(search);
 		
-//		searchPanel.setPreferredSize(new Dimension(300, 300));
-		
-		cp.add(searchPanel,BorderLayout.CENTER);
-
+		cp.add(searchPanel,BorderLayout.CENTER);//We add the whole search panel in the center of the window
 		
 		
-		this.pack(); // Important: subcomponents are located according to �
-		// layout using their prefered sizes.
+		
+		this.pack(); // Important: subcomponents are located according to theirlayout using their prefered sizes.		
 		this.setSize(900, 700);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -197,8 +194,26 @@ class LoginWindow extends JFrame {
 		return p;
 	}
 	
+	public void setUserLogin() {
+		loginPanel.setVisible(false);
+		cp.add(profilePanel,BorderLayout.WEST);
+		cp.add(logoutPanel, BorderLayout.EAST);
+	}
 	
+	public void  setUserLogout() {
+		profilePanel.setVisible(false);
+		logoutPanel.setVisible(false);
+		loginPanel.setVisible(true);
+		nifField.setText("");
+		passwordF.setText("");
+		cp.add(loginPanel,BorderLayout.WEST);
+		cp.add(new JPanel(), BorderLayout.EAST);		
+	}
 	public void setLoginController(ActionListener c) {
 		login.addActionListener(c);	
 	}
+	public void setLogoutController(ActionListener c) {
+		logout.addActionListener(c);	
+	}
+	
 }
