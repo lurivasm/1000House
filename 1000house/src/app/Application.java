@@ -259,7 +259,7 @@ public class Application implements Serializable{
 	 */
 	public List<Offer> searchType(String type){
 		List<Offer> res = new ArrayList<Offer>();
-		if(type.equals("Holidays")) {
+		if(type.equals("Holiday")) {
 			for(Offer o : avoffers) {
 				if(o instanceof HolidaysOffer) {
 					res.add(o);

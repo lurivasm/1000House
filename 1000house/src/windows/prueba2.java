@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.*;
-import exception.*;
+import controllers.*;
 
 public class prueba2 {
 
@@ -18,7 +18,7 @@ public class prueba2 {
 		LocalDate init = LocalDate.of(2018, 4, 28);
 		Offer offer18 =  new LivingOffer(init, 1000, 200,ha, app, 4);
 		l.add(offer18);
-		for(int i = 0;i < 10;i++) {
+		for(int i = 0;i < 20;i++) {
 			House h = new House("Potato street Madrid" + i,"jhf", new ArrayList<Characteristics>(),47625 ,u1);
 			LocalDate ini = LocalDate.of(2018, 4, 28);
 			Offer offer1 =  new LivingOffer(ini, 1000, 200,h, app, 4);
@@ -27,7 +27,9 @@ public class prueba2 {
 			l.add(offer1);
 			l.add(offer2);			
 		}
-		searchWindow w = new searchWindow(l);
+		SearchWindow w = new SearchWindow(l);
+		w.setNextPrevController(new NextPrevController(w,app));
+		w.setMenuController(new MenuController(w,app));
 		
 	}
 

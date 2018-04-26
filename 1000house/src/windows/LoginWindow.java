@@ -29,6 +29,8 @@ public class LoginWindow extends JFrame {
 	private JButton searchButton5 = new JButton("SEARCH");// Search button for the rate search
 	private JTextField nifField;//Text field of the Nif
 	private JPasswordField passwordF;//Field of the password
+	private JTextField date1Field = new JTextField("day-month-year");//We create the two Fields for the dates
+	private JTextField date2Field = new JTextField("day-month-year");
 	private JTextField codeField; // field for the code search
 	private JTextField rateField; //Field for the rate search
 	private JComboBox<String> typesBox ;//ComboBox for the types search
@@ -125,11 +127,14 @@ public class LoginWindow extends JFrame {
 		//We add the components in the order we want them to appear
 		searchTypePanel.add(typeLabel);
 		searchTypePanel.add(typesBox);
+		searchButton1.setName("type"); // w set the name of the button to type
 		searchTypePanel.add(searchButton1);
 		//We put the type panel in his place in the seacrh panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchTypePanel, 80, SpringLayout.WEST, searchPanel);
 		searchLayout.putConstraint(SpringLayout.NORTH, searchTypePanel, 150, SpringLayout.NORTH, searchPanel);
 		searchPanel.add(searchTypePanel);
+		
+		
 		
 		//Secondly, the code search
 		codeField = new JTextField();//we create the text field
@@ -139,6 +144,7 @@ public class LoginWindow extends JFrame {
 		//We add the components in the order we want them to appear
 		searchCodePanel.add(codeLabel);
 		searchCodePanel.add(codeField);
+		searchButton2.setName("code"); // w set the name of the button to code
 		searchCodePanel.add(searchButton2);
 		//We put the code panel in his place in the seacrh panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchCodePanel, -2, SpringLayout.WEST, searchTypePanel);
@@ -146,8 +152,6 @@ public class LoginWindow extends JFrame {
 		searchPanel.add(searchCodePanel);
 		
 		//Then, the dates seacrh panel
-		JTextField date1Field = new JTextField("day-month-year");//We create the two Fields for the dates
-		JTextField date2Field = new JTextField("day-month-year");
 		date1Field.setPreferredSize(new Dimension(120,23 ));
 		date2Field.setPreferredSize(new Dimension(120,23 ));
 		JPanel datesPanel = new JPanel();// We create the panel and set his layout as a 2x2 grid layout
@@ -164,6 +168,7 @@ public class LoginWindow extends JFrame {
 		JPanel searchDatePanel = new JPanel();// We create the bigger panel, that has flow layout(default)
 		//We add in order the dates panel and the button
 		searchDatePanel.add(datesPanel);
+		searchButton3.setName("date"); // w set the name of the button to date
 		searchDatePanel.add(searchButton3);
 		//We put the search dates panel in his place in the search panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchDatePanel, -15, SpringLayout.WEST, searchCodePanel);
@@ -179,6 +184,7 @@ public class LoginWindow extends JFrame {
 		//We add the components in the order we want them to appear
 		searchStatePanel.add(stateLabel);
 		searchStatePanel.add(statesBox);
+		searchButton4.setName("state"); // w set the name of the button to state
 		searchStatePanel.add(searchButton4);
 		//We put the type panel in his place in the seacrh panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchStatePanel, 15, SpringLayout.WEST, searchDatePanel);
@@ -193,6 +199,7 @@ public class LoginWindow extends JFrame {
 		//We add the components in the order we want them to appear
 		searchRatePanel.add(rateLabel);
 		searchRatePanel.add(rateField);
+		searchButton5.setName("rate"); // w set the name of the button to rate
 		searchRatePanel.add(searchButton5);
 //		We put the code panel in his place in the seacrh panel, and add it
 		searchLayout.putConstraint(SpringLayout.WEST, searchRatePanel, 7, SpringLayout.WEST, searchStatePanel);
@@ -231,6 +238,22 @@ public class LoginWindow extends JFrame {
 		return p;
 	}
 	
+	public String getSelectedType() {
+		return (String)typesBox.getSelectedItem();
+	}
+	public String getCodeField() {
+		return codeField.getText();
+	}
+	public String[] getDatesField(){
+		String[] s = {date1Field.getText(),date2Field.getText()};
+		return s;
+	}
+	public String getSelectedState() {
+		return (String)statesBox.getSelectedItem();
+	}
+	public String getRateField() {
+		return rateField.getText();
+	}
 	public void setUserLogin() {
 		loginPanel.setVisible(false);
 		cp.add(profilePanel,BorderLayout.WEST);
@@ -251,11 +274,17 @@ public class LoginWindow extends JFrame {
 		searchStatePanel.setVisible(false);
 		searchRatePanel.setVisible(false);
 	}
-	public void setLoginController(ActionListener c) {
+	public void setLoginLogoutController(ActionListener c) {
 		login.addActionListener(c);	
+		logout.addActionListener(c);
 	}
-	public void setLogoutController(ActionListener c) {
-		logout.addActionListener(c);	
+	
+	public void setSearchController(ActionListener c) {
+		searchButton1.addActionListener(c);	
+		searchButton2.addActionListener(c);	
+		searchButton3.addActionListener(c);	
+		searchButton4.addActionListener(c);	
+		searchButton5.addActionListener(c);	
 	}
 	
 }
