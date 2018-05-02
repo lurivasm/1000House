@@ -1,4 +1,4 @@
-//package windows;
+package windows;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,11 +13,15 @@ import javax.swing.*;
 /*import app.House;*/
 
 public class CreateOfferWindow extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3152592061506697566L;
 	private JPanel offerPanel = new JPanel();
 	private JPanel housePanel = new JPanel();
 	private JPanel allPanel = new JPanel();
 	private JPanel profilePanel = new JPanel();
-	private JLabel priceLabel, titleLabel
+	private JLabel priceLabel, titleLabel;
 	private JButton accept, cancel;
 	private JButton profilebutton = new JButton("Profile");
 	private JButton menubutton = new JButton("Main menu");

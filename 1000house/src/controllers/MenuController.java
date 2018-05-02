@@ -8,7 +8,11 @@ import javax.swing.JFrame;
 import app.Application;
 import windows.LoginWindow;
 
-
+/**
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ *
+ */
 public class MenuController implements ActionListener {
 	Application model;
 	JFrame view;
@@ -23,7 +27,7 @@ public class MenuController implements ActionListener {
 		view.setVisible(false);
 		LoginWindow nv = new LoginWindow();
 		if(model.getLog() != null) nv.setUserLogin();
-		nv.setLoginLogoutController(new LoginLogoutController(nv,model));
+		nv.setLoginLogoutProfileController(new LoginLogoutProfileController(nv,model));
 		nv.setSearchController(new SearchController(nv,model));		
 	}
 }

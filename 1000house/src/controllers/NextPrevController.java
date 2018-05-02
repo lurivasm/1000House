@@ -6,10 +6,14 @@ import windows.*;
 import app.Application;
 import javax.swing.*;
 
-
+/**
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ *
+ */
 public class NextPrevController implements ActionListener {
 	Application model;
-	SearchWindow view;
+	JFrame view;
 	
 	public NextPrevController(SearchWindow l_, Application model){
 		view = l_;
@@ -17,9 +21,18 @@ public class NextPrevController implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		JButton but = (JButton)e.getSource();
-		if(but.getActionCommand().equals("Next ->")) view.nextPage();
-		if(but.getActionCommand().equals("<- Prev")) view.prevPage();
+	public void actionPerformed(ActionEvent arg0) {
+		JButton but = (JButton)arg0.getSource();
+		if(view instanceof SearchWindow) {
+			SearchWindow window = (SearchWindow)view;
+			if(but.getActionCommand().equals("Next ->")) window.nextPage();
+			if(but.getActionCommand().equals("<- Prev")) window.prevPage();
+		}
+		else {
+			SeeOfferWindow window = (SeeOfferWindow)view;
+			if(but.getActionCommand().equals("Next ->")) window.nextPage();
+			if(but.getActionCommand().equals("<- Prev")) window.prevPage();
+		}
+		
 	}
 }

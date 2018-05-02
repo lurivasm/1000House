@@ -10,6 +10,11 @@ import exception.NotRegisteredUser;
 import javax.swing.*;
 import java.util.*;
 
+/**
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ *
+ */
 public class SearchController implements ActionListener{
 	Application model;
 	LoginWindow view;
@@ -19,9 +24,11 @@ public class SearchController implements ActionListener{
 		this.model = model;
 	}
 
+	//This function search in the app when a button is used. Depending on the button, it search in a  different way
+	//When there aren't any results,or if there is any problem , a window with a message appears
 	@SuppressWarnings("unused")
 	@Override
-	public void actionPerformed(ActionEvent arg0){
+	public void actionPerformed(ActionEvent arg0){  
 		JButton but = (JButton)arg0.getSource();
 		List<Offer> l = null;
 		if(but.getName().equals("type")) {
@@ -32,6 +39,7 @@ public class SearchController implements ActionListener{
 				SearchWindow nv = new SearchWindow(l);
 				nv.setNextPrevController(new NextPrevController(nv,model)); 
 				nv.setMenuController(new MenuController(nv,model));
+				nv.setGoController(new GoToOfferController(nv,model));
 			}
 		}
 		else if(but.getName().equals("code")) {
@@ -48,6 +56,7 @@ public class SearchController implements ActionListener{
 				SearchWindow nv = new SearchWindow(l);
 				nv.setNextPrevController(new NextPrevController(nv,model)); 
 				nv.setMenuController(new MenuController(nv,model));
+				nv.setGoController(new GoToOfferController(nv,model));
 			}
 		}
 		else if(but.getName().equals("date")) {
@@ -73,6 +82,7 @@ public class SearchController implements ActionListener{
 				SearchWindow nv = new SearchWindow(l);
 				nv.setNextPrevController(new NextPrevController(nv,model)); 
 				nv.setMenuController(new MenuController(nv,model));
+				nv.setGoController(new GoToOfferController(nv,model));
 			}
 		}
 		else if(but.getName().equals("state")) {
@@ -96,11 +106,17 @@ public class SearchController implements ActionListener{
 				SearchWindow nv = new SearchWindow(l);
 				nv.setNextPrevController(new NextPrevController(nv,model));
 				nv.setMenuController(new MenuController(nv,model));
+				nv.setGoController(new GoToOfferController(nv,model));
 			}
 		}
 		else if(but.getName().equals("rate")) {
+			double rate = Double.parseDouble(view.getRateField());
+			if(rate > 5 || rate < 0) {
+				JOptionPane.showMessageDialog(view,"Rate must be between 0 and 5" );
+				return;
+			}
 			try {
-				l = model.searchRate(Double.parseDouble(view.getRateField()));
+				l = model.searchRate(rate);
 			}
 			catch(NumberFormatException e) {
 				JOptionPane.showMessageDialog(view,"Wrong format" );
@@ -109,7 +125,14 @@ public class SearchController implements ActionListener{
 			catch(NotRegisteredUser u){
 				u.printStackTrace();
 			}
-		
+			if(l.size() == 0) JOptionPane.showMessageDialog(view,"No results" );
+			else {
+				view.setVisible(false);
+				SearchWindow nv = new SearchWindow(l);
+				nv.setNextPrevController(new NextPrevController(nv,model));
+				nv.setMenuController(new MenuController(nv,model));
+				nv.setGoController(new GoToOfferController(nv,model));
+			}
 		}
 	}
 	

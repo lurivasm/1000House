@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/**
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ *
+ */
 public class LoginWindow extends JFrame {
 	/**
 	* 
@@ -226,10 +231,16 @@ public class LoginWindow extends JFrame {
 		
 	}
 	
+	/**
+	 * @return the nif on the nif text field
+	 */
 	public String getNif() {
 		return nifField.getText();
 	}
 	
+	/**
+	 * @return the password on the password field
+	 */
 	public String getPassword() {
 		String p = "";
 		for(char c : passwordF.getPassword()) {
@@ -238,22 +249,46 @@ public class LoginWindow extends JFrame {
 		return p;
 	}
 	
+	/**
+	 * @return the selected option in the types combo box
+	 */
 	public String getSelectedType() {
 		return (String)typesBox.getSelectedItem();
 	}
+	
+	/**
+	 * @return the code in the code text field
+	 */
 	public String getCodeField() {
 		return codeField.getText();
 	}
+	
+	/**
+	 * @return an array with the two dates in the dates text fields
+	 */
 	public String[] getDatesField(){
 		String[] s = {date1Field.getText(),date2Field.getText()};
 		return s;
 	}
+	
+	/**
+	 * @return the selected option in the state combo box
+	 */
 	public String getSelectedState() {
 		return (String)statesBox.getSelectedItem();
 	}
+	
+	/**
+	 * @return the rate in the rate text field
+	 */
 	public String getRateField() {
 		return rateField.getText();
 	}
+	
+	/**
+	 * Changes the window to logged mode, making the profile  and logout button visible,
+	 *  the rate and state search visible, and the login panel invisible
+	 */
 	public void setUserLogin() {
 		loginPanel.setVisible(false);
 		cp.add(profilePanel,BorderLayout.WEST);
@@ -263,6 +298,10 @@ public class LoginWindow extends JFrame {
 		
 	}
 	
+	/**
+	 * Changes the window to not logged mode, making the profile and logout button invisible,
+	 *  the rate  and state search invisible, and the login panel visible
+	 */
 	public void  setUserLogout() {
 		profilePanel.setVisible(false);
 		logoutPanel.setVisible(false);
@@ -274,11 +313,21 @@ public class LoginWindow extends JFrame {
 		searchStatePanel.setVisible(false);
 		searchRatePanel.setVisible(false);
 	}
-	public void setLoginLogoutController(ActionListener c) {
+	
+	/**
+	 * Sets the controller for the login,logout and profile button
+	 * @param c : the controller to be set
+	 */
+	public void setLoginLogoutProfileController(ActionListener c) {
 		login.addActionListener(c);	
 		logout.addActionListener(c);
+		profilebutton.addActionListener(c);
 	}
 	
+	/**
+	 * Sets the controller for the different search buttons
+	 * @param c : the controller to be set
+	 */
 	public void setSearchController(ActionListener c) {
 		searchButton1.addActionListener(c);	
 		searchButton2.addActionListener(c);	

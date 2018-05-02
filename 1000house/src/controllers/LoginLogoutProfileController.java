@@ -8,12 +8,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-
-public class LoginLogoutController implements ActionListener {
+/**
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ *
+ */
+public class LoginLogoutProfileController implements ActionListener {
 	Application model;
 	LoginWindow view;
 	
-	public LoginLogoutController(LoginWindow l_, Application model){
+	public LoginLogoutProfileController(LoginWindow l_, Application model){
 		view = l_;
 		this.model = model;
 	}
@@ -30,7 +34,7 @@ public class LoginLogoutController implements ActionListener {
 				JOptionPane.showMessageDialog(view,e );
 			}	
 		}
-		else {
+		if(but.getActionCommand().equals("Logout")) {
 			model.logout();
 			view.setUserLogout();
 		}
