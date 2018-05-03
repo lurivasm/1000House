@@ -10,6 +10,7 @@ import exception.*;
 import javax.swing.*;
 
 public class CommentController implements ActionListener {
+	@SuppressWarnings("unused")
 	private Application model;
 	private SeeOfferWindow view;
 
@@ -41,6 +42,7 @@ public class CommentController implements ActionListener {
 			JLabel title = new JLabel("Add your comment");
 			title.setHorizontalAlignment(JTextField.CENTER);
 			cp.add(title, BorderLayout.NORTH);
+			
 			accepttext.setVisible(false);
 			acceptrate.setVisible(false);
 
@@ -88,6 +90,7 @@ public class CommentController implements ActionListener {
 			w.pack(); // Important: subcomponents are located according to their layout using their
 						// preferred sizes.
 			w.setSize(500, 300);
+			w.setLocationRelativeTo(null);
 			w.setVisible(true);
 			
 		} else if (arg0.getActionCommand().equals("Rate")) {
@@ -95,6 +98,7 @@ public class CommentController implements ActionListener {
 			accepttext.setVisible(false);
 			ratepanel.setVisible(true);
 			ratelabel.setVisible(true);
+			ratefield.setVisible(true);
 			acceptrate = new JButton("Accept");
 			acceptrate.setName("comrate");
 			centerlayout.putConstraint(SpringLayout.WEST, acceptrate, 20, SpringLayout.WEST, ratepanel);
@@ -104,6 +108,7 @@ public class CommentController implements ActionListener {
 		} else if (arg0.getActionCommand().equals("Text")) {
 			ratepanel.setVisible(false);
 			acceptrate.setVisible(false);
+			ratefield.setVisible(false);
 			textpanel.setVisible(true);
 			textlabel.setVisible(true);
 			accepttext = new JButton("Accept");
@@ -118,6 +123,13 @@ public class CommentController implements ActionListener {
 				String text = textfield.getText();
 				try {
 					view.commentText(text);
+					view.setVisible(false);
+					SeeOfferWindow nv = new SeeOfferWindow(view.getResults(),view.getOffer());
+					nv.setMenuController(new MenuController(nv,model));
+					nv.setNextPrevController(new NextPrevController(nv,model));
+					nv.setBackBuyBookController(new BackBuyBookController(nv,model));
+					nv.setCommentController(new CommentController(nv,model));
+					nv.setAddAnswerController(new AddAnswerController(nv,model));
 				} catch (TextException e) {
 					JOptionPane.showMessageDialog(w,e);
 				} catch (NotGuest e) {

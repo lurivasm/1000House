@@ -28,8 +28,8 @@ public class Demo1 {
 		ModifiableDate.setToday();
 		System.out.println("Date set!\n");
 		
-		System.out.println("Trying to log in a user that is not in the app user list...");
-		app.login("586706J", "Potato");
+//		System.out.println("Trying to log in a user that is not in the app user list...");
+//		app.login("586706J", "Potato");
 		
 		System.out.println("Logging a host user in the app...");
 		if(app.login("51999111X", "pezEspada") == true){

@@ -17,6 +17,7 @@ import app.LivingOffer;
 import app.Offer;
 import app.User;
 import app.UserStates;
+import controllers.AddAnswerController;
 import controllers.CommentController;
 import controllers.MenuController;
 import controllers.NextPrevController;
@@ -58,6 +59,7 @@ public class prueba3 {
 		w.setMenuController(new MenuController(w,app));
 		w.setNextPrevController(new NextPrevController(w,app));
 		w.setCommentController(new CommentController(w,app));
+		w.setAddAnswerController(new AddAnswerController(w,app));
 //		JFrame w = new JFrame();
 //		Container cp = w.getContentPane();
 //		cp.setLayout(new BorderLayout());

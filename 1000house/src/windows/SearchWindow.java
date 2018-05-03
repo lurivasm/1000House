@@ -119,6 +119,7 @@ public class SearchWindow extends JFrame {
 		this.pack(); // Important: subcomponents are located according to their layout using their preferred sizes.		
 		this.setSize(900, 700);
 		this.setVisible(true);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}

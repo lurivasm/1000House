@@ -226,6 +226,7 @@ public class LoginWindow extends JFrame {
 		
 		this.pack(); // Important: subcomponents are located according to theirlayout using their prefered sizes.		
 		this.setSize(900, 700);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -291,6 +292,8 @@ public class LoginWindow extends JFrame {
 	 */
 	public void setUserLogin() {
 		loginPanel.setVisible(false);
+		profilePanel.setVisible(true);
+		logoutPanel.setVisible(true);
 		cp.add(profilePanel,BorderLayout.WEST);
 		cp.add(logoutPanel, BorderLayout.EAST);
 		searchStatePanel.setVisible(true);

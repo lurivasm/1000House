@@ -18,11 +18,18 @@ public class GoToOfferController implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		JButton but = (JButton)arg0.getSource();
 		int offer = Integer.parseInt(but.getName());
-		view.setVisible(false);
-		SeeOfferWindow w = new SeeOfferWindow(view.getResults(),offer);
-		w.setBackBuyBookController(new BackBuyBookController(w,model));
-		w.setMenuController(new MenuController(w,model));
-		w.setCommentController(new CommentController(w,model));
+		if(model.getLog() == null) {
+			JOptionPane.showMessageDialog(view,"You are not registered" );
+		}
+		else {
+			view.setVisible(false);
+			SeeOfferWindow w = new SeeOfferWindow(view.getResults(),offer);
+			w.setBackBuyBookController(new BackBuyBookController(w,model));
+			w.setMenuController(new MenuController(w,model));
+			w.setCommentController(new CommentController(w,model));
+			w.setNextPrevController(new NextPrevController(w,model));
+		}
+		
 	}
 
 }

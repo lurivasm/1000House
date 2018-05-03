@@ -12,6 +12,7 @@ import javax.swing.*;
  *
  */
 public class NextPrevController implements ActionListener {
+	@SuppressWarnings("unused")
 	private Application model;
 	private JFrame view;
 	
