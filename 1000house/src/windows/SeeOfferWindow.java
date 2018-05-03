@@ -127,6 +127,7 @@ public class SeeOfferWindow  extends JFrame{
 		commentpanel.setLayout(new GridLayout(7,1));
 		if(o.getComments().isEmpty()) commentpanel.setVisible(false);
 		
+		int cont = 0;
 		for(Comment c : o.getComments()) {
 			if(c instanceof Text) {
 				JLabel user = new JLabel(c.getUser().getName() + " :");
@@ -138,10 +139,13 @@ public class SeeOfferWindow  extends JFrame{
 					JLabel com = new JLabel(s);
 					aux.add(com);
 					commentpanel.add(aux);
+					cont++;
 				}
 				break;
 			}				
 		}
+		for(int i = 0; i < (5-cont) ; i++) commentpanel.add(new JPanel());
+		
 		JPanel buttonpanel = new JPanel();
 		buttonpanel.add(prev);
 		buttonpanel.add(addanswer);
