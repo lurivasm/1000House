@@ -8,7 +8,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
+
+import app.Characteristics;
 
 
 public class HouseWindow extends JFrame{
@@ -23,29 +30,33 @@ public class HouseWindow extends JFrame{
 	private JPanel zipcodePanel = new JPanel();
 	private JPanel descPanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
+	private JPanel menuPanel = new JPanel();
 	private JLabel descriptionLabel, priceLabel, charactLabel, locationLabel;
-	private JTextField descTF, priceTF, locatTF;
+	private JTextField priceTF, locatTF;
+	private JTextArea descTF;
 	private JCheckBox poolBox, parkingBox, gardenBox, wifiBox, tvBox, airBox;
 	private JButton accept, cancel;
-	private JButton profilebutton = new JButton("Profile");
 	private JButton menubutton = new JButton("Main menu");
 	
 	public HouseWindow() {
 		super("Create a House!");
-		
+	//	Color color = new Color(180,255,190,220);
 		/*Labels*/
-		descriptionLabel = new JLabel("Description :");
-		priceLabel = new JLabel("      Zipcode :  ");
+		descriptionLabel = new JLabel("Description :           ");
+		priceLabel = new JLabel("    Zipcode :  ");
 		charactLabel = new JLabel("Select the characteristics :");
 		charactLabel.setFont(new Font("Tahoma", 18, 18));
 		locationLabel = new JLabel("   Location : ");
 		JLabel titleLabel = new JLabel(" Create your House!!");
 		titleLabel.setHorizontalAlignment(JTextField.CENTER);//We put it in the center
+		titleLabel.setVerticalAlignment(JTextField.CENTER);
 		titleLabel.setFont(new Font("Tahoma",30,30));
 				
 		/*Fields*/
-		descTF = new JTextField();
-		descTF.setPreferredSize(new Dimension(170, 50));
+		descTF = new JTextArea(10, 25);
+		descTF.setLineWrap(true);
+		descTF.setWrapStyleWord(true);
+		JScrollPane descScrollPane = new JScrollPane(descTF);
 		priceTF = new JTextField(15);
 		locatTF = new JTextField(15);
 		
@@ -66,6 +77,7 @@ public class HouseWindow extends JFrame{
 		BoxLayout charLayout = new BoxLayout(charPanel, BoxLayout.Y_AXIS);
 		charPanel.setLayout(charLayout);
 		charPanel.setPreferredSize(new Dimension(100, 100));
+	//	charPanel.setBackground(color);
 		
 		charPanel.add(new JPanel());
 		charPanel.add(new JPanel());
@@ -92,16 +104,18 @@ public class HouseWindow extends JFrame{
 		locPanel.setLayout(new FlowLayout());
 		locPanel.add(locationLabel);
 		locPanel.add(locatTF);
+	//	locPanel.setBackground(color);
 		
 		/*Description Panel*/
-		descPanel.setLayout(new FlowLayout());
-		descPanel.add(descriptionLabel);
-		descPanel.add(descTF);
+		descPanel.add(descScrollPane);
+	//	descPanel.setBackground(color);
 		
 		/*Price Panel*/
 		zipcodePanel.setLayout(new FlowLayout());
 		zipcodePanel.add(priceLabel);
 		zipcodePanel.add(priceTF);
+	//	zipcodePanel.setBackground(color);
+		
 		JPanel allPanel = new JPanel();
 		BoxLayout allLayout = new BoxLayout(allPanel, BoxLayout.Y_AXIS);
 		allPanel.setLayout(allLayout);
@@ -109,13 +123,16 @@ public class HouseWindow extends JFrame{
 		allPanel.add(new JPanel());
 		allPanel.add(new JPanel());
 		allPanel.add(locPanel);
-		allPanel.add(descPanel);
 		allPanel.add(zipcodePanel);
+		allPanel.add(descriptionLabel);
+		allPanel.add(descPanel);
+	//	allPanel.setBackground(color);
 		
 		/*Button Panel*/
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(accept);
 		buttonPanel.add(cancel);
+	//	buttonPanel.setBackground(color);
 		
 		allPanel.add(buttonPanel);
 		allPanel.add(new JPanel());
@@ -128,37 +145,69 @@ public class HouseWindow extends JFrame{
 		housePanel.setBackground(Color.black);
 		housePanel.add(allPanel);
 		housePanel.add(charPanel);
+	//	housePanel.setBackground(color);
 		
-		
-		/**/
-		JPanel profilePanel = new JPanel();
-		BoxLayout profLayout = new BoxLayout(profilePanel,BoxLayout.Y_AXIS);
-		profilePanel.setLayout(profLayout);	
-		profilePanel.add(new JPanel());
-		profilePanel.add(profilebutton);
-		profilePanel.add(new JPanel());
-		profilePanel.add(menubutton);
+		/*Menu Panel*/
+		BoxLayout menuLayout = new BoxLayout(menuPanel,BoxLayout.Y_AXIS);
+		menuPanel.setLayout(menuLayout);	
+		menuPanel.add(new JPanel());
+		menuPanel.add(menubutton);
 		for(int j = 0 ; j< 16 ; j++) {
-			profilePanel.add(new JPanel());
+			menuPanel.add(new JPanel());
 		}
-		profilePanel.setPreferredSize(new Dimension(180,300));		
-		
+		menuPanel.setPreferredSize(new Dimension(180,300));		
+	//	menuPanel.setBackground(color);
 		
 		
 		/*The container*/
 		Container cont = this.getContentPane();
 		BorderLayout layout = new BorderLayout();
 		cont.setLayout(layout);
-		cont.add(profilePanel,BorderLayout.WEST);
+		cont.add(menuPanel,BorderLayout.WEST);
 		cont.add(housePanel, BorderLayout.CENTER);
 		cont.add(titleLabel,BorderLayout.NORTH);
-		
-		
+	//	cont.setBackground(color);
+		cont.setPreferredSize(new Dimension(800, 400));
+	//	this.getContentPane().setBackground(color);
 		
 		this.pack();
 		this.setVisible(true);
-		this.setSize(900, 700);
+		this.setSize(900, 500);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	
+	public String getDescription() {
+		return descTF.getText();
+	}
+	
+	public String getLocat() {
+		return priceTF.getText();
+	}
+	
+	public String getZipcode() {
+		return priceTF.getText();
+	}
+	
+	public List<Characteristics> getCharacteristics(){
+		List<Characteristics> chars = new ArrayList<Characteristics>();
+		//poolBox, parkingBox, gardenBox, wifiBox, tvBox, airBox
+		if (poolBox.isSelected()) chars.add(Characteristics.Pool);
+		if (parkingBox.isSelected()) chars.add(Characteristics.Parking);
+		if (gardenBox.isSelected()) chars.add(Characteristics.Garden);
+		if (wifiBox.isSelected()) chars.add(Characteristics.WiFI);
+		if (tvBox.isSelected()) chars.add(Characteristics.TV);
+		if (airBox.isSelected()) chars.add(Characteristics.AirConditioner);
+		return chars;		
+	}
+	
+	public void setHouseController(ActionListener c) {
+		accept.addActionListener(c);	
+	}
+	
+	public void setMenuController(ActionListener c) {
+		menubutton.addActionListener(c);
+		cancel.addActionListener(c);
+	}
 }

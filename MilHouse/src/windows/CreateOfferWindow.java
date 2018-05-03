@@ -5,9 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
+
 import javax.swing.*;
 
-/*import app.House;*/
 
 public class CreateOfferWindow extends JFrame implements ActionListener {
 	/**
@@ -16,7 +17,7 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel offerPanel = new JPanel();
 	private JPanel allPanel = new JPanel();
-	private JPanel profilePanel = new JPanel();
+	private JPanel menuPanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	private JPanel typePanel = new JPanel();
 	private JPanel timePanel = new JPanel();
@@ -27,10 +28,10 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	private JButton accept, cancel;
 	private JRadioButton holidaysOffer = new JRadioButton("Holidays Offer");
 	private JRadioButton livingOffer = new JRadioButton("Living Offer");
-	private JButton profilebutton = new JButton("Profile");
+	private ButtonGroup type = new ButtonGroup();
 	private JButton menubutton = new JButton("Main menu");
 	
-	public 	CreateOfferWindow(ArrayList <House> houses) {
+	public 	CreateOfferWindow(List<House> list) {
 		super("Create an Offer!");
 		
 		titleLabel = new JLabel(" Create your Offer!!   ");
@@ -52,25 +53,24 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		typeLabel = new JLabel(" Select the type of offer :");
 	
 		/*TextFields*/
-		priceTF = new JTextField(15);
-		depositTF = new JTextField(15);
-		iniTF = new JTextField(15);
-		endTF = new JTextField(15);
-		timeTF = new JTextField(15);
+		priceTF = new JTextField(9);
+		depositTF = new JTextField(9);
+		iniTF = new JTextField("day-month-year");
+		endTF = new JTextField("day-month-year");
+		timeTF = new JTextField(9);
 		
 		/*House panel*/
 		String aux;
-		String houseNames[] = new String[houses.size()];
+		String houseNames[] = new String[list.size()];
 		int i = 0;
-		for(House h : houses) {
-			aux = h.getLocation() + " " + h.getZipcode();
+		for(House h : list) {
+			aux = h.getLocation() + "-" + h.getZipcode();
 			houseNames[i] = aux;
 			i++;
 		}
 		housesBox = new JComboBox<String>(houseNames);
 		
 		/*Type of offer*/
-		ButtonGroup type = new ButtonGroup();
 		livingOffer.addActionListener(this);
 		holidaysOffer.addActionListener(this);
 		type.add(livingOffer);
@@ -133,30 +133,28 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	//	Color color = new Color(180,255,190,220);
 	//	centerPanel.setBackground(color);
 		
-		/*The Profile Panel*/
-		BoxLayout profLayout = new BoxLayout(profilePanel,BoxLayout.Y_AXIS);
-		profilePanel.setLayout(profLayout);	
-		profilePanel.add(new JPanel());
-		profilePanel.add(profilebutton);
-		profilePanel.add(new JPanel());
-		profilePanel.add(menubutton);
+		/*Menu Panel*/
+		BoxLayout menuLayout = new BoxLayout(menuPanel,BoxLayout.Y_AXIS);
+		menuPanel.setLayout(menuLayout);	
+		menuPanel.add(new JPanel());
+		menuPanel.add(menubutton);
 		for(int j = 0 ; j< 16 ; j++) {
-			profilePanel.add(new JPanel());
+			menuPanel.add(new JPanel());
 		}
-		profilePanel.setPreferredSize(new Dimension(180,300));		
+		menuPanel.setPreferredSize(new Dimension(180,300));		
 		
 		/*The container*/
 		Container cont = this.getContentPane();
 		BorderLayout layout = new BorderLayout();
 		//cont.setBackground(color);
 		cont.setLayout(layout);
-		cont.add(profilePanel,BorderLayout.WEST);
+		cont.add(menuPanel,BorderLayout.WEST);
 		cont.add(centerPanel, BorderLayout.CENTER);
 		
 		
 		this.pack();
 		this.setVisible(true);
-		this.setSize(900, 700);
+		this.setSize(700, 500);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -164,11 +162,19 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(livingOffer.isSelected()) {
+			iniTF.setText("day-month-year");
+			priceTF.setText("");
+			depositTF.setText("");
+			timeTF.setText("");
 			offerPanel.setVisible(true);
 			timePanel.setVisible(true);
 			endPanel.setVisible(false);
 		}
 		else if(holidaysOffer.isSelected()) {
+			iniTF.setText("day-month-year");
+			priceTF.setText("");
+			depositTF.setText("");
+			endTF.setText("day-month-year");
 			offerPanel.setVisible(true);
 			endPanel.setVisible(true);
 			timePanel.setVisible(false);
@@ -176,5 +182,46 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		
 	}
 	
+	public String getPrice() {
+		return priceTF.getText();
+	}
 	
+	public String getDeposit() {
+		return depositTF.getText();
+	}
+	
+	public String getTime() {
+		return timeTF.getText();
+	}
+	
+	public String getIniDate() {
+		return iniTF.getText();
+	}
+	
+	public String getEndDate() {
+		return endTF.getText();
+	}
+	
+	public String getHouse() {
+		return (String)housesBox.getSelectedItem();
+	}
+	
+	public  String getTypeOffer(){
+		if(livingOffer.isSelected()) {
+			return "Living Offer";
+		}
+		else if(holidaysOffer.isSelected()) {
+			return "Holidays Offer";
+		}
+		return "";
+		}
+	
+	public void setCreateOfferController(ActionListener c) {
+		accept.addActionListener(c);
+	}
+	
+	public void setMenuController(ActionListener c) {
+		menubutton.addActionListener(c);
+		cancel.addActionListener(c);
+	}
 }
