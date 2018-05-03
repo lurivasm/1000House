@@ -19,6 +19,6 @@ public class TextException extends Exception {
 	
 	
 	public String toString() {
-		return "The text is over 150 characters. Please, write less\n";
+		return "The text is over 250 characters. Please, write less\n";
 	}
 }

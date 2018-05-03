@@ -1,8 +1,13 @@
 package windows;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 import app.Application;
 import app.Characteristics;
@@ -12,6 +17,7 @@ import app.LivingOffer;
 import app.Offer;
 import app.User;
 import app.UserStates;
+import controllers.CommentController;
 import controllers.MenuController;
 import controllers.NextPrevController;
 
@@ -43,9 +49,24 @@ public class prueba3 {
 		}
 		u1.setState(UserStates.CONNECTED_GUEST);
 		app.setLog(u1);
+		l.get(1).commentOffer(3);	
 		l.get(1).commentOffer("123456789012345678901234534567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+		u1.setName("Manolo");
+		l.get(1).commentOffer("Pos esta to guapa la caasa esa ,10 de 10, me encanta LOKO");
+		l.get(1).commentOffer("PUTA BASURA DE MIERDA, VOY A QUEMAR TU PUTA CASA ASQUEROSO CABRON, TENIA CUCARACHAS EN TODOS LADOS Y HE COGIDO SIDA DE SENTARME EN TU COCHAMBROSO SOFA. Pero la piscina estaba bien :)");
 		SeeOfferWindow w = new SeeOfferWindow(l,1);
 		w.setMenuController(new MenuController(w,app));
+		w.setNextPrevController(new NextPrevController(w,app));
+		w.setCommentController(new CommentController(w,app));
+//		JFrame w = new JFrame();
+//		Container cp = w.getContentPane();
+//		cp.setLayout(new BorderLayout());
+//		JTextArea a = new JTextArea(5,8);
+//		cp.add(a,BorderLayout.CENTER);
+//		w.pack(); // Important: subcomponents are located according to their layout using their preferred sizes.		
+//		w.setSize(900, 700);
+//		w.setVisible(true);
+//		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 		

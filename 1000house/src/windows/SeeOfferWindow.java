@@ -5,6 +5,8 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import app.*;
+import exception.*;
+
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -24,6 +26,8 @@ public class SeeOfferWindow  extends JFrame{
 	private JPanel menupanel = new JPanel();// Panel where the menu  button will be located
 	private JPanel commentpanel = new JPanel();
 	private JPanel centerpanel = new JPanel();
+	private JPanel buttonpanel = new JPanel();
+	private JLabel average ;
 	private JButton back = new JButton("Back");
 	private JButton buy = new JButton("Buy");
 	private JButton book = new JButton("Book");
@@ -33,7 +37,8 @@ public class SeeOfferWindow  extends JFrame{
 	private JButton viewanswer = new JButton("View Answers");
 	private JButton addcomment = new JButton("Comment");
 	private JButton menubutton = new JButton("Main menu"); // Main menu button
-	private int comment = 1;
+	private SpringLayout centerlayout = new SpringLayout();
+	private int comment = 0;
 	private List<Offer >results;
 	private int offer;
 	public SeeOfferWindow(List<Offer> results, int offer) {
@@ -107,7 +112,8 @@ public class SeeOfferWindow  extends JFrame{
 		}	
 		
 		JLabel avlabel = new JLabel("  Average rate : ");
-		JLabel average = new JLabel("  " + Double.toString(o.getAverageRate()) + "/5");
+		results.get(offer).calculateRate();
+		average = new JLabel("  " + Double.toString(o.getAverageRate()) + "/5");
 		average.setFont(new Font("Tahona",30,30));
 		menupanel.add(avlabel);
 		menupanel.add(average);
@@ -119,7 +125,7 @@ public class SeeOfferWindow  extends JFrame{
 		cp.add(menupanel,BorderLayout.WEST);
 		
 		
-		SpringLayout centerlayout = new SpringLayout();
+		
 		centerpanel.setLayout(centerlayout);
 		
 		JPanel aux;
@@ -141,12 +147,15 @@ public class SeeOfferWindow  extends JFrame{
 					commentpanel.add(aux);
 					cont++;
 				}
+				if(((Text) c).getAnswers().isEmpty()) viewanswer.setVisible(false);
+				else viewanswer.setVisible(true);
 				break;
-			}				
+			}	
+			comment++;
 		}
 		for(int i = 0; i < (5-cont) ; i++) commentpanel.add(new JPanel());
 		
-		JPanel buttonpanel = new JPanel();
+		
 		buttonpanel.add(prev);
 		buttonpanel.add(addanswer);
 		buttonpanel.add(viewanswer);
@@ -154,6 +163,7 @@ public class SeeOfferWindow  extends JFrame{
 		prev.setVisible(false);
 		commentpanel.add(buttonpanel);
 		commentpanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		commentpanel.setPreferredSize(new Dimension(430,250));
 		centerlayout.putConstraint(SpringLayout.SOUTH, commentpanel, -100, SpringLayout.SOUTH, centerpanel);
 		centerlayout.putConstraint(SpringLayout.WEST, commentpanel, 80, SpringLayout.WEST, centerpanel);		
 		centerpanel.add(commentpanel);
@@ -175,10 +185,11 @@ public class SeeOfferWindow  extends JFrame{
 		
 		addcomment.setPreferredSize(new Dimension(300,50));
 		centerlayout.putConstraint(SpringLayout.NORTH, addcomment, 20, SpringLayout.SOUTH, commentpanel);
-		centerlayout.putConstraint(SpringLayout.WEST,addcomment, 60, SpringLayout.WEST, commentpanel);
+		centerlayout.putConstraint(SpringLayout.WEST,addcomment, 50, SpringLayout.WEST, commentpanel);
 		centerpanel.add(addcomment);
 		
 		cp.add(centerpanel,BorderLayout.CENTER);
+		
 		
 		
 		
@@ -218,17 +229,120 @@ public class SeeOfferWindow  extends JFrame{
 		book.addActionListener(c);
 	}
 	
-	public void nextPage() {
-		return;
-	}
-	public void prevPage() {
-		return;
+	public void setNextPrevController(ActionListener c) {
+		next.addActionListener(c);
+		prev.addActionListener(c);
 	}
 	
+	public void setCommentController(ActionListener c) {
+		addcomment.addActionListener(c);
+	}
+	
+	public void nextPage() {
+		commentpanel.setVisible(false);
+		Offer o = results.get(offer);
+		int i,cont = 0;
+		JPanel aux;
+		comment++;
+		commentpanel = new JPanel();
+		commentpanel.setLayout(new GridLayout(7,1));		
+		for(i = comment; i < o.getComments().size(); i++,comment++) {
+			Comment c = o.getComments().get(i);
+			if(c instanceof Text) {
+				JLabel user = new JLabel(c.getUser().getName() + " :");
+				user.setHorizontalAlignment(JTextField.LEFT);
+				commentpanel.add(user);
+				String[] lines = splitSize(((Text) c).getText(),50);
+				for(String s : lines) {
+					aux = new JPanel();				
+					JLabel com = new JLabel(s);
+					aux.add(com);
+					commentpanel.add(aux);
+					cont++;
+				}
+				if(((Text) c).getAnswers().isEmpty()) viewanswer.setVisible(false);
+				else viewanswer.setVisible(true);
+				break;
+			}		
+		}
+		for(i = 0; i < (5-cont) ; i++) commentpanel.add(new JPanel());
+		
+		
+		prev.setVisible(true);
+		if(comment == o.getComments().size()-1) next.setVisible(false);
+		
+		commentpanel.add(buttonpanel);
+		commentpanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		commentpanel.setPreferredSize(new Dimension(430,250));
+		centerlayout.putConstraint(SpringLayout.SOUTH, commentpanel, -100, SpringLayout.SOUTH, centerpanel);
+		centerlayout.putConstraint(SpringLayout.WEST, commentpanel, 80, SpringLayout.WEST, centerpanel);		
+		centerpanel.add(commentpanel);
+		centerlayout.putConstraint(SpringLayout.SOUTH, descrpanel, -30, SpringLayout.NORTH, commentpanel);
+		centerlayout.putConstraint(SpringLayout.WEST, descrpanel, 0, SpringLayout.WEST, commentpanel);
+		addcomment.setPreferredSize(new Dimension(300,50));
+		centerlayout.putConstraint(SpringLayout.NORTH, addcomment, 20, SpringLayout.SOUTH, commentpanel);
+		centerlayout.putConstraint(SpringLayout.WEST,addcomment, 50, SpringLayout.WEST, commentpanel);
+		
+	}
+	
+	public void prevPage() {
+		commentpanel.setVisible(false);
+		Offer o = results.get(offer);
+		int i,cont = 0;
+		JPanel aux;
+		comment--;
+		commentpanel = new JPanel();
+		commentpanel.setLayout(new GridLayout(7,1));		
+		for(i = comment; i >= 0; i--,comment--) {
+			Comment c = o.getComments().get(i);
+			if(c instanceof Text) {
+				JLabel user = new JLabel(c.getUser().getName() + " :");
+				user.setHorizontalAlignment(JTextField.LEFT);
+				commentpanel.add(user);
+				String[] lines = splitSize(((Text) c).getText(),50);
+				for(String s : lines) {
+					aux = new JPanel();				
+					JLabel com = new JLabel(s);
+					aux.add(com);
+					commentpanel.add(aux);
+					cont++;
+				}
+				if(((Text) c).getAnswers().isEmpty()) viewanswer.setVisible(false);
+				else viewanswer.setVisible(true);
+				break;
+			}		
+		}
+		for(i = 0; i < (5-cont) ; i++) commentpanel.add(new JPanel());
+				
+		next.setVisible(true);
+		if(comment == 1) prev.setVisible(false);
+		
+		commentpanel.add(buttonpanel);
+		commentpanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		commentpanel.setPreferredSize(new Dimension(430,250));
+		centerlayout.putConstraint(SpringLayout.SOUTH, commentpanel, -100, SpringLayout.SOUTH, centerpanel);
+		centerlayout.putConstraint(SpringLayout.WEST, commentpanel, 80, SpringLayout.WEST, centerpanel);		
+		centerpanel.add(commentpanel);
+		centerlayout.putConstraint(SpringLayout.SOUTH, descrpanel, -30, SpringLayout.NORTH, commentpanel);
+		centerlayout.putConstraint(SpringLayout.WEST, descrpanel, 0, SpringLayout.WEST, commentpanel);
+		addcomment.setPreferredSize(new Dimension(300,50));
+		centerlayout.putConstraint(SpringLayout.NORTH, addcomment, 20, SpringLayout.SOUTH, commentpanel);
+		centerlayout.putConstraint(SpringLayout.WEST,addcomment, 50, SpringLayout.WEST, commentpanel);
+	}
+	
+	public void commentText(String text) throws TextException, NotGuest {
+		results.get(offer).commentOffer(text);
+	}
+	public void commentRate(int rate) throws RateException, NotGuest {
+		results.get(offer).commentOffer(rate);
+		results.get(offer).calculateRate();
+		average.setText("  " + Double.toString(results.get(offer).getAverageRate()) + "/5");
+	}
 	public List<Offer> getResults(){
 		return results;
 	}
 	public int getOffer() {
 		return offer;
 	}
+	
 }

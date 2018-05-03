@@ -12,10 +12,10 @@ import javax.swing.*;
  *
  */
 public class NextPrevController implements ActionListener {
-	Application model;
-	JFrame view;
+	private Application model;
+	private JFrame view;
 	
-	public NextPrevController(SearchWindow l_, Application model){
+	public NextPrevController(JFrame l_, Application model){
 		view = l_;
 		this.model = model;
 	}
@@ -30,8 +30,8 @@ public class NextPrevController implements ActionListener {
 		}
 		else {
 			SeeOfferWindow window = (SeeOfferWindow)view;
-			if(but.getActionCommand().equals("Next ->")) window.nextPage();
-			if(but.getActionCommand().equals("<- Prev")) window.prevPage();
+			if(but.getActionCommand().equals("Next")) window.nextPage();
+			if(but.getActionCommand().equals("Prev")) window.prevPage();
 		}
 		
 	}

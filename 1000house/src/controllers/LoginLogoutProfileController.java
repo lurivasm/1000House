@@ -14,8 +14,8 @@ import javax.swing.*;
  *
  */
 public class LoginLogoutProfileController implements ActionListener {
-	Application model;
-	LoginWindow view;
+	private Application model;
+	private LoginWindow view;
 	
 	public LoginLogoutProfileController(LoginWindow l_, Application model){
 		view = l_;

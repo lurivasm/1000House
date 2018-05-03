@@ -1,18 +1,15 @@
-package windows;
+package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import windows.*;
 import app.Application;
-import controllers.GoToOfferController;
-import controllers.MenuController;
-import controllers.NextPrevController;
 
 import javax.swing.*;
 
 public class BackBuyBookController implements ActionListener{
-	Application model;
-	SeeOfferWindow view;
+	private Application model;
+	private SeeOfferWindow view;
 	
 	public BackBuyBookController(SeeOfferWindow l_, Application model){
 		view = l_;

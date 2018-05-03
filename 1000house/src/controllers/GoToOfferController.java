@@ -6,8 +6,8 @@ import app.Application;
 import javax.swing.*;
 
 public class GoToOfferController implements ActionListener{
-	Application model;
-	SearchWindow view;
+	private Application model;
+	private SearchWindow view;
 	
 	public GoToOfferController(SearchWindow l_, Application model){
 		view = l_;
@@ -22,6 +22,7 @@ public class GoToOfferController implements ActionListener{
 		SeeOfferWindow w = new SeeOfferWindow(view.getResults(),offer);
 		w.setBackBuyBookController(new BackBuyBookController(w,model));
 		w.setMenuController(new MenuController(w,model));
+		w.setCommentController(new CommentController(w,model));
 	}
 
 }

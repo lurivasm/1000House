@@ -14,8 +14,8 @@ import windows.LoginWindow;
  *
  */
 public class MenuController implements ActionListener {
-	Application model;
-	JFrame view;
+	private Application model;
+	private JFrame view;
 	
 	public MenuController(JFrame l_, Application model){
 		view = l_;

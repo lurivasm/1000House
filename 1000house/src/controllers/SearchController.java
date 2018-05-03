@@ -16,8 +16,8 @@ import java.util.*;
  *
  */
 public class SearchController implements ActionListener{
-	Application model;
-	LoginWindow view;
+	private Application model;
+	private LoginWindow view;
 	
 	public SearchController(LoginWindow l_, Application model){
 		view = l_;
