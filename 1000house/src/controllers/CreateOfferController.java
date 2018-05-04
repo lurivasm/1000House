@@ -14,12 +14,20 @@ public class CreateOfferController implements ActionListener{
 	private Application model;
 	private CreateOfferWindow view;
 	
+	/**
+	 * Constructor of the CreateOfferController
+	 * @param l_ the House WIndow
+	 * @param model the model of the Window
+	 */
 	public CreateOfferController(CreateOfferWindow l_, Application model){
 		this.view = l_;
 		this.model = model;
 	}
 	
 	@Override
+	/**
+	 * Sets the action for the accept button, creating an offer
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		int deposit, price;
         String type = view.getTypeOffer();
@@ -47,6 +55,7 @@ public class CreateOfferController implements ActionListener{
 	        		break;
 	        	}
 	        }
+/*BORRRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRR*/
 			if(house == null) {
 				JOptionPane.showMessageDialog(view,"THis house doesnt exist");
 	        	return;
@@ -76,14 +85,17 @@ public class CreateOfferController implements ActionListener{
 			nv.setLoginLogoutProfileController(new LoginLogoutProfileController(nv,model));
 			nv.setSearchController(new SearchController(nv,model));     
 		}
+		/*Case the date is incorrect*/
 		catch(DateTimeException e) {
 			JOptionPane.showMessageDialog(view,e);
 			return;
 		}
+		/*Case the format for the longs is incorrect*/
 		catch (NumberFormatException nfe) {
 			JOptionPane.showMessageDialog(view,"Wrong format");
 			return;
 		} 
+		/*Case is not a host*/
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(view,"You are not in Host Mode");
 			return;
