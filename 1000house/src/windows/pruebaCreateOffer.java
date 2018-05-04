@@ -19,8 +19,8 @@ public class pruebaCreateOffer {
 		host.setState(UserStates.CONNECTED_HOST);
 		app.setLog(host);
 		
-		app.createHouse("LOCCCCCCCCCC", c, "ZIII", 28964);
-		app.createHouse("LOCCCCCAFAASD", c, "WWWI", 28974);		
+		app.createHouse("Calle de la piruleta", c, "ZIII", 28964);
+		app.createHouse("Calle Melancilia nº4", c, "WWWI", 28974);		
 		
 		CreateOfferWindow j = new CreateOfferWindow(app.getLog().getHostProfile().getHouses());
 		CreateOfferController cont = new CreateOfferController(j, app);

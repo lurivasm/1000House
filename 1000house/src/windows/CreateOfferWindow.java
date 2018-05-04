@@ -31,10 +31,14 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	private ButtonGroup type = new ButtonGroup();
 	private JButton menubutton = new JButton("Main menu");
 	
+	/**
+	 * Constructor for the create offer window
+	 * @param list of the houses of the connected host
+	 */
 	public 	CreateOfferWindow(List<House> list) {
-		super("Create an Offer!");
+		super("1000House");
 		
-		titleLabel = new JLabel(" Create your Offer!!   ");
+		titleLabel = new JLabel(" Create an Offer!   ");
 		titleLabel.setFont(new Font("Tahoma",30,30));
 		
 		/*Buttons*/
@@ -105,9 +109,7 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		/*The Offer Panel*/
 		BoxLayout offerLayout = new BoxLayout(offerPanel,BoxLayout.Y_AXIS);
 		offerPanel.setLayout(offerLayout);
-		for(i = 0; i < 5; i++) {
-			offerPanel.add(new JPanel());
-		}
+		for(i = 0; i < 5; i++) offerPanel.add(new JPanel());
 		offerPanel.add(pricePanel);
 		offerPanel.add(new JPanel());
 		offerPanel.add(depositPanel);
@@ -131,7 +133,6 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		centerPanel.add(allPanel);
 		centerPanel.add(buttonPanel);
 	//	Color color = new Color(180,255,190,220);
-	//	centerPanel.setBackground(color);
 		
 		/*Menu Panel*/
 		BoxLayout menuLayout = new BoxLayout(menuPanel,BoxLayout.Y_AXIS);
@@ -146,7 +147,6 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		/*The container*/
 		Container cont = this.getContentPane();
 		BorderLayout layout = new BorderLayout();
-		//cont.setBackground(color);
 		cont.setLayout(layout);
 		cont.add(menuPanel,BorderLayout.WEST);
 		cont.add(centerPanel, BorderLayout.CENTER);
@@ -160,7 +160,12 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	}
 
 	@Override
+	/**
+	 * Sets automatically the action for the living or the holidays offer
+	 * @param the event
+	 */
 	public void actionPerformed(ActionEvent e) {
+		/*Case is living offer we show the duration*/
 		if(livingOffer.isSelected()) {
 			iniTF.setText("day-month-year");
 			priceTF.setText("");
@@ -170,6 +175,7 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 			timePanel.setVisible(true);
 			endPanel.setVisible(false);
 		}
+		/*Case is holidays offer we show the end date*/
 		else if(holidaysOffer.isSelected()) {
 			iniTF.setText("day-month-year");
 			priceTF.setText("");
@@ -182,30 +188,58 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		
 	}
 	
+	/**
+	 * Getter of the price of the offer
+	 * @return the price
+	 */
 	public String getPrice() {
 		return priceTF.getText();
 	}
 	
+	/**
+	 * Getter of the deposit of the offer
+	 * @return the deposit
+	 */
 	public String getDeposit() {
 		return depositTF.getText();
 	}
 	
+	/**
+	 * Getter of the duration of the offer
+	 * @return the duration
+	 */
 	public String getTime() {
 		return timeTF.getText();
 	}
 	
+	/**
+	 * Getter of the inidate of the offer
+	 * @return the inidate
+	 */
 	public String getIniDate() {
 		return iniTF.getText();
 	}
 	
+	/**
+	 * Getter of the enddate of the offer
+	 * @return the enddate
+	 */
 	public String getEndDate() {
 		return endTF.getText();
 	}
 	
+	/**
+	 * Getter of the house of the offer
+	 * @return the house
+	 */
 	public String getHouse() {
 		return (String)housesBox.getSelectedItem();
 	}
 	
+	/**
+	 * Getter of the type of the offer
+	 * @return the type
+	 */
 	public  String getTypeOffer(){
 		if(livingOffer.isSelected()) {
 			return "Living Offer";
@@ -216,10 +250,18 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		return "";
 		}
 	
+	/**
+	 * Sets the action for the accept button
+	 * @param c the actionlistener for the accept button
+	 */
 	public void setCreateOfferController(ActionListener c) {
 		accept.addActionListener(c);
 	}
 	
+	/**
+	 * Sets the action for the cancel and menu buttons
+	 * @param c the actionlistener for both buttons
+	 */
 	public void setMenuController(ActionListener c) {
 		menubutton.addActionListener(c);
 		cancel.addActionListener(c);

@@ -38,8 +38,12 @@ public class HouseWindow extends JFrame{
 	private JButton accept, cancel;
 	private JButton menubutton = new JButton("Main menu");
 	
+	/**
+	 * Constructor of the House Window
+	 */
 	public HouseWindow() {
-		super("Create a House!");
+		super("1000House");
+		int i;
 	//	Color color = new Color(180,255,190,220);
 		/*Labels*/
 		descriptionLabel = new JLabel("Description :           ");
@@ -47,7 +51,7 @@ public class HouseWindow extends JFrame{
 		charactLabel = new JLabel("Select the characteristics :");
 		charactLabel.setFont(new Font("Tahoma", 18, 18));
 		locationLabel = new JLabel("   Location : ");
-		JLabel titleLabel = new JLabel(" Create your House!!");
+		JLabel titleLabel = new JLabel(" Create a House!");
 		titleLabel.setHorizontalAlignment(JTextField.CENTER);//We put it in the center
 		titleLabel.setVerticalAlignment(JTextField.CENTER);
 		titleLabel.setFont(new Font("Tahoma",30,30));
@@ -60,7 +64,6 @@ public class HouseWindow extends JFrame{
 		priceTF = new JTextField(15);
 		locatTF = new JTextField(15);
 		
-	
 		/*Characteristics Box*/
 		poolBox = new JCheckBox("Swimming-Pool");
 		parkingBox = new JCheckBox("Parking");
@@ -77,13 +80,7 @@ public class HouseWindow extends JFrame{
 		BoxLayout charLayout = new BoxLayout(charPanel, BoxLayout.Y_AXIS);
 		charPanel.setLayout(charLayout);
 		charPanel.setPreferredSize(new Dimension(100, 100));
-	//	charPanel.setBackground(color);
-		
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
+		for(i = 0; i < 5; i++) charPanel.add(new JPanel());
 		charPanel.add(charactLabel);
 		charPanel.add(new JPanel());
 		charPanel.add(airBox);
@@ -92,30 +89,20 @@ public class HouseWindow extends JFrame{
 		charPanel.add(gardenBox);
 		charPanel.add(wifiBox);
 		charPanel.add(tvBox);
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
-		charPanel.add(new JPanel());
+		for(i = 0; i < 7; i++) charPanel.add(new JPanel());
 		
 		/*Location Panel*/
 		locPanel.setLayout(new FlowLayout());
 		locPanel.add(locationLabel);
 		locPanel.add(locatTF);
-	//	locPanel.setBackground(color);
 		
 		/*Description Panel*/
 		descPanel.add(descScrollPane);
-	//	descPanel.setBackground(color);
 		
-		/*Price Panel*/
+		/*Zipcode Panel*/
 		zipcodePanel.setLayout(new FlowLayout());
 		zipcodePanel.add(priceLabel);
 		zipcodePanel.add(priceTF);
-	//	zipcodePanel.setBackground(color);
-		
 		JPanel allPanel = new JPanel();
 		BoxLayout allLayout = new BoxLayout(allPanel, BoxLayout.Y_AXIS);
 		allPanel.setLayout(allLayout);
@@ -124,16 +111,15 @@ public class HouseWindow extends JFrame{
 		allPanel.add(new JPanel());
 		allPanel.add(locPanel);
 		allPanel.add(zipcodePanel);
+		allPanel.add(new JPanel());
 		allPanel.add(descriptionLabel);
 		allPanel.add(descPanel);
-	//	allPanel.setBackground(color);
+
 		
 		/*Button Panel*/
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(accept);
-		buttonPanel.add(cancel);
-	//	buttonPanel.setBackground(color);
-		
+		buttonPanel.add(cancel);		
 		allPanel.add(buttonPanel);
 		allPanel.add(new JPanel());
 		allPanel.add(new JPanel());
@@ -145,7 +131,7 @@ public class HouseWindow extends JFrame{
 		housePanel.setBackground(Color.black);
 		housePanel.add(allPanel);
 		housePanel.add(charPanel);
-	//	housePanel.setBackground(color);
+	
 		
 		/*Menu Panel*/
 		BoxLayout menuLayout = new BoxLayout(menuPanel,BoxLayout.Y_AXIS);
@@ -156,7 +142,6 @@ public class HouseWindow extends JFrame{
 			menuPanel.add(new JPanel());
 		}
 		menuPanel.setPreferredSize(new Dimension(180,300));		
-	//	menuPanel.setBackground(color);
 		
 		
 		/*The container*/
@@ -166,9 +151,7 @@ public class HouseWindow extends JFrame{
 		cont.add(menuPanel,BorderLayout.WEST);
 		cont.add(housePanel, BorderLayout.CENTER);
 		cont.add(titleLabel,BorderLayout.NORTH);
-	//	cont.setBackground(color);
 		cont.setPreferredSize(new Dimension(800, 400));
-	//	this.getContentPane().setBackground(color);
 		
 		this.pack();
 		this.setVisible(true);
@@ -177,22 +160,36 @@ public class HouseWindow extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	
+	/**
+	 * Getter of the description
+	 * @return the description of the House
+	 */
 	public String getDescription() {
 		return descTF.getText();
 	}
 	
+	/**
+	 * Getter of the location
+	 * @return the location of the house
+	 */
 	public String getLocat() {
 		return priceTF.getText();
 	}
 	
+	/**
+	 * Getter of the zipcode
+	 * @return the zipcode of the house
+	 */
 	public String getZipcode() {
 		return priceTF.getText();
 	}
 	
+	/**
+	 * Getter of the characteristics
+	 * @return the characteristics of the house
+	 */
 	public List<Characteristics> getCharacteristics(){
 		List<Characteristics> chars = new ArrayList<Characteristics>();
-		//poolBox, parkingBox, gardenBox, wifiBox, tvBox, airBox
 		if (poolBox.isSelected()) chars.add(Characteristics.Pool);
 		if (parkingBox.isSelected()) chars.add(Characteristics.Parking);
 		if (gardenBox.isSelected()) chars.add(Characteristics.Garden);
@@ -202,10 +199,18 @@ public class HouseWindow extends JFrame{
 		return chars;		
 	}
 	
+	/**
+	 * Set the action for the accept button
+	 * @param c the actionListener for the accept button
+	 */
 	public void setHouseController(ActionListener c) {
 		accept.addActionListener(c);	
 	}
 	
+	/**
+	 * Set the action for the menu and the cancel button
+	 * @param c the actionListener for the buttons
+	 */
 	public void setMenuController(ActionListener c) {
 		menubutton.addActionListener(c);
 		cancel.addActionListener(c);
