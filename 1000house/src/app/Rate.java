@@ -18,7 +18,7 @@ public class Rate extends Comment implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1405443129398161362L;
-	private double rate;
+	private int rate;
 
 	/**
 	 * Constructor of a text
@@ -41,7 +41,7 @@ public class Rate extends Comment implements Serializable{
 	 *
 	 * @return the rate of the comment
 	 */
-	public double getRate() {
+	public int getRate() {
 		return rate;
 	}
 

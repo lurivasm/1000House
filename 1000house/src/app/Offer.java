@@ -219,8 +219,7 @@ public abstract class Offer implements Serializable{
 	* @return Boolean
 	*/
 	public Boolean calculateRate(){
-		int  cont = 0;
-		double aux = 0;
+		int aux = 0, cont = 0;
 		for (Comment rate : comments){
 			if(rate instanceof Rate) {
 				aux = aux + ((Rate)rate).getRate();
@@ -234,7 +233,7 @@ public abstract class Offer implements Serializable{
 		return true;
 	}
 	
-	public Boolean commentOffer(int rate) throws RateException,NotGuest{
+	public Boolean commentOffer(int rate) throws Exception{
 		if(app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 		try{
 			Rate r = new Rate(rate, app.getLog(), this);
@@ -247,7 +246,7 @@ public abstract class Offer implements Serializable{
 		}
 	}
 		
-	public Boolean commentOffer(String text) throws TextException,NotGuest{
+	public Boolean commentOffer(String text) throws Exception{
 		if(app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 		try{
 			Text t = new Text(text, app.getLog(), this);

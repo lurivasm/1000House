@@ -195,30 +195,30 @@ public class User implements Serializable {
 	/**
 	 * @return the host profile
 	 */
-	public Host getHostProfile() throws NotHost {
-		if(profile == null) {
-			throw new NotHost();
-		}
-		else if (profile.size() == 2 || profile.get(0) instanceof Host) {
+	public Host getHostProfile(){
+//		if(profile == null) {
+//			throw new NotHost();
+//		}
+		if (profile.size() == 2 || profile.get(0) instanceof Host) {
 			return (Host) profile.get(0);
 		} else {
-			throw new NotHost();
+			return null;
 		}
 	}
 
 	/**
 	 * @return the guest profile
 	 */
-	public Guest getGuestProfile() throws NotGuest {
-		if(profile == null) {
-			throw new NotGuest();
-		}
-		else if (profile.size() == 2) {
+	public Guest getGuestProfile(){
+//		if(profile == null) {
+//			throw new NotGuest();
+//		}
+		if (profile.size() == 2) {
 			return (Guest) profile.get(1);
 		} else if (profile.get(0) instanceof Guest) {
 			return (Guest) profile.get(0);
 		} else {
-			throw new NotGuest();
+			return null;
 		}
 	}
 
