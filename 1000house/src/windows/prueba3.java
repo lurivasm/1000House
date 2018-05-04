@@ -18,9 +18,11 @@ import app.Offer;
 import app.User;
 import app.UserStates;
 import controllers.AddAnswerController;
+import controllers.BackBuyBookController;
 import controllers.CommentController;
 import controllers.MenuController;
 import controllers.NextPrevController;
+import controllers.ViewAnswersController;
 
 public class prueba3 {
 	public static void main(String[] args) throws Exception{
@@ -56,10 +58,12 @@ public class prueba3 {
 		l.get(1).commentOffer("Pos esta to guapa la caasa esa ,10 de 10, me encanta LOKO");
 		l.get(1).commentOffer("PUTA BASURA DE MIERDA, VOY A QUEMAR TU PUTA CASA ASQUEROSO CABRON, TENIA CUCARACHAS EN TODOS LADOS Y HE COGIDO SIDA DE SENTARME EN TU COCHAMBROSO SOFA. Pero la piscina estaba bien :)");
 		SeeOfferWindow w = new SeeOfferWindow(l,1);
+		w.setBackBuyBookController(new BackBuyBookController(w,app));
 		w.setMenuController(new MenuController(w,app));
 		w.setNextPrevController(new NextPrevController(w,app));
 		w.setCommentController(new CommentController(w,app));
 		w.setAddAnswerController(new AddAnswerController(w,app));
+		w.setViewAnswersController(new ViewAnswersController(w,app));
 //		JFrame w = new JFrame();
 //		Container cp = w.getContentPane();
 //		cp.setLayout(new BorderLayout());

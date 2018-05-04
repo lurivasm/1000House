@@ -14,6 +14,10 @@ import java.util.ArrayList;
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
+/**
+ * @author danist
+ *
+ */
 public class SeeOfferWindow  extends JFrame{
 
 	/**
@@ -218,7 +222,7 @@ public class SeeOfferWindow  extends JFrame{
      * @param size the split size.
      * @return an array of the split text.
      */
-    private static String[] splitSize(String text, int size) {
+    public  String[] splitSize(String text, int size) {
         List<String> parts = new ArrayList<>();
 
         int length = text.length();
@@ -230,29 +234,57 @@ public class SeeOfferWindow  extends JFrame{
     
     /**
 	 * Sets the controller for the menu button
-	 * @param c : the controller to be set
+	 * @param c  the controller to be set
 	 */
 	public void setMenuController(ActionListener c) {
 		menubutton.addActionListener(c);	
 	}
+	
+	/** Sets the controller for the back, buy and book butons
+	 * @param c the controller to be set
+	 */
 	public void setBackBuyBookController(ActionListener c) {
 		back.addActionListener(c);
 		buy.addActionListener(c);
 		book.addActionListener(c);
 	}
 	
+	/**
+	 * Sets the controller for the next and previous comment buttons
+	 * @param c the controller to be set
+	 */
 	public void setNextPrevController(ActionListener c) {
 		next.addActionListener(c);
 		prev.addActionListener(c);
 	}
 	
+	/**
+	 * Sets the controller for the comment button
+	 * @param c the controller to be set
+	 */
 	public void setCommentController(ActionListener c) {
 		addcomment.addActionListener(c);
 	}
+	
+	/**
+	 * Sets the controller for the add answer button
+	 * @param c the controller to be set
+	 */
 	public void setAddAnswerController(ActionListener c) {
 		addanswer.addActionListener(c);
 	}
 	
+	/**
+	 * Sets the controller for the view answer button
+	 * @param c the controller to be set
+	 */
+	public void setViewAnswersController(ActionListener c) {
+		viewanswer.addActionListener(c);
+	}
+	
+	/**
+	 * This method shows the next comment in the comment list
+	 */
 	public void nextPage() {
 		commentpanel.setVisible(false);
 		Offer o = results.get(offer);
@@ -300,6 +332,9 @@ public class SeeOfferWindow  extends JFrame{
 		System.out.print(comment);
 	}
 	
+	/**
+	 * This method shows the previous comment in the comment list
+	 */
 	public void prevPage() {
 		commentpanel.setVisible(false);
 		Offer o = results.get(offer);
@@ -345,10 +380,23 @@ public class SeeOfferWindow  extends JFrame{
 		centerlayout.putConstraint(SpringLayout.WEST,addcomment, 50, SpringLayout.WEST, commentpanel);
 	}
 	
+	/**
+	 * This method adds a text comment to the offer 
+	 * @param text text to add as comment
+	 * @throws TextException if the comment is bigger than 250 characters
+	 * @throws NotGuest if an user that is not guest tries to comment
+	 */
 	public void commentText(String text) throws TextException, NotGuest {
 		results.get(offer).commentOffer(text);
 		
 	}
+	
+	/**
+	 * This method adds a rate comment to the offer ,updating the value of the average rate
+	 * @param rate rate to add as comment
+	 * @throws RateException if the rate is under 0 or over 5
+	 * @throws NotGuest if an user that is not guest tries to comment
+	 */
 	public void commentRate(int rate) throws RateException, NotGuest {
 		
 		results.get(offer).commentOffer(rate);
@@ -357,15 +405,35 @@ public class SeeOfferWindow  extends JFrame{
 		comment++;
 	}
 	
+	/**
+	 * Adds an answer to the actual comment that's been showed on the window
+	 * @param text text to add as answer
+	 * @throws TextException if the comment is bigger than 250 characters
+	 * @throws NotGuest if an user that is not guest tries to answer
+	 */
 	public void addAnswer(String text) throws TextException, NotGuest {
 		((Text)results.get(offer).getComments().get(comment)).addAnswer(text);
 		viewanswer.setVisible(true);
 	}
+	
+	/**
+	 * @return the results field of the window
+	 */
 	public List<Offer> getResults(){
 		return results;
 	}
+	
+	/**
+	 * @return the offer field of the window
+	 */
 	public int getOffer() {
 		return offer;
 	}
 	
+	/**
+	 * @return the position of the comment that's been showed on the window
+	 */
+	public int getComment() {
+		return comment;
+	}
 }

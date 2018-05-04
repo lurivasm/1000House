@@ -28,6 +28,7 @@ public class GoToOfferController implements ActionListener{
 			w.setMenuController(new MenuController(w,model));
 			w.setCommentController(new CommentController(w,model));
 			w.setNextPrevController(new NextPrevController(w,model));
+			w.setViewAnswersController(new ViewAnswersController(w,model));
 		}
 		
 	}
