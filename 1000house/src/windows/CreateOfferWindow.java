@@ -38,8 +38,9 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	public 	CreateOfferWindow(List<House> list) {
 		super("1000House");
 		
-		titleLabel = new JLabel(" Create an Offer!   ");
+		titleLabel = new JLabel("Create an Offer!   ");
 		titleLabel.setFont(new Font("Tahoma",30,30));
+		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		/*Buttons*/
 		accept = new JButton("Accept");
