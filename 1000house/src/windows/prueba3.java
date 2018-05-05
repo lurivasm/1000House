@@ -15,6 +15,7 @@ import app.HolidaysOffer;
 import app.House;
 import app.LivingOffer;
 import app.Offer;
+import app.OfferStates;
 import app.User;
 import app.UserStates;
 import controllers.AddAnswerController;
@@ -28,7 +29,7 @@ public class prueba3 {
 	public static void main(String[] args) throws Exception{
 		List<Offer> l = new ArrayList<Offer>();
 		Application app = new Application("gd");
-		User u1 = new User( "Lucia", "Rivas Molina", "Gnomo69", "12796482F", "OD", "12345678" ,app);
+		User u1 = new User( "Lucia", "Rivas Molina", "Gnomo69", "12796482F", "OD", "1234567890123456" ,app);
 		u1.setState(UserStates.CONNECTED_HOST);
 		List<Characteristics> list = new ArrayList<Characteristics>();
 		list.add(Characteristics.AirConditioner);
@@ -57,6 +58,7 @@ public class prueba3 {
 		u1.setName("Manolo");
 		l.get(1).commentOffer("Pos esta to guapa la caasa esa ,10 de 10, me encanta LOKO");
 		l.get(1).commentOffer("PUTA BASURA DE MIERDA, VOY A QUEMAR TU PUTA CASA ASQUEROSO CABRON, TENIA CUCARACHAS EN TODOS LADOS Y HE COGIDO SIDA DE SENTARME EN TU COCHAMBROSO SOFA. Pero la piscina estaba bien :)");
+		l.get(1).setState(OfferStates.AVAILABLE);
 		SeeOfferWindow w = new SeeOfferWindow(l,1);
 		w.setBackBuyBookController(new BackBuyBookController(w,app));
 		w.setMenuController(new MenuController(w,app));

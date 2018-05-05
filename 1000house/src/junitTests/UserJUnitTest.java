@@ -67,16 +67,9 @@ public class UserJUnitTest {
 	 * Finally, it gets the Host profile from a host-guest user, and checks that prob is equal to 1 and p is a host.
 	 */
 	@Test
-	public void testGetHostProfile() throws NotHost{
-		int prob = 0;
-		try {
-			Profile p =  u4.getHostProfile();
-		}
-		catch(NotHost excep) {
-			prob = 1;
-		}
+	public void testGetHostProfile(){
 		Profile p = u1.getHostProfile();
-		assertEquals(prob,1);
+		
 		assertTrue(p instanceof Host);
 	}
 
@@ -87,16 +80,7 @@ public class UserJUnitTest {
 	 */
 	@Test
 	public void testGetGuestProfile() throws NotGuest{
-		int prob = 0;
-		try {
-			@SuppressWarnings("unused")
-			Profile p =  u3.getGuestProfile();
-		}
-		catch(NotGuest excep) {
-			prob = 1;
-		}
 		Profile p = u1.getGuestProfile();
-		assertEquals(prob,1);
 		assertTrue(p instanceof Guest);
 	}
 	

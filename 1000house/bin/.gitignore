@@ -1,8 +1,4 @@
-/app/
-/appDemos/
-/exception/
-/junitTests/
-/modifiableDates/
-/coso/
-/windows/
 /controllers/
+/app/
+/windows/
+/junitTests/

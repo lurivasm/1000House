@@ -27,7 +27,10 @@ public class LoginLogoutProfileController implements ActionListener {
 		JButton but = (JButton)arg0.getSource();
 		if(but.getActionCommand().equals("Login")) {
 			try {
-				model.login(view.getNif(), view.getPassword());
+				if(model.login(view.getNif(), view.getPassword()) == false) {
+					JOptionPane.showMessageDialog(view,"You're banned" );
+					return;
+				}
 				view.setUserLogin();
 			}
 			catch(NotRegisteredUser e) {

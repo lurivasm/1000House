@@ -481,6 +481,7 @@ public class Application implements Serializable {
 	public Boolean login(String NIF, String password) throws NotRegisteredUser {
 		for (User u : users) {
 			if (u.getNIF().equals(NIF) == true && u.getPassword().equals(password) == true) {
+				if(u.getState().equals(UserStates.BANNED)) return false;
 				log = u;
 
 				if (log.isHost() == true) {

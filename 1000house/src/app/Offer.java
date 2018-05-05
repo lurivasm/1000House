@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import exception.*;
+import es.uam.eps.padsof.telecard.OrderRejectedException;
 import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 
 /**
@@ -107,7 +108,7 @@ public abstract class Offer implements Serializable{
 	* @throws NotRegisteredUser in case the user is not Registered
 	* @return Boolean if the purchase has been successful or not
 	*/
-	public Boolean buyOffer() throws Exception{
+	public Boolean buyOffer() throws  NotRegisteredUser, NotGuest,NotHost,OrderRejectedException{
 		/*Case Not Registered User*/
 		if (app.getLog() == null) throw new NotRegisteredUser();
 		/*Case the user is not a guest*/
@@ -141,7 +142,7 @@ public abstract class Offer implements Serializable{
 			
 			/*Correct case*/
 			this.setState(OfferStates.BOUGHT);
-			if (app.getLog().getGuestProfile().addOffer(this) == false) return false;
+			app.getLog().getGuestProfile().addOffer(this);
 			return true;
 		}
 	}
@@ -233,7 +234,7 @@ public abstract class Offer implements Serializable{
 		return true;
 	}
 	
-	public Boolean commentOffer(int rate) throws Exception{
+	public Boolean commentOffer(int rate) throws RateException, NotGuest{
 		if(app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 		try{
 			Rate r = new Rate(rate, app.getLog(), this);
@@ -246,7 +247,7 @@ public abstract class Offer implements Serializable{
 		}
 	}
 		
-	public Boolean commentOffer(String text) throws Exception{
+	public Boolean commentOffer(String text) throws TextException, NotGuest{
 		if(app.getLog().getState().equals(UserStates.CONNECTED_GUEST) == false) throw new NotGuest();
 		try{
 			Text t = new Text(text, app.getLog(), this);
