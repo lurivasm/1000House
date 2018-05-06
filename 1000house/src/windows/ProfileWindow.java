@@ -1,13 +1,8 @@
 package windows;
 
 import app.*;
-import controllers.*;
-import exception.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.*;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -205,7 +200,7 @@ public class ProfileWindow extends JFrame{
 			Object[][] contentsOffer = new Object[size][6];
 			i = 0;
 			int a;
-			String co[] = new String[app.getwaitoffers().size()];
+//			String co[] = new String[app.getwaitoffers().size()];
 			for(House h : user.getHostProfile().getHouses()) {
 				if(h.getOffers().isEmpty() == true) continue;
 				for(Offer o : h.getOffers()) {
@@ -216,11 +211,15 @@ public class ProfileWindow extends JFrame{
 					contentsOffer[i][3] = o.getState();
 					contentsOffer[i][4] = o.getAverageRate();
 					a = i+1;
-					co[i] = ""+a;
+//					co[i] = ""+a;
 					contentsOffer[i][5] = ""+a;
 					i++;
 				}
 			}
+			
+			//Bucle precioso by Dani para arreglar el tamaño del array ese
+			String co[] = new String[i];
+			for(int j = 0;j < i; j++) co[j] = ""+ (j+1);
 			
 			dataOffer = new DefaultTableModel(contentsOffer, titlesOffer);
 			tableOffer = new JTable(dataOffer);
@@ -291,9 +290,9 @@ public class ProfileWindow extends JFrame{
 			
 			/*Banned User Panel*/
 			Object [] titlesBanUser = {"Name", "Surname", "NIF", "State", "Debt"};
-			Object [][] contentsBanUser = new Object[app.getBanUsers().size()][5];
+			Object [][] contentsBanUser = new Object[app.getBannedUsers().size()][5];
 			i = 0;
-			for(User o : app.getBanUsers()) {
+			for(User o : app.getBannedUsers()) {
 				contentsBanUser[i][0] = o.getName();
 				contentsBanUser[i][1] = o.getSurname();
 				contentsBanUser[i][2] = o.getNIF();
@@ -543,6 +542,12 @@ public class ProfileWindow extends JFrame{
 		return this.changeOfferPanel;
 	}
 	
+	/**
+	 * @return The selected offer in the waiting offers combo box
+	 */
+	public int getWaitOffer() {
+		return Integer.parseInt((String)comboboxWO.getSelectedItem());
+	}
 
 	/**
 	 * Set the action for the changeProfile button

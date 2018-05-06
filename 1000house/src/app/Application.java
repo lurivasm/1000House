@@ -485,10 +485,11 @@ public class Application implements Serializable {
 				log = u;
 
 				if (log.isHost() == true) {
+					if(log.isGuest()) checkReserves(log);
 					log.setState(UserStates.CONNECTED_HOST);
 					checkOffers(log, this);
 					return true;
-				} else if (log.isGuest() == true) {
+				} if (log.isGuest() == true) {
 					log.setState(UserStates.CONNECTED_GUEST);
 					checkReserves(log);
 					return true;
@@ -614,11 +615,7 @@ public class Application implements Serializable {
 		}
 	}
 
-	public List<User> getBannedUsers() throws NotAdmin {
-		try {
-			if (log.isAdmin() == false) {
-				throw new NotAdmin();
-			}
+	public List<User> getBannedUsers() {
 			List<User> res = new ArrayList<User>();
 			for (User u : users) {
 				if (u.getState().equals(UserStates.BANNED)) {
@@ -626,11 +623,6 @@ public class Application implements Serializable {
 				}
 			}
 			return res;
-		} catch (NotAdmin excep) {
-			System.out.println(excep);
-			return null;
-		}
-
 	}
 
 }

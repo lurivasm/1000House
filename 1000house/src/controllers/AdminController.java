@@ -10,7 +10,7 @@ import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 import exception.NotAdmin;
 import windows.*;
 
-public class adminController implements ActionListener{
+public class AdminController implements ActionListener{
 	private Application model;
 	private ProfileWindow view;
 	
@@ -19,7 +19,7 @@ public class adminController implements ActionListener{
 	 * @param l_ the House WIndow
 	 * @param model the model of the Window
 	 */
-	public adminController(ProfileWindow l_, Application model){
+	public AdminController(ProfileWindow l_, Application model){
 		this.view = l_;
 		this.model = model;
 	}
@@ -38,7 +38,7 @@ public class adminController implements ActionListener{
 			String neww = view.getNewCCNUmber();
 			
 			/*If there are no banned users*/
-			if(model.getBanUsers().isEmpty() == true) {
+			if(model.getBannedUsers().isEmpty() == true) {
 				JOptionPane.showMessageDialog(view,"There Are No Banned Users");
 				return;
 			}
@@ -52,7 +52,7 @@ public class adminController implements ActionListener{
 				JOptionPane.showMessageDialog(view,"New CCard invalid");
 				return;
 			}
-			for(User u : model.getBanUsers()) {
+			for(User u : model.getBannedUsers()) {
 				if(u.isGuest() == true) {
 					if(u.getGuestProfile().getccNumber().equals(old)) {
 						u.getGuestProfile().setCcNumber(neww);
@@ -83,7 +83,7 @@ public class adminController implements ActionListener{
 			h.setProfileController(cont);
 			MenuController menu = new MenuController(h, model);
 			h.setMenuController(menu);
-			adminController ad = new adminController(h, model);
+			AdminController ad = new AdminController(h, model);
 			h.setAdminController(ad);
 		}
 		
@@ -106,11 +106,13 @@ public class adminController implements ActionListener{
 			return;
 		}
 		
-		/*TIENES QUE IMPLEMETAR ESTO DANITI*/
-		/*LUEGO BORRA ESTOS COMENTARIOS XDXDXD HASTA EL *****/
 		/*See Offer button*/
 		else if(but.getActionCommand().equals("See")) {
-			
+			view.setVisible(false);
+			SeeOfferWindow nv = new SeeOfferWindow(model.getwaitoffers(),view.getWaitOffer()-1);
+			nv.setBackBuyBookController(new BackBuyBookController(nv,model));
+			nv.setMenuController(new MenuController(nv,model));
+			nv.setAdminView();
 		}
 		
 		/*Accept offer button*/
@@ -129,7 +131,7 @@ public class adminController implements ActionListener{
 			h.setProfileController(cont);
 			MenuController menu = new MenuController(h, model);
 			h.setMenuController(menu);
-			adminController ad = new adminController(h, model);
+			AdminController ad = new AdminController(h, model);
 			h.setAdminController(ad);
 			return;
 		}
@@ -150,7 +152,7 @@ public class adminController implements ActionListener{
 			h.setProfileController(cont);
 			MenuController menu = new MenuController(h, model);
 			h.setMenuController(menu);
-			adminController ad = new adminController(h, model);
+			AdminController ad = new AdminController(h, model);
 			h.setAdminController(ad);
 			return;
 		}

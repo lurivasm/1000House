@@ -160,7 +160,7 @@ public class ProfileController implements ActionListener{
 						h.setProfileController(cont);
 						MenuController menu = new MenuController(h, model);
 						h.setMenuController(menu);
-						adminController ad = new adminController(h, model);
+						AdminController ad = new AdminController(h, model);
 						h.setAdminController(ad);
 						
 					/*If while you were paying you are banned you are logged out*/
@@ -196,7 +196,7 @@ public class ProfileController implements ActionListener{
 						h.setProfileController(cont);
 						MenuController menu = new MenuController(h, model);
 						h.setMenuController(menu);
-						adminController ad = new adminController(h, model);
+						AdminController ad = new AdminController(h, model);
 						h.setAdminController(ad);
 								
 					} catch (Exception e) {

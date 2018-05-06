@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import windows.*;
 import app.Application;
-import app.OfferStates;
 import es.uam.eps.padsof.telecard.OrderRejectedException;
 import exception.NotGuest;
 import exception.NotHost;
@@ -25,14 +24,23 @@ public class BackBuyBookController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton but = (JButton) arg0.getSource();
 		if (but.getActionCommand().equals("Back")) {
-			view.setVisible(false);
-			double page = Math.floor(view.getOffer() / 15) + 1;
-			SearchWindow nv = new SearchWindow(view.getResults());
-			nv.setNextPrevController(new NextPrevController(nv, model));
-			nv.setMenuController(new MenuController(nv, model));
-			nv.setGoController(new GoToOfferController(nv, model));
-			while (nv.getPage() != page && page != 0)
-				nv.nextPage();
+			if(model.getLog().isGuest()) {
+				view.setVisible(false);
+				double page = Math.floor(view.getOffer() / 15) + 1;
+				SearchWindow nv = new SearchWindow(view.getResults());
+				nv.setNextPrevController(new NextPrevController(nv, model));
+				nv.setMenuController(new MenuController(nv, model));
+				nv.setGoController(new GoToOfferController(nv, model));
+				while (nv.getPage() != page && page != 0)
+					nv.nextPage();
+			}
+			else {
+				view.setVisible(false);
+				ProfileWindow nv = new ProfileWindow(model);
+				nv.setAdminController(new AdminController(nv,model));
+				nv.setProfileController(new ProfileController(nv,model));
+				nv.setMenuController(new MenuController(nv,model));
+			}
 		} else if (but.getActionCommand().equals("Buy")) {
 			if(view.getResults().get(view.getOffer()).isAvailable() == false) {
 				JOptionPane.showMessageDialog(view, "This offer it's not available");

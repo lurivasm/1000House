@@ -37,11 +37,17 @@ public class LoginLogoutProfileController implements ActionListener {
 				JOptionPane.showMessageDialog(view,e );
 			}	
 		}
-		if(but.getActionCommand().equals("Logout")) {
+		else if(but.getActionCommand().equals("Logout")) {
 			model.logout();
 			view.setUserLogout();
 		}
-			
+		else {
+			view.setVisible(false);
+			ProfileWindow nv = new ProfileWindow(model);
+			nv.setAdminController(new AdminController(nv,model));
+			nv.setProfileController(new ProfileController(nv,model));
+			nv.setMenuController(new MenuController(nv,model));
+		}
 	}
 	
 	

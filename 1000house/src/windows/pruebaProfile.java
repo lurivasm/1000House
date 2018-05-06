@@ -39,7 +39,7 @@ public class pruebaProfile {
 		
 		ProfileWindow h = new ProfileWindow(app);
 		ProfileController cont = new ProfileController(h, app);
-		adminController ad = new adminController(h, app);
+		AdminController ad = new AdminController(h, app);
 		h.setProfileController(cont);
 		h.setAdminController(ad);
 		MenuController menu = new MenuController(h, app);

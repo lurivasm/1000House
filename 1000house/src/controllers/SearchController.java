@@ -31,6 +31,10 @@ public class SearchController implements ActionListener{
 	public void actionPerformed(ActionEvent arg0){  
 		JButton but = (JButton)arg0.getSource();
 		List<Offer> l = null;
+		if(model.getLog().isAdmin()) {
+			JOptionPane.showMessageDialog(view,"Why would the admin try to search in the app?" );
+			return;
+		}
 		if(but.getName().equals("type")) {
 			l = model.searchType(view.getSelectedType());
 			if(l.size() == 0) JOptionPane.showMessageDialog(view,"No results" );

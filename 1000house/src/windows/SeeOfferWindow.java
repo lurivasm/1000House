@@ -18,6 +18,10 @@ import java.util.ArrayList;
  * @author danist
  *
  */
+/**
+ * @author danist
+ *
+ */
 public class SeeOfferWindow  extends JFrame{
 
 	/**
@@ -378,6 +382,16 @@ public class SeeOfferWindow  extends JFrame{
 		addcomment.setPreferredSize(new Dimension(300,50));
 		centerlayout.putConstraint(SpringLayout.NORTH, addcomment, 20, SpringLayout.SOUTH, commentpanel);
 		centerlayout.putConstraint(SpringLayout.WEST,addcomment, 50, SpringLayout.WEST, commentpanel);
+	}
+	
+	
+	/**
+	 * This method changes the window to be showed to the admin before he accepts or denies it
+	 */
+	public void setAdminView() {
+		commentpanel.setVisible(false);
+		buy.setVisible(false);
+		book.setVisible(false);
 	}
 	
 	/**
