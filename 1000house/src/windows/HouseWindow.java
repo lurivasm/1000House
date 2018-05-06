@@ -1,29 +1,26 @@
 package windows;
 
-
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
-
 import app.Characteristics;
 
-
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * Creating a house Window
+ */
 public class HouseWindow extends JFrame{
 
 	/**
-	 * 
+	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * JPanels for each characteristics
+	 */
 	private JPanel charPanel = new JPanel();
 	private JPanel housePanel = new JPanel();
 	private JPanel locPanel = new JPanel();
@@ -31,6 +28,9 @@ public class HouseWindow extends JFrame{
 	private JPanel descPanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	private JPanel menuPanel = new JPanel();
+	/**
+	 * Labels, textfields and buttons
+	 */
 	private JLabel descriptionLabel, priceLabel, charactLabel, locationLabel;
 	private JTextField priceTF, locatTF;
 	private JTextArea descTF;
@@ -45,6 +45,7 @@ public class HouseWindow extends JFrame{
 		super("1000House");
 		int i;
 	//	Color color = new Color(180,255,190,220);
+		
 		/*Labels*/
 		descriptionLabel = new JLabel("Description :           ");
 		priceLabel = new JLabel("    Zipcode :  ");
@@ -115,7 +116,6 @@ public class HouseWindow extends JFrame{
 		allPanel.add(descriptionLabel);
 		allPanel.add(descPanel);
 
-		
 		/*Button Panel*/
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(accept);
@@ -132,7 +132,6 @@ public class HouseWindow extends JFrame{
 		housePanel.add(allPanel);
 		housePanel.add(charPanel);
 	
-		
 		/*Menu Panel*/
 		BoxLayout menuLayout = new BoxLayout(menuPanel,BoxLayout.Y_AXIS);
 		menuPanel.setLayout(menuLayout);	
@@ -142,7 +141,6 @@ public class HouseWindow extends JFrame{
 			menuPanel.add(new JPanel());
 		}
 		menuPanel.setPreferredSize(new Dimension(180,300));		
-		
 		
 		/*The container*/
 		Container cont = this.getContentPane();

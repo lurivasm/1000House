@@ -10,13 +10,18 @@ import es.uam.eps.padsof.telecard.TeleChargeAndPaySystem;
 import exception.NotAdmin;
 import windows.*;
 
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * Controller for the admin's buttons in the profile panel
+ */
 public class AdminController implements ActionListener{
 	private Application model;
 	private ProfileWindow view;
 	
 	/**
 	 * Constructor of the CreateOfferController
-	 * @param l_ the House WIndow
+	 * @param l_ the Profile Window
 	 * @param model the model of the Window
 	 */
 	public AdminController(ProfileWindow l_, Application model){
@@ -26,8 +31,8 @@ public class AdminController implements ActionListener{
 	
 	@Override
 	/**
-	 * Sets the action for the change profile button, changing the profile in case the user
-	 * is guest and host
+	 * Sets the action for the change credit card numbers and accept, cancel, see and 
+	 * deny offers buttons
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 		JButton but = (JButton)arg0.getSource();
@@ -37,12 +42,12 @@ public class AdminController implements ActionListener{
 			String old = view.getOlcCCNumber();
 			String neww = view.getNewCCNUmber();
 			
-			/*If there are no banned users*/
+			/*If there are no banned users you cannot change it*/
 			if(model.getBannedUsers().isEmpty() == true) {
 				JOptionPane.showMessageDialog(view,"There Are No Banned Users");
 				return;
 			}
-			/*Spaces in the jtextfields*/
+			/*If there are spaces in the jtextfields*/
 			if(old.equals("") == true || neww.equals("") == true) {
 				JOptionPane.showMessageDialog(view,"Fill all the fields");
 				return;
@@ -97,12 +102,24 @@ public class AdminController implements ActionListener{
 		else if(but.getActionCommand().equals("Ask for Changes")) {
 			int index = view.getWOComboBox().getSelectedIndex();
 			try {
+				if(model.getwaitoffers().get(index).getState().equals(OfferStates.WAITING) == false) {
+					JOptionPane.showMessageDialog(view,"This offer is already asked for changes");
+					return;
+				}
 				model.getwaitoffers().get(index).askForChanges("Change something");
 			} catch (NotAdmin e) {
 				JOptionPane.showMessageDialog(view,e);
 				return;
 			}
 			JOptionPane.showMessageDialog(view,"Asked for changes");
+			view.setVisible(false);
+			ProfileWindow h = new ProfileWindow(model);
+			ProfileController cont = new ProfileController(h, model);
+			h.setProfileController(cont);
+			MenuController menu = new MenuController(h, model);
+			h.setMenuController(menu);
+			AdminController ad = new AdminController(h, model);
+			h.setAdminController(ad);
 			return;
 		}
 		

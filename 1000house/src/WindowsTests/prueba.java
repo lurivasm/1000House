@@ -1,8 +1,9 @@
-package windows;
+package WindowsTests;
 
 
 import app.Application;
 import controllers.*;
+import windows.LoginWindow;
 
 public class prueba {
 

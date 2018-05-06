@@ -1,4 +1,3 @@
-/controllers/
-/app/
 /windows/
-/junitTests/
+/controllers/
+/WindowsTests/

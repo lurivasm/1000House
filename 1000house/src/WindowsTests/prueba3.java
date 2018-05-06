@@ -1,4 +1,4 @@
-package windows;
+package WindowsTests;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -24,6 +24,7 @@ import controllers.CommentController;
 import controllers.MenuController;
 import controllers.NextPrevController;
 import controllers.ViewAnswersController;
+import windows.SeeOfferWindow;
 
 public class prueba3 {
 	public static void main(String[] args) throws Exception{

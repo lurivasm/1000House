@@ -6,14 +6,18 @@ import javax.swing.JOptionPane;
 import app.*;
 import windows.*;
 
-
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * Controller for the creating houses buttons in the house panel
+ */
 public class HouseController implements ActionListener{
 	private Application model;
 	private HouseWindow view;
 	
 	/**
 	 * Constructor of the HouseController
-	 * @param l_ the House WIndow
+	 * @param l_ the House Window
 	 * @param model the model of the Window
 	 */
 	public HouseController(HouseWindow l_, Application model){
@@ -50,6 +54,7 @@ public class HouseController implements ActionListener{
 			nv.setLoginLogoutProfileController(new LoginLogoutProfileController(nv,model));
 			nv.setSearchController(new SearchController(nv,model));     
 		}
+		
 		/*Case the format of the ints and longs is incorrect*/
 		catch (NumberFormatException nfe) {
 			JOptionPane.showMessageDialog(view,"Wrong format");

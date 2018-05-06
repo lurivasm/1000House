@@ -4,17 +4,22 @@ import app.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 import java.util.List;
-
 import javax.swing.*;
 
-
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * Create Offer Window
+ */
 public class CreateOfferWindow extends JFrame implements ActionListener {
 	/**
-	 * 
+	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Different panels for each characteristic 
+	 */
 	private JPanel offerPanel = new JPanel();
 	private JPanel allPanel = new JPanel();
 	private JPanel menuPanel = new JPanel();
@@ -22,6 +27,9 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	private JPanel typePanel = new JPanel();
 	private JPanel timePanel = new JPanel();
 	private JPanel endPanel = new JPanel();
+	/**
+	 * Combo boxes, labels and buttons
+	 */
 	private JComboBox<String> housesBox;
 	private JLabel priceLabel, titleLabel, depositLabel, houseLabel, iniLabel, endLabel, timeLabel, typeLabel;
 	private JTextField priceTF, depositTF, iniTF, endTF, timeTF;
@@ -38,6 +46,7 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 	public 	CreateOfferWindow(List<House> list) {
 		super("1000House");
 		
+		/*The title label*/
 		titleLabel = new JLabel("Create an Offer!   ");
 		titleLabel.setFont(new Font("Tahoma",30,30));
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -151,7 +160,6 @@ public class CreateOfferWindow extends JFrame implements ActionListener {
 		cont.setLayout(layout);
 		cont.add(menuPanel,BorderLayout.WEST);
 		cont.add(centerPanel, BorderLayout.CENTER);
-		
 		
 		this.pack();
 		this.setVisible(true);

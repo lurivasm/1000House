@@ -1,10 +1,11 @@
-package windows;
+package WindowsTests;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.*;
 import controllers.*;
+import windows.CreateOfferWindow;
 
 public class pruebaCreateOffer {
 

@@ -10,13 +10,18 @@ import java.time.*;
 import app.*;
 import windows.*;
 
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * Controller for the creating offer buttons in the create offer panel
+ */
 public class CreateOfferController implements ActionListener{
 	private Application model;
 	private CreateOfferWindow view;
 	
 	/**
 	 * Constructor of the CreateOfferController
-	 * @param l_ the House WIndow
+	 * @param l_ the create offer Window
 	 * @param model the model of the Window
 	 */
 	public CreateOfferController(CreateOfferWindow l_, Application model){
@@ -40,7 +45,7 @@ public class CreateOfferController implements ActionListener{
         House house = null;
         LocalDate iniDate, endDate;
         
-        /*Case there are spaces*/
+        /*Case there are spaces you cannot accept*/
         if(p.equals("") == true || d.equals("") == true) {
         	JOptionPane.showMessageDialog(view,"Fill all the fields");
         	return;
@@ -55,11 +60,7 @@ public class CreateOfferController implements ActionListener{
 	        		break;
 	        	}
 	        }
-/*BORRRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRR*/
-			if(house == null) {
-				JOptionPane.showMessageDialog(view,"THis house doesnt exist");
-	        	return;
-			}
+
 			/*Case Living Offer*/
 	        if (type.equals("Living Offer")) {
 	        	String duration = view.getTime();

@@ -1,10 +1,11 @@
-package windows;
+package WindowsTests;
 
 
 
 import app.*;
 import controllers.*
-;public class pruebaHouse {
+;
+import windows.HouseWindow;public class pruebaHouse {
 
 	public static void main(String[] args) throws Exception{
 		User host;

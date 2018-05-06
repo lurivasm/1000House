@@ -9,6 +9,11 @@ import javax.swing.JOptionPane;
 import app.*;
 import windows.*;
 
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * Controller for the users' buttons in the profile panel
+ */
 public class ProfileController implements ActionListener{
 	private Application model;
 	private ProfileWindow view;
@@ -30,6 +35,7 @@ public class ProfileController implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 		JButton but = (JButton)arg0.getSource();
+		
 		/*Change Profile Button*/
 		if(but.getActionCommand().equals("Change Profile")) {
 			/*Change from guest to host*/
@@ -52,7 +58,7 @@ public class ProfileController implements ActionListener{
 			}
 		}
 		
-		/*Change Offer*/
+		/*Change Offer button*/
 		else if(but.getActionCommand().equals("Change Offer")) {
 			Offer offer;
 			int i = 0;
@@ -74,16 +80,19 @@ public class ProfileController implements ActionListener{
 						if(o.getState().equals(OfferStates.CHANGES)) {
 							offer = o;
 							switch(index) {
+								/*Case price is selected*/
 								case 0:
 									price = Integer.parseInt(text);
 									o.setPrice(price);
 									break;
 		
+								/*Case deposit is selected*/
 								case 1:
 									price = Integer.parseInt(text);
 									o.setDeposit(price);
 									break;
 									
+								/*Case initial date is selected*/
 								case 2:
 									date = text.split("-");
 									try{
@@ -94,10 +103,11 @@ public class ProfileController implements ActionListener{
 										return;
 									}
 									break;
-																
+									
+								/*Case end date is selected*/	
 								case 3:
 									if(o instanceof LivingOffer) {
-										JOptionPane.showMessageDialog(view, "Wrong Format");
+										JOptionPane.showMessageDialog(view, "This offer is for Holidays");
 										return;
 									}
 									ho = (HolidaysOffer)o;
@@ -111,9 +121,10 @@ public class ProfileController implements ActionListener{
 									}
 									break;
 									
+								/*Case Duration is selected to change*/	
 								case 4:
 									if(o instanceof HolidaysOffer) {
-										JOptionPane.showMessageDialog(view, "Wrong Format");
+										JOptionPane.showMessageDialog(view, "This offer is for Living");
 										return;
 									}
 									lo = (LivingOffer)o;
@@ -121,11 +132,21 @@ public class ProfileController implements ActionListener{
 									lo.setnumMonths(price);
 									break;									
 							}
+							/*Sets the state to waiting so that the admin can accept it*/
 							o.setState(OfferStates.WAITING);
 							JOptionPane.showMessageDialog(view, "Offer Changed");
+							view.setVisible(false);
+							ProfileWindow p = new ProfileWindow(model);
+							ProfileController cont = new ProfileController(p, model);
+							p.setProfileController(cont);
+							MenuController menu = new MenuController(p, model);
+							p.setMenuController(menu);
+							AdminController ad = new AdminController(p, model);
+							p.setAdminController(ad);
 							return;
 							
 						}
+						/*Case the offer does not have CHANGES state*/
 						else {
 							JOptionPane.showMessageDialog(view, "This offer does not need changes");
 							return;
@@ -148,12 +169,13 @@ public class ProfileController implements ActionListener{
 			String item = (String)view.getReserveComboBox().getSelectedItem();
 			String items[] = item.split("-");
 			long zipcode = Long.parseLong(items[1]);
+			
+			/*Look for the reserve to pay*/
 			for(Reserve r : model.getLog().getGuestProfile().getReserves()) {
 				if(r.getOffer().getHouse().getLocation().equals(items[0])
 						&& zipcode == r.getOffer().getHouse().getZipcode()){
 					try {
 						r.payOffer();
-						JOptionPane.showMessageDialog(view, "Reserve Payed");
 						view.setVisible(false);
 						ProfileWindow h = new ProfileWindow(model);
 						ProfileController cont = new ProfileController(h, model);
@@ -162,6 +184,7 @@ public class ProfileController implements ActionListener{
 						h.setMenuController(menu);
 						AdminController ad = new AdminController(h, model);
 						h.setAdminController(ad);
+						JOptionPane.showMessageDialog(view, "Reserve Payed");
 						
 					/*If while you were paying you are banned you are logged out*/
 					} catch(java.lang.NullPointerException e) {
@@ -184,6 +207,8 @@ public class ProfileController implements ActionListener{
 			String item = (String)view.getReserveComboBox().getSelectedItem();
 			String items[] = item.split("-");
 			long zipcode = Long.parseLong(items[1]);
+			
+			/*Look for the reserve to cancel*/
 			for(Reserve r : model.getLog().getGuestProfile().getReserves()) {
 				if(r.getOffer().getHouse().getLocation().equals(items[0])
 						&& zipcode == r.getOffer().getHouse().getZipcode()){

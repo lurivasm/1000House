@@ -5,24 +5,39 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ * The profile window for hosts, guests and administrator
+ */
 public class ProfileWindow extends JFrame{
 	/**
-	 * 
+	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * JPanels for each type of user
+	 */
 	private JPanel thingsPanel = new JPanel();
 	private JPanel labelPanel = new JPanel();
 	private JPanel profilePanel = new JPanel();
 	private JPanel reservePanel = new JPanel();
 	private JPanel changeOfferPanel = new JPanel();
+	/**
+	 * JCombobox and tables for the different users
+	 */
 	private JComboBox<String> combobox, comboboxWO, comboboxCO, comboboxThing;
 	private JTable tableWaitoffer, tableHouse, tableHistory, tableReserve, tableUser, tableBanUser, tableOffer;
 	private DefaultTableModel dataWaitoffer, dataHouse, dataReserve, dataHistory, dataOffer, dataUser, dataBanUser;
+	/**
+	 * Final panel for the container
+	 */
 	private JScrollPane scrollWaitoffer, scrollHistory, scrollHouse, scrollReserve, scrollUser, scrollBanUser, scrollOffer;
 	private JTabbedPane tabbPanel = new JTabbedPane();
 	private JSplitPane splitPanel;
+	/**
+	 * Labels, buttons and text fields
+	 */
 	private JLabel titleLabel, nameLabel, surnameLabel, nifLabel, stateLabel, ccnumberLabel;
 	private JLabel name, surname, nif, state, ccnumber;
 	private JButton menubutton = new JButton("Main menu");
@@ -45,11 +60,10 @@ public class ProfileWindow extends JFrame{
 		super("1000House");
 		int i = 0;
 		
-	
 		/*We need the logged user*/
 		User user = app.getLog();
 		
-		/*State And Ttile Label*/
+		/*State And Title Label*/
 		titleLabel = new JLabel("Profile Data");
 		titleLabel.setFont(new Font("Georgia",20,20));
 		titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.ITALIC ,titleLabel.getFont().getSize()));
@@ -58,7 +72,7 @@ public class ProfileWindow extends JFrame{
 		state = new JLabel(user.getState().toString());
 	    state.setFont(new Font(state.getFont().getName(), Font.ITALIC ,state.getFont().getSize()));
 		
-		/*The admin does not have profile*/
+		/*The administrator does not have profile*/
 		if(user.isGuest() == true || user.isHost() == true) {
 			
 			/*Labels*/
@@ -79,8 +93,7 @@ public class ProfileWindow extends JFrame{
 		    else if (user.isHost() == true) {
 		    	ccnumber = new JLabel(user.getHostProfile().getccNumber());
 		    	ccnumber.setFont(new Font(ccnumber.getFont().getName(), Font.ITALIC ,ccnumber.getFont().getSize()));
-		    }
-		    			
+		    }		
 			
 			/*Profile Panel*/
 			labelPanel.setLayout(new BoxLayout(labelPanel,BoxLayout.Y_AXIS));
@@ -103,7 +116,7 @@ public class ProfileWindow extends JFrame{
 			thingsPanel.add(new JPanel());
 		}
 		
-		/*The admin does have state*/
+		/*The administrator does have state*/
 		labelPanel.add(stateLabel);
 		thingsPanel.add(state);
 		JPanel dataPanel = new JPanel();
@@ -112,6 +125,7 @@ public class ProfileWindow extends JFrame{
 		
 		/*If the user is guest we add History and Reserves Table*/
 		if(user.isGuest() == true) {
+			
 			/*History Panel*/
 			Object [] titlesHistory = {"Location", "Zip Code", "Type", "Price", "Host"};
 			Object [][] contentsHistory = new Object[user.getGuestProfile().getOffers().size()][5];
@@ -148,7 +162,6 @@ public class ProfileWindow extends JFrame{
 			scrollReserve = new JScrollPane();
 			scrollReserve.setViewportView (tableReserve);
 			
-			
 			/*Pay and Cancel*/
 			JPanel payPanel = new JPanel();
 			payPanel.add(paybutton);
@@ -174,8 +187,9 @@ public class ProfileWindow extends JFrame{
 		}
 		
 		
-		/*If the user is host we add House Table*/
+		/*If the user is host we add House Table and Offer Table*/
 		if(user.isHost() == true) {
+			
 			/*House Panel*/
 			Object [] titlesHouse = {"Location", "Zip Code", "Nº Offers"};
 			Object[][] contentsHouse = new Object[user.getHostProfile().getHouses().size()][3];
@@ -200,7 +214,6 @@ public class ProfileWindow extends JFrame{
 			Object[][] contentsOffer = new Object[size][6];
 			i = 0;
 			int a;
-//			String co[] = new String[app.getwaitoffers().size()];
 			for(House h : user.getHostProfile().getHouses()) {
 				if(h.getOffers().isEmpty() == true) continue;
 				for(Offer o : h.getOffers()) {
@@ -211,13 +224,12 @@ public class ProfileWindow extends JFrame{
 					contentsOffer[i][3] = o.getState();
 					contentsOffer[i][4] = o.getAverageRate();
 					a = i+1;
-//					co[i] = ""+a;
 					contentsOffer[i][5] = ""+a;
 					i++;
 				}
 			}
 			
-			//Bucle precioso by Dani para arreglar el tamaño del array ese
+			/*Combobox for the offers*/
 			String co[] = new String[i];
 			for(int j = 0;j < i; j++) co[j] = ""+ (j+1);
 			
@@ -234,8 +246,11 @@ public class ProfileWindow extends JFrame{
 			JPanel choose1 = new JPanel();
 			JLabel l1 = new JLabel("Nº offer : ");
 			JLabel l2 = new JLabel("Change: ");
-
+			
+			comboboxCO.setToolTipText("Select the offer to change");
+			comboboxThing.setToolTipText("Select what you want to change");
 			textfield = new JTextField(9);
+			textfield.setToolTipText("Enter the changes (dates year-month-day)");
 			choose1.add(l1);
 			choose1.add(comboboxCO);
 			choose1.add(changeoffer);
@@ -270,6 +285,7 @@ public class ProfileWindow extends JFrame{
 		
 		/*If the user is admin we add a list of banned users and a list of waiting offers*/
 		if(user.isAdmin() == true) {
+			
 			/*User Panel*/
 			Object [] titlesUser = {"Name", "Surname", "NIF", "State", "Debt"};
 			Object [][] contentsUser = new Object[app.getUsers().size()][5];
@@ -300,8 +316,8 @@ public class ProfileWindow extends JFrame{
 				contentsBanUser[i][4] = o.getDebt();
 				i++;	
 			}
-			JLabel newlabel = new JLabel("Introduce the new CCNUmber:");
-			JLabel oldlabel = new JLabel("Introduce the old CCNumber:");
+			JLabel newlabel = new JLabel("New CCNUmber:");
+			JLabel oldlabel = new JLabel("Old CCNumber:  ");
 			newccnumber = new JTextField(16);
 			oldccnumber = new JTextField(16);
 			
@@ -310,8 +326,10 @@ public class ProfileWindow extends JFrame{
 			scrollBanUser = new JScrollPane();
 			scrollBanUser.setViewportView (tableBanUser);
 			JPanel oldpanel = new JPanel();
+			oldpanel.add(oldlabel);
 			oldpanel.add(oldccnumber);
 			JPanel newpanel = new JPanel();
+			newpanel.add(newlabel);
 			newpanel.add(newccnumber);
 			JPanel butpanel = new JPanel();
 			butpanel.add(changeCCButton);
@@ -319,16 +337,13 @@ public class ProfileWindow extends JFrame{
 			JPanel banPanel = new JPanel();
 			banPanel.setLayout(new BoxLayout(banPanel,BoxLayout.Y_AXIS));
 			banPanel.add(scrollBanUser);
-			banPanel.add(oldlabel);
 			banPanel.add(oldpanel);
-			banPanel.add(new JPanel());
-			banPanel.add(newlabel);
 			banPanel.add(newpanel);
 			banPanel.add(butpanel);
 			tabbPanel.addTab("Banned Users", banPanel);
 			
 			/*Waiting Offers Panel*/
-			Object [] titlesWaitoffer = {"Location", "Zip Code", "Type", "Price", "Host", "Number"};
+			Object [] titlesWaitoffer = {"Location", "Zip Code", "Type", "State", "Host", "Number"};
 			Object [][] contentsWaitoffer = new Object[app.getwaitoffers().size()][6];
 			i = 0;
 			int a;
@@ -337,7 +352,7 @@ public class ProfileWindow extends JFrame{
 				contentsWaitoffer[i][1] = o.getHouse().getZipcode();
 				if(o instanceof LivingOffer) contentsWaitoffer[i][2] = "Living";
 				else if(o instanceof HolidaysOffer) contentsWaitoffer[i][2] = "Holidays";
-				contentsWaitoffer[i][3] = o.getPrice();
+				contentsWaitoffer[i][3] = o.getState().toString();
 				contentsWaitoffer[i][4] = o.getHouse().getHost().getName();
 				a = i+1;
 				contentsWaitoffer[i][5] = ""+a;
@@ -348,13 +363,18 @@ public class ProfileWindow extends JFrame{
 			scrollWaitoffer = new JScrollPane();
 			scrollWaitoffer.setViewportView (tableWaitoffer);
 			
+			/*Combobox for waiting offers*/
 			String wo[] = new String[app.getwaitoffers().size()];
 			for(i = 0; i < app.getwaitoffers().size(); i++) {
 				a = i+1;
 				wo[i] = ""+a;
 			}
 			comboboxWO = new JComboBox<String>(wo);
-			
+			see.setToolTipText("Go to the Offer Site");
+			accept.setToolTipText("Accept the offer");
+			deny.setToolTipText("Deny and remove the offer");
+			comboboxWO.setToolTipText("Select the number of offer in the table");
+			ask.setToolTipText("Ask for some changes");
 			JPanel tpanel = new JPanel();
 			tpanel.add(see);
 			tpanel.add(accept);
@@ -362,18 +382,15 @@ public class ProfileWindow extends JFrame{
 			JPanel askpanel = new JPanel();
 			askpanel.add(comboboxWO);
 			askpanel.add(ask);
-			
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
 			buttonPanel.add(askpanel);
 			buttonPanel.add(tpanel);
-						
 			
 			JPanel waitPanel = new JPanel();
 			waitPanel.setLayout(new BoxLayout(waitPanel,BoxLayout.Y_AXIS));
 			waitPanel.add(scrollWaitoffer);
 			waitPanel.add(buttonPanel);
-			
 			tabbPanel.addTab("Waiting Offers", waitPanel);
 			
 		}
@@ -393,10 +410,13 @@ public class ProfileWindow extends JFrame{
 		profilePanel.add(new JPanel());
 		profilePanel.add(menubutton);
 		menubutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		/*If the user is host and guest we add the change profile button*/
 		profilePanel.add(new JPanel());
 		if(user.isGuest() == true && user.isHost() == true) {
 			profilePanel.add(changeProfile);
 			changeProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
+			changeProfile.setToolTipText("Change your state profile");
 		}
 		for(int j = 0 ; j< 16 ; j++) profilePanel.add(new JPanel());		
 		profilePanel.setMinimumSize(new Dimension(0, 0));
@@ -444,7 +464,6 @@ public class ProfileWindow extends JFrame{
 	public String getChanges() {
 		return this.textfield.getText();
 	}
-	
 	
 	/**
 	 * Getter of the house table
@@ -550,8 +569,8 @@ public class ProfileWindow extends JFrame{
 	}
 
 	/**
-	 * Set the action for the changeProfile button
-	 * @param c the actionListener for the changeProfile button
+	 * Set the action for the changeProfile, pay, cancel and changeoffer button
+	 * @param c the actionListener for the changeProfile , pay, cancel and changeoffer button
 	 */
 	public void setProfileController(ActionListener c) {
 		changeProfile.addActionListener(c);	
@@ -562,7 +581,7 @@ public class ProfileWindow extends JFrame{
 	
 	/**
 	 * Set the action for the admin's button
-	 * @param c the actionListener for the changeProfile button
+	 * @param c the actionListener for the administrator's buttons
 	 */
 	public void setAdminController(ActionListener c) {
 		changeCCButton.addActionListener(c);	

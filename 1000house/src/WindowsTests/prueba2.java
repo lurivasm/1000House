@@ -1,4 +1,4 @@
-package windows;
+package WindowsTests;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import app.*;
 import controllers.*;
+import windows.SearchWindow;
 
 public class prueba2 {
 
