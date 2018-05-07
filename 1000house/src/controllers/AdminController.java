@@ -39,7 +39,7 @@ public class AdminController implements ActionListener{
 		
 		/*Change CCNUmber Button*/
 		if(but.getActionCommand().equals("Apply")) {
-			String old = view.getOlcCCNumber();
+			String old = view.getOldCCNumber();
 			String neww = view.getNewCCNUmber();
 			
 			/*If there are no banned users you cannot change it*/
@@ -57,9 +57,11 @@ public class AdminController implements ActionListener{
 				JOptionPane.showMessageDialog(view,"New CCard invalid");
 				return;
 			}
+			int found = 0;
 			for(User u : model.getBannedUsers()) {
 				if(u.isGuest() == true) {
 					if(u.getGuestProfile().getccNumber().equals(old)) {
+						found = 1;
 						u.getGuestProfile().setCcNumber(neww);
 						try {
 							u.restoreUser(model);
@@ -71,6 +73,7 @@ public class AdminController implements ActionListener{
 				}
 				else if(u.isHost() == true) {
 					if(u.getHostProfile().getccNumber().equals(old)) {
+						found = 1;
 						u.getHostProfile().setCcNumber(neww);
 						try {
 							u.restoreUser(model);
@@ -81,7 +84,8 @@ public class AdminController implements ActionListener{
 					}
 				}
 			}
-			JOptionPane.showMessageDialog(view,"CCard changed");
+			if(found == 0) JOptionPane.showMessageDialog(view,"User not found");
+			else JOptionPane.showMessageDialog(view,"CCard changed");
 			view.setVisible(false);
 			ProfileWindow h = new ProfileWindow(model);
 			ProfileController cont = new ProfileController(h, model);

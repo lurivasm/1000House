@@ -19,6 +19,14 @@ public class SearchController implements ActionListener{
 	private Application model;
 	private LoginWindow view;
 	
+	/**
+	 * The constructor adds the view and model fields
+	 * 
+	 * @param l_
+	 *            window that will become the view
+	 * @param model
+	 *            application that will be the model
+	 */
 	public SearchController(LoginWindow l_, Application model){
 		view = l_;
 		this.model = model;
@@ -31,10 +39,15 @@ public class SearchController implements ActionListener{
 	public void actionPerformed(ActionEvent arg0){  
 		JButton but = (JButton)arg0.getSource();
 		List<Offer> l = null;
-		if(model.getLog().isAdmin()) {
-			JOptionPane.showMessageDialog(view,"Why would the admin try to search in the app?" );
-			return;
+		try {
+			if(model.getLog().isAdmin()) {
+				JOptionPane.showMessageDialog(view,"Why would the admin try to search in the app?" );
+				return;
+			}
+		}catch(NullPointerException e) {
+			
 		}
+		
 		if(but.getName().equals("type")) {
 			l = model.searchType(view.getSelectedType());
 			if(l.size() == 0) JOptionPane.showMessageDialog(view,"No results" );

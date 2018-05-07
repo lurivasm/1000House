@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import java.time.*;
 
 import app.*;
+import exception.HouseOfferException;
 import windows.*;
 
 /**
@@ -41,7 +42,6 @@ public class CreateOfferController implements ActionListener{
         String [] ini = view.getIniDate().split("-");
         String [] houseString = view.getHouse().split("-");
         long zipcode = Long.parseLong(houseString[1]);
-        System.out.println(zipcode);
         House house = null;
         LocalDate iniDate, endDate;
         
@@ -69,7 +69,13 @@ public class CreateOfferController implements ActionListener{
 	            	return;
 	        	}
 				int numMonths = Integer.parseInt(duration);
-	        	model.createOffer(house, iniDate, numMonths, price, deposit);
+				try {
+					model.createOffer(house, iniDate, numMonths, price, deposit);
+				}catch(HouseOfferException e) {
+					JOptionPane.showMessageDialog(view,e);
+					return;
+				}
+	        
 	        }
 	        
 		    /*Case Holidays Offer*/
@@ -82,9 +88,13 @@ public class CreateOfferController implements ActionListener{
 		    /*Return to main menu*/
 		    view.setVisible(false);
 			LoginWindow nv = new LoginWindow();
-			if(model.getLog() != null) nv.setUserLogin();
+			if(model.getLog() != null) {
+				if(model.getLog().getState().equals(UserStates.CONNECTED_HOST)) nv.setUserLogin(1);
+				else nv.setUserLogin(0);
+			}
 			nv.setLoginLogoutProfileController(new LoginLogoutProfileController(nv,model));
-			nv.setSearchController(new SearchController(nv,model));     
+			nv.setSearchController(new SearchController(nv,model));   
+			nv.setHostControllers(new HostController(nv,model));
 		}
 		/*Case the date is incorrect*/
 		catch(DateTimeException e) {

@@ -140,7 +140,15 @@ public class ProfileWindow extends JFrame{
 				i++;
 			}
 			dataHistory = new DefaultTableModel(contentsHistory, titlesHistory);
-			tableHistory = new JTable(dataHistory);
+			tableHistory = new JTable(dataHistory)  {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+
 			scrollHistory = new JScrollPane();
 			scrollHistory.setViewportView (tableHistory);
 			
@@ -157,7 +165,14 @@ public class ProfileWindow extends JFrame{
 				contentsReserve[i][4] = o.getOffer().getIniDate().toString();
 				i++;
 			}
-			dataReserve = new DefaultTableModel(contentsReserve, titlesReserve);
+			dataReserve = new DefaultTableModel(contentsReserve, titlesReserve) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			tableReserve = new JTable(dataReserve);
 			scrollReserve = new JScrollPane();
 			scrollReserve.setViewportView (tableReserve);
@@ -201,7 +216,14 @@ public class ProfileWindow extends JFrame{
 				i++;
 			}
 			
-			dataHouse = new DefaultTableModel(contentsHouse, titlesHouse);
+			dataHouse = new DefaultTableModel(contentsHouse, titlesHouse) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			tableHouse = new JTable(dataHouse);
 			scrollHouse = new JScrollPane();
 			scrollHouse.setViewportView (tableHouse);
@@ -233,7 +255,14 @@ public class ProfileWindow extends JFrame{
 			String co[] = new String[i];
 			for(int j = 0;j < i; j++) co[j] = ""+ (j+1);
 			
-			dataOffer = new DefaultTableModel(contentsOffer, titlesOffer);
+			dataOffer = new DefaultTableModel(contentsOffer, titlesOffer) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			tableOffer = new JTable(dataOffer);
 			scrollOffer = new JScrollPane();
 			scrollOffer.setViewportView (tableOffer);
@@ -298,20 +327,28 @@ public class ProfileWindow extends JFrame{
 				contentsUser[i][4] = o.getDebt();
 				i++;
 			}
-			dataUser = new DefaultTableModel(contentsUser, titlesUser);
+			dataUser = new DefaultTableModel(contentsUser, titlesUser) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			tableUser = new JTable(dataUser);
 			scrollUser = new JScrollPane();
 			scrollUser.setViewportView (tableUser);
 			tabbPanel.addTab("Users", scrollUser);
 			
 			/*Banned User Panel*/
-			Object [] titlesBanUser = {"Name", "Surname", "NIF", "State", "Debt"};
+			Object [] titlesBanUser = {"Name", "Surname", "CCard", "State", "Debt"};
 			Object [][] contentsBanUser = new Object[app.getBannedUsers().size()][5];
 			i = 0;
 			for(User o : app.getBannedUsers()) {
 				contentsBanUser[i][0] = o.getName();
 				contentsBanUser[i][1] = o.getSurname();
-				contentsBanUser[i][2] = o.getNIF();
+				if(o.isGuest()) contentsBanUser[i][2] = o.getGuestProfile().getccNumber();
+				else contentsBanUser[i][2] = o.getHostProfile().getccNumber();				
 				contentsBanUser[i][3] = o.getState();
 				contentsBanUser[i][4] = o.getDebt();
 				i++;	
@@ -321,7 +358,14 @@ public class ProfileWindow extends JFrame{
 			newccnumber = new JTextField(16);
 			oldccnumber = new JTextField(16);
 			
-			dataBanUser = new DefaultTableModel(contentsBanUser, titlesBanUser);
+			dataBanUser = new DefaultTableModel(contentsBanUser, titlesBanUser) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			tableBanUser = new JTable(dataBanUser);
 			scrollBanUser = new JScrollPane();
 			scrollBanUser.setViewportView (tableBanUser);
@@ -358,7 +402,14 @@ public class ProfileWindow extends JFrame{
 				contentsWaitoffer[i][5] = ""+a;
 				i++;	
 			}
-			dataWaitoffer = new DefaultTableModel(contentsWaitoffer, titlesWaitoffer);
+			dataWaitoffer = new DefaultTableModel(contentsWaitoffer, titlesWaitoffer) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			tableWaitoffer = new JTable(dataWaitoffer);
 			scrollWaitoffer = new JScrollPane();
 			scrollWaitoffer.setViewportView (tableWaitoffer);
@@ -445,7 +496,7 @@ public class ProfileWindow extends JFrame{
 	 * Getter of the old ccnumber jtextfield
 	 * @return oldccnumber
 	 */
-	public String getOlcCCNumber() {
+	public String getOldCCNumber() {
 		return this.oldccnumber.getText();
 	}
 	

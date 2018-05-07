@@ -28,6 +28,7 @@ public class ProfileController implements ActionListener{
 		this.model = model;
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	/**
 	 * Sets the action for the change profile button, changing the profile in case the user
@@ -191,10 +192,13 @@ public class ProfileController implements ActionListener{
 						JOptionPane.showMessageDialog(view, "You have been Banned");
 						view.setVisible(false);
 						LoginWindow nv = new LoginWindow();
-						if(model.getLog() != null) nv.setUserLogin();
+						if(model.getLog() != null) {
+							if(model.getLog().getState().equals(UserStates.CONNECTED_HOST)) nv.setUserLogin(1);
+							else nv.setUserLogin(0);
+						}
 						nv.setLoginLogoutProfileController(new LoginLogoutProfileController(nv,model));
 						nv.setSearchController(new SearchController(nv,model));	
-						
+						nv.setHostControllers(new HostController(nv,model));
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(view, e);
 					};

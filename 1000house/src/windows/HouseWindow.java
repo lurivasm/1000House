@@ -32,7 +32,7 @@ public class HouseWindow extends JFrame{
 	 * Labels, textfields and buttons
 	 */
 	private JLabel descriptionLabel, priceLabel, charactLabel, locationLabel;
-	private JTextField priceTF, locatTF;
+	private JTextField zipTF, locatTF;
 	private JTextArea descTF;
 	private JCheckBox poolBox, parkingBox, gardenBox, wifiBox, tvBox, airBox;
 	private JButton accept, cancel;
@@ -62,7 +62,7 @@ public class HouseWindow extends JFrame{
 		descTF.setLineWrap(true);
 		descTF.setWrapStyleWord(true);
 		JScrollPane descScrollPane = new JScrollPane(descTF);
-		priceTF = new JTextField(15);
+		zipTF = new JTextField(15);
 		locatTF = new JTextField(15);
 		
 		/*Characteristics Box*/
@@ -103,7 +103,7 @@ public class HouseWindow extends JFrame{
 		/*Zipcode Panel*/
 		zipcodePanel.setLayout(new FlowLayout());
 		zipcodePanel.add(priceLabel);
-		zipcodePanel.add(priceTF);
+		zipcodePanel.add(zipTF);
 		JPanel allPanel = new JPanel();
 		BoxLayout allLayout = new BoxLayout(allPanel, BoxLayout.Y_AXIS);
 		allPanel.setLayout(allLayout);
@@ -171,7 +171,7 @@ public class HouseWindow extends JFrame{
 	 * @return the location of the house
 	 */
 	public String getLocat() {
-		return priceTF.getText();
+		return locatTF.getText();
 	}
 	
 	/**
@@ -179,7 +179,7 @@ public class HouseWindow extends JFrame{
 	 * @return the zipcode of the house
 	 */
 	public String getZipcode() {
-		return priceTF.getText();
+		return zipTF.getText();
 	}
 	
 	/**

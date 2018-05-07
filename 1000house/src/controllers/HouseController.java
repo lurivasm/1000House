@@ -46,13 +46,19 @@ public class HouseController implements ActionListener{
 	        	return;
 	        }
 	        /*Create a house*/
-		    model.createHouse(desc, view.getCharacteristics(), loc, zipcode);
+	       	 model.createHouse(desc, view.getCharacteristics(), loc, zipcode);
+	       
+		   
 		    /*Return to main menu*/
 		    view.setVisible(false);
 			LoginWindow nv = new LoginWindow();
-			if(model.getLog() != null) nv.setUserLogin();
+			if(model.getLog() != null) {
+				if(model.getLog().getState().equals(UserStates.CONNECTED_HOST)) nv.setUserLogin(1);
+				else nv.setUserLogin(0);
+			}
 			nv.setLoginLogoutProfileController(new LoginLogoutProfileController(nv,model));
-			nv.setSearchController(new SearchController(nv,model));     
+			nv.setSearchController(new SearchController(nv,model));  
+			nv.setHostControllers(new HostController(nv,model));
 		}
 		
 		/*Case the format of the ints and longs is incorrect*/

@@ -14,14 +14,6 @@ import java.util.ArrayList;
  * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
  *
  */
-/**
- * @author danist
- *
- */
-/**
- * @author danist
- *
- */
 public class SeeOfferWindow  extends JFrame{
 
 	/**
@@ -392,6 +384,7 @@ public class SeeOfferWindow  extends JFrame{
 		commentpanel.setVisible(false);
 		buy.setVisible(false);
 		book.setVisible(false);
+		addcomment.setVisible(false);
 	}
 	
 	/**

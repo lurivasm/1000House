@@ -26,6 +26,8 @@ public class LoginWindow extends JFrame {
 	private JPanel searchRatePanel = new JPanel(); // Panel for the rate search
 	private JButton login = new JButton("Login");//Login button
 	private JButton profilebutton = new JButton("Profile");//Profile button
+	private JButton createHousebutton = new JButton("Create House"); // Create house button, only visible for the host
+	private JButton createOfferbutton = new JButton("Create Offer");// Create house button, only visible for the host
 	private JButton logout = new JButton("Logout");//Logout button
 	private JButton searchButton1 = new JButton("SEARCH");//Search button for the types search
 	private JButton searchButton2 = new JButton("SEARCH");//Search button for the code search
@@ -99,15 +101,19 @@ public class LoginWindow extends JFrame {
 		
 		//Now we start with the profile and logout part. Those two buttons wont be added to the container until the user is logged
 		
-		GridLayout profLayout =new GridLayout(2,2);	// we set the layout as a  2x2 grid layout
+		GridLayout profLayout =new GridLayout(20,2);	// we set the layout as a  20x2 grid layout
 		profilePanel.setLayout(profLayout);	
-		profLayout.setVgap(600);//We set the vertical distance between the different components of the panel
-		profLayout.setHgap(50);//We set the horizonta distance between the different components of the panel
+		profLayout.setVgap(10);//We set the vertical distance between the different components of the panel
 		profilePanel.add(profilebutton);//We add the profile button in the top left part
-		profilePanel.add(new JPanel());//The other parts of the panel will be empty panels
 		profilePanel.add(new JPanel());
+		profilePanel.add(createHousebutton);//we add the craete house button
 		profilePanel.add(new JPanel());
-		
+		profilePanel.add(createOfferbutton);//we add the create offer button
+		profilePanel.add(new JPanel());
+		for(int i = 0; i < 20; i++)profilePanel.add(new JPanel());//the rest will be empty panels		
+		// We set the craete house and create offer buttons as not visible
+		createHousebutton.setVisible(false);
+		createOfferbutton.setVisible(false);
 		
 		GridLayout logoutLayout =new GridLayout(2,2);// we set the layout as a  2x2 grid layout
 		logoutPanel.setLayout(logoutLayout);
@@ -289,10 +295,15 @@ public class LoginWindow extends JFrame {
 	/**
 	 * Changes the window to logged mode, making the profile  and logout button visible,
 	 *  the rate and state search visible, and the login panel invisible
+	 *  If the user logged is a host, it also makes the create offer and create house buttons as visible
 	 */
-	public void setUserLogin() {
+	public void setUserLogin(int host) {
 		loginPanel.setVisible(false);
 		profilePanel.setVisible(true);
+		if(host == 1) {
+			createHousebutton.setVisible(true);
+			createOfferbutton.setVisible(true);
+		}
 		logoutPanel.setVisible(true);
 		cp.add(profilePanel,BorderLayout.WEST);
 		cp.add(logoutPanel, BorderLayout.EAST);
@@ -307,6 +318,8 @@ public class LoginWindow extends JFrame {
 	 */
 	public void  setUserLogout() {
 		profilePanel.setVisible(false);
+		createHousebutton.setVisible(false);
+		createOfferbutton.setVisible(false);
 		logoutPanel.setVisible(false);
 		loginPanel.setVisible(true);
 		nifField.setText("");
@@ -337,6 +350,15 @@ public class LoginWindow extends JFrame {
 		searchButton3.addActionListener(c);	
 		searchButton4.addActionListener(c);	
 		searchButton5.addActionListener(c);	
+	}
+	
+	/**
+	 * Sets the controllers for the create offer and create house buttons
+	 * @param c : the controller to be set
+	 */
+	public void setHostControllers(ActionListener c) {
+		createOfferbutton.addActionListener(c);
+		createHousebutton.addActionListener(c);
 	}
 	
 }

@@ -11,6 +11,11 @@ import app.Text;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
+/**
+ * @author Lucia Rivas Molina lucia.rivas@estudiante.uam.es
+ * @author Daniel Santo-Tomas daniel.santo-tomas@estudiante.uam.es
+ *
+ */
 public class ViewAnswersController implements ActionListener {
 	@SuppressWarnings("unused")
 	private Application model;// The model

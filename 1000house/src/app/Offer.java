@@ -178,6 +178,7 @@ public abstract class Offer implements Serializable{
 		}
 		state = OfferStates.DENIED;
 		app.getwaitoffers().remove(this);
+		this.getHouse().getOffers().remove(this);
 		return true;
 	}
 

@@ -201,7 +201,7 @@ public class Application implements Serializable {
 	 *             if the user who tries to create a house is not a host
 	 */
 	public Boolean createHouse(String description, List<Characteristics> characteristics, String location, long zipcode)
-			throws Exception {
+			throws HouseException ,NotHost{
 		try {
 			if (log.getState().equals(UserStates.CONNECTED_HOST)) {
 				House h = new House(location, description, characteristics, zipcode, log);
@@ -229,8 +229,9 @@ public class Application implements Serializable {
 		} catch (NotHost excep1) {
 			System.out.println(excep1);
 			return false;
-		} catch (HouseException excep2) {
-			System.out.println(excep2);
+		} 
+		catch(HouseException e) {
+			System.out.println(e);
 			return false;
 		}
 
@@ -545,7 +546,7 @@ public class Application implements Serializable {
 	 * @throws HouseOfferException
 	 *             if the house already has an offer of that type
 	 */
-	public Boolean createOffer(House house, LocalDate iniDate, int numMonths, int price, int deposit) throws Exception {
+	public Boolean createOffer(House house, LocalDate iniDate, int numMonths, int price, int deposit) throws NotHost,HouseOfferException,NotOwner {
 		try {
 			if (log.getState() != UserStates.CONNECTED_HOST) {
 				throw new NotHost();
@@ -559,9 +560,6 @@ public class Application implements Serializable {
 			return true;
 		} catch (NotHost excep1) {
 			System.out.println(excep1);
-			return false;
-		} catch (HouseOfferException excep2) {
-			System.out.println(excep2);
 			return false;
 		} catch (NotOwner excep3) {
 			System.out.println(excep3);
@@ -605,9 +603,6 @@ public class Application implements Serializable {
 			return true;
 		} catch (NotHost excep1) {
 			System.out.println(excep1);
-			return false;
-		} catch (HouseOfferException excep2) {
-			System.out.println(excep2);
 			return false;
 		} catch (NotOwner excep3) {
 			System.out.println(excep3);
